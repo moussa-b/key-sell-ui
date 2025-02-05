@@ -1,0 +1,38 @@
+<header class="bg-blue-700 text-white shadow-md">
+  <div class="container mx-auto flex items-center justify-between p-4">
+    <div class="flex items-center">
+      <i class="pi pi-briefcase mr-2 text-2xl"></i>
+      <span class="font-bold text-xl">Agency Service</span>
+    </div>
+
+    <nav class="hidden md:flex space-x-6 items-center">
+      <a routerLink="/users" class="hover:text-blue-300">{{'users.users' | translate}}</a>
+      <a routerLink="/clients" class="hover:text-blue-300">{{'clients.clients' | translate}}</a>
+      <a routerLink="/calendar" class="hover:text-blue-300">{{'calendar.calendar' | translate}}</a>
+      <p-avatar (click)="menu.toggle($event)"
+                icon="pi pi-user"
+                shape="circle"
+                styleClass="cursor-pointer"></p-avatar>
+      <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
+    </nav>
+
+    <button class="md:hidden text-2xl focus:outline-none"
+      (click)="isMenuOpen = !isMenuOpen">
+      <i class="pi pi-bars"></i>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  @if (isMenuOpen) {
+    <div class="md:hidden bg-blue-700 text-white flex flex-col space-y-2 p-4">
+      <a routerLink="/users" class="hover:text-blue-300">{{'users.users' | translate}}</a>
+      <a routerLink="/clients" class="hover:text-blue-300">{{'clients.clients' | translate}}</a>
+      <a routerLink="/calendar" class="hover:text-blue-300">{{'calendar.calendar' | translate}}</a>
+      <p-avatar (click)="menu.toggle($event)"
+                icon="pi pi-user"
+                shape="circle"
+                styleClass="cursor-pointer"></p-avatar>
+      <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
+    </div>
+  }
+</header>

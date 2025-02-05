@@ -1,0 +1,94 @@
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+  <div class="mb-4">
+    <label for="title" class="block text-lg">{{ 'calendar.title' | translate }}</label>
+    <input
+      class="mt-1 p-2 w-full border border-gray-300 rounded-md"
+      formControlName="title"
+      id="title"
+      type="text"
+      placeholder="Enter event title">
+    @if (eventForm.get('title')?.invalid && eventForm.get('title')?.touched) {
+      <div class="text-red-500 text-sm">
+        {{ 'calendar.title_required' | translate }}
+      </div>
+    }
+  </div>
+
+  <div class="mb-4">
+    <label for="description" class="block text-lg">{{ 'calendar.description' | translate }}</label>
+    @if (Editor && config) {
+      <ckeditor [config]="config"
+                [editor]="Editor"
+                formControlName="description"
+                id="description"></ckeditor>
+    }
+  </div>
+
+  <div class="mb-4">
+    <label class="block text-lg">{{ 'calendar.start_date' | translate }}</label>
+    <div class="flex items-center gap-2">
+      <p-datepicker [placeholder]="'calendar.date_picker_placeholder' | translate"
+                    dataType="string"
+                    dateFormat="dd.mm.yy"
+                    formControlName="startDate"
+                    inputId="startDate"
+                    styleClass="w-28">
+      </p-datepicker>
+      <p-datepicker [placeholder]="'calendar.time_picker_placeholder' | translate"
+                    [timeOnly]="true"
+                    dataType="string"
+                    formControlName="startHour"
+                    hourFormat="24"
+                    inputId="startHour"
+                    styleClass="w-28">
+      </p-datepicker>
+    </div>
+    @if (eventForm.get('startDate')?.invalid && eventForm.get('startDate')?.touched) {
+      <div class="text-red-500 text-sm">
+        {{'calendar.start_date_required' | translate}}
+      </div>
+    } @else if (eventForm.get('startHour')?.invalid && eventForm.get('startHour')?.touched) {
+      <div class="text-red-500 text-sm">
+        {{'calendar.start_hour_required' | translate}}
+      </div>
+    }
+  </div>
+
+  <div class="mb-4">
+    <label class="block text-lg">{{ 'calendar.end_date' | translate }}</label>
+    <div class="flex items-center gap-2">
+      <p-datepicker [placeholder]="'calendar.date_picker_placeholder' | translate"
+                    dataType="string"
+                    formControlName="endDate"
+                    inputId="endDate"
+                    dateFormat="dd.mm.yy"
+                    styleClass="w-28">
+      </p-datepicker>
+      <p-datepicker [placeholder]="'calendar.time_picker_placeholder' | translate"
+                    [timeOnly]="true"
+                    dataType="string"
+                    formControlName="endHour"
+                    hourFormat="24"
+                    inputId="endHour"
+                    styleClass="w-28">
+      </p-datepicker>
+    </div>
+    @if (eventForm.get('endDate')?.invalid && eventForm.get('endDate')?.touched) {
+      <div class="text-red-500 text-sm">
+        {{'calendar.end_date_required' | translate}}
+      </div>
+    } @else if (eventForm.get('endHour')?.invalid && eventForm.get('endHour')?.touched) {
+      <div class="text-red-500 text-sm">
+        {{'calendar.end_hour_required' | translate}}
+      </div>
+    }
+  </div>
+
+  <div class="mt-6 flex">
+    <p-button [disabled]="eventForm.invalid"
+              class="ml-auto"
+              type="submit">
+      {{ 'common.validate' | translate }}
+    </p-button>
+  </div>
+</form>

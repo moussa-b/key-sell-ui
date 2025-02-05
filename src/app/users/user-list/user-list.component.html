@@ -1,0 +1,67 @@
+<p-card>
+  <ng-template pTemplate="title">
+    <div class="flex flex-col items-center justify-between sm:flex-row">
+      <h5 class="m-0">{{'users.user_list' | translate}}</h5>
+      <div class="flex items-center">
+        @if (isAdmin) {
+          <p-button (onClick)="openNew()"
+                    [label]="'users.add_user' | translate"
+                    class="mr-2 responsive-button"
+                    icon="pi pi-plus"/>
+        }
+        <p-iconfield>
+          <p-inputicon styleClass="pi pi-search" />
+          <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" [placeholder]="('common.search' | translate)" />
+        </p-iconfield>
+      </div>
+    </div>
+  </ng-template>
+  <p-table #dt
+           [globalFilterFields]="['lastName', 'firstName', 'email']"
+           [paginator]="true"
+           [rowHover]="true"
+           [rows]="10"
+           [showCurrentPageReport]="true"
+           [value]="users"
+           [currentPageReportTemplate]="'common.current_page_report_template' | translate"
+           dataKey="id"
+           responsiveLayout="stack">
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn="id">Id <p-sortIcon field="id" /></th>
+        <th pSortableColumn="lastName">{{'common.last_name' | translate}} <p-sortIcon field="lastName" /></th>
+        <th pSortableColumn="firstName">{{'common.first_name' | translate}} <p-sortIcon field="firstName" /></th>
+        <th pSortableColumn="sex">{{'common.gender' | translate}} <p-sortIcon field="sex" /></th>
+        <th pSortableColumn="email">{{'common.email' | translate}} <p-sortIcon field="email" /></th>
+        <th pSortableColumn="role">{{'users.role' | translate}} <p-sortIcon field="role" /></th>
+        <th pSortableColumn="isActive">{{'users.status' | translate}} <p-sortIcon field="isActive" /></th>
+        @if (isAdmin) {
+          <th class="w-32">{{'common.actions' | translate}}</th>
+        }
+      </tr>
+    </ng-template>
+    <ng-template #body let-user>
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.firstName }}</td>
+        <td>{{ user.sex === 'M' ? ('common.man' | translate) : (user.sex === 'F' ? ('common.woman' | translate) : '')}}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+          <p-tag [value]="user.isActive ? ('users.activated' | translate) : ('users.not_activated' | translate)" [severity]="user.isActive ? 'success' : 'danger'" />
+        </td>
+        @if (isAdmin) {
+          <td class="w-32">
+            @if (user.id > 1) {
+              <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editUser(user)" />
+              <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteUser(user.id, $event)" />
+            }
+          </td>
+        }
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+
+<p-confirmpopup></p-confirmpopup>

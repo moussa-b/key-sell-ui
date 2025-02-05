@@ -1,0 +1,7 @@
+app-user-list {
+  @media (max-width: 640px) {
+    .responsive-button .p-button-label {
+      display: none;
+    }
+  }
+}
