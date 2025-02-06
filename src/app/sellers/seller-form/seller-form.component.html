@@ -1,5 +1,5 @@
 <div class="w-80">
-  <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="sellerForm" (ngSubmit)="onSubmit()">
     <div class="mb-4">
       <label for="lastName" class="block">{{ 'common.last_name' | translate }}</label>
       <input class="mt-1 p-2 w-full"
@@ -8,7 +8,7 @@
              id="lastName"
              [placeholder]="'common.last_name' | translate"
              type="text">
-      @if (clientForm.get('lastName')?.invalid && clientForm.get('lastName')?.touched) {
+      @if (sellerForm.get('lastName')?.invalid && sellerForm.get('lastName')?.touched) {
         <div class="text-red-500 text-sm">{{ 'common.last_name_required' | translate }}</div>
       }
     </div>
@@ -21,7 +21,7 @@
              id="firstName"
              [placeholder]="'common.first_name' | translate"
              type="text">
-      @if (clientForm.get('firstName')?.invalid && clientForm.get('firstName')?.touched) {
+      @if (sellerForm.get('firstName')?.invalid && sellerForm.get('firstName')?.touched) {
         <div class="text-red-500 text-sm">{{ 'common.first_name_required' | translate }}</div>
       }
     </div>
@@ -49,7 +49,7 @@
              id="email"
              [placeholder]="'common.email' | translate"
              type="email">
-      @if (clientForm.get('email')?.invalid && clientForm.get('email')?.touched) {
+      @if (sellerForm.get('email')?.invalid && sellerForm.get('email')?.touched) {
         <div class="text-red-500 text-sm">{{ 'common.email_required' | translate }}</div>
       }
     </div>
@@ -74,7 +74,7 @@
     </div>
 
     <div class="mt-6 flex">
-      <p-button [disabled]="clientForm.invalid"
+      <p-button [disabled]="sellerForm.invalid"
                 class="ml-auto"
                 type="submit">
         {{ 'common.validate' | translate }}

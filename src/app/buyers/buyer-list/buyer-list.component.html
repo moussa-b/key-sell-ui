@@ -1,11 +1,11 @@
 <p-card>
   <ng-template pTemplate="title">
     <div class="flex flex-col items-center justify-between sm:flex-row">
-      <h5 class="m-0">{{'clients.client_list' | translate}}</h5>
+      <h5 class="m-0">{{'buyers.buyer_list' | translate}}</h5>
       <div class="flex items-center">
         @if (isManagerOrAdmin) {
           <p-button (onClick)="openNew()"
-                    [label]="'clients.add_client' | translate"
+                    [label]="'buyers.add_buyer' | translate"
                     class="mr-2 responsive-button"
                     icon="pi pi-plus"/>
         }
@@ -22,7 +22,7 @@
            [rowHover]="true"
            [rows]="10"
            [showCurrentPageReport]="true"
-           [value]="clients"
+           [value]="buyers"
            [currentPageReportTemplate]="'common.current_page_report_template' | translate"
            dataKey="id"
            responsiveLayout="stack">
@@ -38,17 +38,17 @@
         }
       </tr>
     </ng-template>
-    <ng-template #body let-client>
+    <ng-template #body let-buyer>
       <tr>
-        <td>{{ client.id }}</td>
-        <td>{{ client.lastName }}</td>
-        <td>{{ client.firstName }}</td>
-        <td>{{ client.sex === 'M' ? ('common.man' | translate) : (client.sex === 'F' ? ('common.woman' | translate) : '')}}</td>
-        <td>{{ client.email }}</td>
+        <td>{{ buyer.id }}</td>
+        <td>{{ buyer.lastName }}</td>
+        <td>{{ buyer.firstName }}</td>
+        <td>{{ buyer.sex === 'M' ? ('common.man' | translate) : (buyer.sex === 'F' ? ('common.woman' | translate) : '')}}</td>
+        <td>{{ buyer.email }}</td>
         @if (isManagerOrAdmin) {
           <td class="w-32">
-            <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editClient(client)" />
-            <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteClient(client.id, $event)" />
+            <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editBuyer(buyer)" />
+            <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteBuyer(buyer.id, $event)" />
           </td>
         }
       </tr>

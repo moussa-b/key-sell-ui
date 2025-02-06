@@ -29,7 +29,8 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children : [
       { path: 'users', loadComponent: () => import('./users/user-list/user-list.component').then(m => m.UserListComponent) },
-      { path: 'clients', loadComponent: () => import('./clients/client-list/client-list.component').then(m => m.ClientListComponent) },
+      { path: 'buyers', loadComponent: () => import('./buyers/buyer-list/buyer-list.component').then(m => m.BuyerListComponent) },
+      { path: 'sellers', loadComponent: () => import('./sellers/seller-list/seller-list.component').then(m => m.SellerListComponent) },
       { path: 'calendar', loadComponent: () => import('./calendar/calendar/calendar.component').then(m => m.CalendarComponent) },
       { path: '**', loadComponent: () => import('./users/user-list/user-list.component').then(m => m.UserListComponent) },
     ]

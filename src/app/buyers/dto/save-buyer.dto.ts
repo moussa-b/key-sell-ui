@@ -1,6 +1,6 @@
 import { Sex } from '../../core/models/sex.enum';
 
-export class SaveClientDto {
+export class SaveBuyerDto {
   address?: string;
   email!: string;
   firstName!: string;

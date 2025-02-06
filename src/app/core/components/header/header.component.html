@@ -7,7 +7,8 @@
 
     <nav class="hidden md:flex space-x-6 items-center">
       <a routerLink="/users" class="hover:text-blue-300">{{'users.users' | translate}}</a>
-      <a routerLink="/clients" class="hover:text-blue-300">{{'clients.clients' | translate}}</a>
+      <a routerLink="/buyers" class="hover:text-blue-300">{{'buyers.buyers' | translate}}</a>
+      <a routerLink="/sellers" class="hover:text-blue-300">{{'sellers.sellers' | translate}}</a>
       <a routerLink="/calendar" class="hover:text-blue-300">{{'calendar.calendar' | translate}}</a>
       <p-avatar (click)="menu.toggle($event)"
                 icon="pi pi-user"
@@ -26,7 +27,8 @@
   @if (isMenuOpen) {
     <div class="md:hidden bg-blue-700 text-white flex flex-col space-y-2 p-4">
       <a routerLink="/users" class="hover:text-blue-300">{{'users.users' | translate}}</a>
-      <a routerLink="/clients" class="hover:text-blue-300">{{'clients.clients' | translate}}</a>
+      <a routerLink="/buyers" class="hover:text-blue-300">{{'buyers.buyers' | translate}}</a>
+      <a routerLink="/sellers" class="hover:text-blue-300">{{'sellers.sellers' | translate}}</a>
       <a routerLink="/calendar" class="hover:text-blue-300">{{'calendar.calendar' | translate}}</a>
       <p-avatar (click)="menu.toggle($event)"
                 icon="pi pi-user"

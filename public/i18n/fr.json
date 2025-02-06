@@ -32,12 +32,19 @@
     "passwords_not_match": "Les mots de passe ne correspondent pas",
     "account_updated_confirmation_message": "Vos identifiants ont bien été mis à jour. Veuillez vous reconnecter."
   },
-  "clients": {
-    "clients": "Clients",
-    "client_list": "Liste des clients",
-    "add_client": "Ajouter un client",
-    "edit_client": "Modifier ce client",
-    "delete_client_confirmation_message": "Êtes-vous sûr de vouloir supprimer ce client ?"
+  "sellers": {
+    "sellers": "Vendeurs",
+    "seller_list": "Liste des vendeurs",
+    "add_seller": "Ajouter un vendeur",
+    "edit_seller": "Modifier ce vendeur",
+    "delete_seller_confirmation_message": "Êtes-vous sûr de vouloir supprimer ce vendeur ?"
+  },
+  "buyers": {
+    "buyers": "Acheteurs",
+    "buyer_list": "Liste des achteurs",
+    "add_buyer": "Ajouter un acheteur",
+    "edit_buyer": "Modifier cet acheteur",
+    "delete_buyer_confirmation_message": "Êtes-vous sûr de vouloir supprimer cet acheteur ?"
   },
   "header": {
     "change_language": "Changer de langue",

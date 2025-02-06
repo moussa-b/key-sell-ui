@@ -7,13 +7,13 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { SelectItem } from 'primeng/api';
 import { Sex } from '../../core/models/sex.enum';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ClientsService } from '../clients.service';
-import { Client } from '../entities/client.entity';
+import { BuyersService } from '../buyers.service';
+import { Buyer } from '../entities/buyer.entity';
 import { Textarea } from 'primeng/textarea';
 import { Select } from 'primeng/select';
 
 @Component({
-  selector: 'app-client-form',
+  selector: 'app-buyer-form',
   standalone: true,
   imports: [
     Button,
@@ -25,31 +25,31 @@ import { Select } from 'primeng/select';
     Textarea,
     Select
   ],
-  templateUrl: './client-form.component.html',
-  styleUrl: './client-form.component.scss'
+  templateUrl: './buyer-form.component.html',
+  styleUrl: './buyer-form.component.scss'
 })
-export class ClientFormComponent implements OnInit {
-  clientForm!: FormGroup;
+export class BuyerFormComponent implements OnInit {
+  buyerForm!: FormGroup;
   sexOptions!: SelectItem<Sex>[];
   preferredLanguageOptions!: SelectItem<string>[];
 
   constructor(private fb: FormBuilder,
               private translateService: TranslateService,
-              private clientsService: ClientsService,
+              private buyersService: BuyersService,
               private dialogRef: DynamicDialogRef,
               private dialogConfig: DynamicDialogConfig) {}
 
   ngOnInit(): void {
-    const client: Client | undefined = this.dialogConfig.data?.client;
-    this.clientForm = this.fb.group({
-      id: [client?.id],
-      lastName: [client?.lastName, Validators.required],
-      firstName: [client?.firstName, Validators.required],
-      email: [client?.email, [Validators.required, Validators.email]],
-      phone: [client?.phone],
-      sex: [client?.sex || Sex.MALE],
-      preferredLanguage: [client ? client.preferredLanguage : 'fr'],
-      address: [client?.address],
+    const buyer: Buyer | undefined = this.dialogConfig.data?.buyer;
+    this.buyerForm = this.fb.group({
+      id: [buyer?.id],
+      lastName: [buyer?.lastName, Validators.required],
+      firstName: [buyer?.firstName, Validators.required],
+      email: [buyer?.email, [Validators.required, Validators.email]],
+      phone: [buyer?.phone],
+      sex: [buyer?.sex || Sex.MALE],
+      preferredLanguage: [buyer ? buyer.preferredLanguage : 'fr'],
+      address: [buyer?.address],
     });
     this.sexOptions= [
       { label: this.translateService.instant('common.man'), value: Sex.MALE },
@@ -62,12 +62,12 @@ export class ClientFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.clientForm.valid) {
-      let clientFormValue = this.clientForm.getRawValue();
-      const observable = clientFormValue.id > 0 ? this.clientsService.update(clientFormValue.id, clientFormValue) : this.clientsService.create(clientFormValue);
-      observable.subscribe((client: Client) => {
-        if (client && client.id! > 0) {
-          this.dialogRef.close(client);
+    if (this.buyerForm.valid) {
+      let buyerFormValue = this.buyerForm.getRawValue();
+      const observable = buyerFormValue.id > 0 ? this.buyersService.update(buyerFormValue.id, buyerFormValue) : this.buyersService.create(buyerFormValue);
+      observable.subscribe((buyer: Buyer) => {
+        if (buyer && buyer.id! > 0) {
+          this.dialogRef.close(buyer);
         }
       });
     }
