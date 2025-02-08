@@ -44,7 +44,7 @@ export class UserListComponent implements OnInit {
   isAdmin = false;
   userAccess!: UserAccess;
   items!: MenuItem[];
-  selectUser?: User;
+  selectedUser?: User;
 
   constructor(private dialogService: DialogService,
               private confirmationService: ConfirmationService,
@@ -102,12 +102,12 @@ export class UserListComponent implements OnInit {
 
   editUser() {
     this.dialogService.open(UserFormComponent, {
-      data: {user: this.selectUser},
+      data: {user: this.selectedUser},
       header: this.translateService.instant('users.edit_user'),
       closable: true,
       modal: true,
     }).onClose.subscribe((user: User) => {
-      this.selectUser = undefined;
+      this.selectedUser = undefined;
       if (user) {
         this.findAllUsers();
         this.toasterService.emitValue({
@@ -120,8 +120,8 @@ export class UserListComponent implements OnInit {
   }
 
   deleteUser(event: Event) {
-    const userId = this.selectUser!.id!;
-    this.selectUser = undefined;
+    const userId = this.selectedUser!.id!;
+    this.selectedUser = undefined;
     const button = this.elementRef.nativeElement.querySelector(`tr[data-user-id='${userId}'] button`);
     this.confirmationService.confirm({
       target: button || event?.target as EventTarget,

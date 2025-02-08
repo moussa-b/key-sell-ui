@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Button } from 'primeng/button';
 import { Card } from 'primeng/card';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
-import { ConfirmationService, PrimeTemplate } from 'primeng/api';
+import { ConfirmationService, MenuItem, MenuItemCommandEvent, PrimeIcons, PrimeTemplate } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -14,6 +14,9 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ToasterService } from '../../core/services/toaster.service';
 import { Seller } from '../entities/seller.entity';
 import { PermissionService } from '../../core/services/permission.service';
+import { UserAccess } from '../../core/models/user-access.model';
+import { Menu } from 'primeng/menu';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-seller-list',
@@ -27,6 +30,8 @@ import { PermissionService } from '../../core/services/permission.service';
     TableModule,
     TranslatePipe,
     ConfirmPopupModule,
+    Menu,
+    UpperCasePipe,
   ],
   templateUrl: './seller-list.component.html',
   styleUrl: './seller-list.component.scss',
@@ -35,18 +40,35 @@ import { PermissionService } from '../../core/services/permission.service';
 export class SellerListComponent implements OnInit {
   sellers: Seller[] = [];
   isManagerOrAdmin = false;
+  userAccess!: UserAccess;
+  items!: MenuItem[];
+  selectedSeller?: Seller;
 
   constructor(private dialogService: DialogService,
               private confirmationService: ConfirmationService,
               private sellersService: SellersService,
               private translateService: TranslateService,
               private permissionService: PermissionService,
+              private elementRef: ElementRef,
               private toasterService: ToasterService,) {
   }
 
   ngOnInit(): void {
+    this.userAccess = this.permissionService.getUserAccess();
     this.findAllSellers();
     this.isManagerOrAdmin = this.permissionService.isManager || this.permissionService.isAdmin;
+    this.items = [
+      {
+        label: this.translateService.instant('common.edit'),
+        icon: PrimeIcons.USER_EDIT,
+        command: () => this.editSeller()
+      },
+      {
+        label: this.translateService.instant('common.delete'),
+        icon: PrimeIcons.TRASH,
+        command: (menuEvent: MenuItemCommandEvent) => this.deleteSeller(menuEvent.originalEvent!)
+      }
+    ];
   }
 
   private findAllSellers(): void {
@@ -72,13 +94,14 @@ export class SellerListComponent implements OnInit {
     });
   }
 
-  editSeller(seller: Seller) {
+  editSeller() {
     this.dialogService.open(SellerFormComponent, {
-      data: {seller: seller},
+      data: {seller: this.selectedSeller},
       header: this.translateService.instant('sellers.edit_seller'),
       closable: true,
       modal: true,
     }).onClose.subscribe((updatedSeller: Seller) => {
+      this.selectedSeller = undefined;
       if (updatedSeller) {
         this.findAllSellers();
         this.toasterService.emitValue({
@@ -90,9 +113,12 @@ export class SellerListComponent implements OnInit {
     });
   }
 
-  deleteSeller(sellerId: number, event: MouseEvent) {
+  deleteSeller(event: Event) {
+    const sellerId = this.selectedSeller!.id;
+    this.selectedSeller = undefined;
+    const button = this.elementRef.nativeElement.querySelector(`tr[data-seller-id='${sellerId}'] button`);
     this.confirmationService.confirm({
-      target: event.target as EventTarget,
+      target: button || event.target as EventTarget,
       message: this.translateService.instant('sellers.delete_seller_confirmation_message'),
       icon: 'pi pi-info-circle',
       rejectButtonProps: {

@@ -42,7 +42,7 @@
         <td>{{ user.id }}</td>
         <td>
           @if (userAccess.canEditUsers && user.id > 1) {
-            <button (click)="selectUser = user; menu.toggle($event)" class="text-blue-500 hover:text-blue-700 underline">
+            <button (click)="selectedUser = user; menu.toggle($event)" class="text-blue-500 hover:text-blue-700 underline">
               {{user.lastName | uppercase}}
             </button>
             <p-menu #menu

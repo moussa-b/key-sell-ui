@@ -41,7 +41,7 @@
   },
   "buyers": {
     "buyers": "Acheteurs",
-    "buyer_list": "Liste des achteurs",
+    "buyer_list": "Liste des acheteurs",
     "add_buyer": "Ajouter un acheteur",
     "edit_buyer": "Modifier cet acheteur",
     "delete_buyer_confirmation_message": "Êtes-vous sûr de vouloir supprimer cet acheteur ?"
