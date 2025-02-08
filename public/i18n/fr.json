@@ -96,7 +96,9 @@
     "french": "Français",
     "english": "Anglais",
     "preferred_language": "Langue de communication préférée",
-    "select": "Sélectionner"
+    "select": "Sélectionner",
+    "identifier": "Identifiant",
+    "edit": "Modifier"
   },
   "calendar": {
     "calendar": "Agenda",

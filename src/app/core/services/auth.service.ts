@@ -99,6 +99,7 @@ export class AuthService {
       if (!this.decodedToken) {
         try {
           this.decodedToken = jwtDecode<DecodedToken>(this.jwtToken);
+          console.log('--> this.decodedToken.userAccess = ', this.decodedToken.userAccess);
           return {...this.decodedToken};
         } catch (error) {
           console.error('Error decoding token:', error);

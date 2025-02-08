@@ -96,7 +96,9 @@
     "french": "French",
     "english": "English",
     "preferred_language": "Preferred communication language",
-    "select": "Select"
+    "select": "Select",
+    "identifier": "Identifier",
+    "edit": "Edit"
   },
   "calendar": {
     "calendar": "Calendar",

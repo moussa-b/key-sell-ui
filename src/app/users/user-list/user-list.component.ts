@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { Tag } from 'primeng/tag';
 import { User } from '../entities/user.entity';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MenuItemCommandEvent, PrimeIcons } from 'primeng/api';
 import { UsersService } from '../users.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { UserFormComponent } from '../user-form/user-form.component';
@@ -15,6 +15,9 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { InputText } from 'primeng/inputtext';
 import { ToasterService } from '../../core/services/toaster.service';
 import { PermissionService } from '../../core/services/permission.service';
+import { UserAccess } from '../../core/models/user-access.model';
+import { Menu } from 'primeng/menu';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-user-list',
@@ -27,7 +30,9 @@ import { PermissionService } from '../../core/services/permission.service';
     Tag,
     Card,
     TranslatePipe,
-    InputText
+    InputText,
+    Menu,
+    UpperCasePipe
   ],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss',
@@ -37,16 +42,37 @@ import { PermissionService } from '../../core/services/permission.service';
 export class UserListComponent implements OnInit {
   users: User[] = [];
   isAdmin = false;
+  userAccess!: UserAccess;
+  items!: MenuItem[];
+  selectUser?: User;
 
   constructor(private dialogService: DialogService,
               private confirmationService: ConfirmationService,
               private usersService: UsersService,
               private translateService: TranslateService,
+              private elementRef: ElementRef,
               private permissionService: PermissionService,
               private toasterService: ToasterService,) {
   }
 
   ngOnInit(): void {
+    this.userAccess = this.permissionService.getUserAccess();
+    this.items = [
+      {
+        label: this.translateService.instant('common.edit'),
+        icon: PrimeIcons.USER_EDIT,
+        command: () => {
+          this.editUser();
+        }
+      },
+      {
+        label: this.translateService.instant('common.delete'),
+        icon: PrimeIcons.TRASH,
+        command: (menuEvent: MenuItemCommandEvent) => {
+          this.deleteUser(menuEvent.originalEvent!)
+        }
+      }
+    ];
     this.findAllUsers();
     this.isAdmin = this.permissionService.isAdmin
   }
@@ -74,13 +100,14 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  editUser(user: User) {
+  editUser() {
     this.dialogService.open(UserFormComponent, {
-      data: {user: user},
+      data: {user: this.selectUser},
       header: this.translateService.instant('users.edit_user'),
       closable: true,
       modal: true,
     }).onClose.subscribe((user: User) => {
+      this.selectUser = undefined;
       if (user) {
         this.findAllUsers();
         this.toasterService.emitValue({
@@ -92,9 +119,12 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  deleteUser(userId: number, event: MouseEvent) {
+  deleteUser(event: Event) {
+    const userId = this.selectUser!.id!;
+    this.selectUser = undefined;
+    const button = this.elementRef.nativeElement.querySelector(`tr[data-user-id='${userId}'] button`);
     this.confirmationService.confirm({
-      target: event.target as EventTarget,
+      target: button || event?.target as EventTarget,
       message: this.translateService.instant('users.delete_user_confirmation_message'),
       icon: 'pi pi-info-circle',
       rejectButtonProps: {
