@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { alreadyConnectedGuard } from './core/guards/already-connected.guard';
+import { userAccessGuard } from './core/guards/user-access.guard';
 
 export const routes: Routes = [
   {
@@ -27,12 +28,32 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('./core/components/layout/layout.component').then(m => m.LayoutComponent),
     canActivate: [authGuard],
-    children : [
-      { path: 'users', loadComponent: () => import('./users/user-list/user-list.component').then(m => m.UserListComponent) },
-      { path: 'buyers', loadComponent: () => import('./buyers/buyer-list/buyer-list.component').then(m => m.BuyerListComponent) },
-      { path: 'sellers', loadComponent: () => import('./sellers/seller-list/seller-list.component').then(m => m.SellerListComponent) },
-      { path: 'calendar', loadComponent: () => import('./calendar/calendar/calendar.component').then(m => m.CalendarComponent) },
-      { path: '**', loadComponent: () => import('./users/user-list/user-list.component').then(m => m.UserListComponent) },
+    children: [
+      {
+        path: 'users',
+        data: {userAccessFieldName: 'canShowUsers'},
+        loadComponent: () => import('./users/user-list/user-list.component').then(m => m.UserListComponent),
+        canActivate: [userAccessGuard]
+      },
+      {
+        path: 'buyers',
+        data: {userAccessFieldName: 'canShowBuyers'},
+        loadComponent: () => import('./buyers/buyer-list/buyer-list.component').then(m => m.BuyerListComponent),
+        canActivate: [userAccessGuard]
+      },
+      {
+        path: 'sellers',
+        data: {userAccessFieldName: 'canShowSellers'},
+        loadComponent: () => import('./sellers/seller-list/seller-list.component').then(m => m.SellerListComponent),
+        canActivate: [userAccessGuard]
+      },
+      {
+        path: 'calendar',
+        data: {userAccessFieldName: 'canShowCalendarEvents'},
+        loadComponent: () => import('./calendar/calendar/calendar.component').then(m => m.CalendarComponent),
+        canActivate: [userAccessGuard]
+      },
+      {path: '**', redirectTo: 'buyers'}
     ]
   }
 ];

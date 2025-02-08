@@ -7,6 +7,8 @@ import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MyAccountComponent } from '../../../users/my-account/my-account.component';
+import { PermissionService } from '../../services/permission.service';
+import { UserAccess } from '../../models/user-access.model';
 
 @Component({
   selector: 'app-header',
@@ -23,11 +25,14 @@ import { MyAccountComponent } from '../../../users/my-account/my-account.compone
 export class HeaderComponent implements OnInit {
   isMenuOpen = false;
   menuItems: MenuItem[] = [];
+  userAccess: UserAccess;
 
   constructor(private authService: AuthService,
               private dialogService: DialogService,
               private translateService: TranslateService,
-              private router: Router,) {
+              private router: Router,
+              private permissionService: PermissionService,) {
+    this.userAccess = this.permissionService.getUserAccess();
   }
 
   ngOnInit() {

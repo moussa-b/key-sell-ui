@@ -8,12 +8,14 @@ import { map, Observable } from 'rxjs';
 import { SaveUserDto } from '../../users/dto/save-user.dto';
 import { SkipErrorDetection } from '../interceptors/error.interceptor';
 import { AccessToken } from '../models/access-token.model';
+import { UserAccess } from '../models/user-access.model';
 
 export interface DecodedToken {
   sub: number;
   role: UserRole;
   iat: number;
   exp: number;
+  userAccess: UserAccess
 }
 
 @Injectable({
@@ -81,6 +83,7 @@ export class AuthService {
   isTokenExpired(): boolean {
     const expiryTime = this.getExpiryTime();
     if (expiryTime) {
+      console.log('Automatic deconnexion after token expiration');
       return ((1000 * expiryTime) - (new Date()).getTime()) < 5000;
     } else {
       return false;
@@ -88,43 +91,23 @@ export class AuthService {
   }
 
   getExpiryTime(): number | undefined {
-    this.decodeToken();
-    return this.decodedToken?.exp;
+    return this.getDecodedToken()?.exp;
   }
 
-  getRole(): UserRole {
-    this.decodeToken();
-    if (this.decodedToken && this.decodedToken.role) {
-      if (this.decodedToken.role === UserRole.ADMIN) {
-        return UserRole.ADMIN;
-      } else if (this.decodedToken.role === UserRole.MANAGER) {
-        return UserRole.MANAGER;
+  getDecodedToken(): DecodedToken | undefined {
+    if (this.jwtToken) {
+      if (!this.decodedToken) {
+        try {
+          this.decodedToken = jwtDecode<DecodedToken>(this.jwtToken);
+          return {...this.decodedToken};
+        } catch (error) {
+          console.error('Error decoding token:', error);
+        }
+      } else {
+        return this.decodedToken;
       }
     }
-    return UserRole.USER;
-  }
-
-  get isAdmin(): boolean {
-    return UserRole.ADMIN === this.getRole();
-  }
-
-  get userId(): number {
-    this.decodeToken();
-    return this.decodedToken?.sub || 0;
-  }
-
-  get isManager(): boolean {
-    return UserRole.MANAGER === this.getRole();
-  }
-
-  decodeToken(): void {
-    if (this.jwtToken && !this.decodedToken) {
-      try {
-        this.decodedToken = jwtDecode<DecodedToken>(this.jwtToken);
-      } catch (error) {
-        console.error('Error decoding token:', error);
-      }
-    }
+    return undefined;
   }
 
   getJwtToken(): string | undefined {

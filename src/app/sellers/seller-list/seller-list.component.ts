@@ -8,12 +8,12 @@ import { ConfirmationService, PrimeTemplate } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'primeng/dynamicdialog';
-import { AuthService } from '../../core/services/auth.service';
 import { SellersService } from '../sellers.service';
 import { SellerFormComponent } from '../seller-form/seller-form.component';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ToasterService } from '../../core/services/toaster.service';
 import { Seller } from '../entities/seller.entity';
+import { PermissionService } from '../../core/services/permission.service';
 
 @Component({
   selector: 'app-seller-list',
@@ -40,13 +40,13 @@ export class SellerListComponent implements OnInit {
               private confirmationService: ConfirmationService,
               private sellersService: SellersService,
               private translateService: TranslateService,
-              private authService: AuthService,
+              private permissionService: PermissionService,
               private toasterService: ToasterService,) {
   }
 
   ngOnInit(): void {
     this.findAllSellers();
-    this.isManagerOrAdmin = this.authService.isManager || this.authService.isAdmin;
+    this.isManagerOrAdmin = this.permissionService.isManager || this.permissionService.isAdmin;
   }
 
   private findAllSellers(): void {

@@ -8,12 +8,12 @@ import { ConfirmationService, PrimeTemplate } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'primeng/dynamicdialog';
-import { AuthService } from '../../core/services/auth.service';
 import { BuyersService } from '../buyers.service';
 import { BuyerFormComponent } from '../buyer-form/buyer-form.component';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ToasterService } from '../../core/services/toaster.service';
 import { Buyer } from '../entities/buyer.entity';
+import { PermissionService } from '../../core/services/permission.service';
 
 @Component({
   selector: 'app-buyer-list',
@@ -40,13 +40,13 @@ export class BuyerListComponent implements OnInit {
               private confirmationService: ConfirmationService,
               private buyersService: BuyersService,
               private translateService: TranslateService,
-              private authService: AuthService,
+              private permissionService: PermissionService,
               private toasterService: ToasterService,) {
   }
 
   ngOnInit(): void {
     this.findAllBuyers();
-    this.isManagerOrAdmin = this.authService.isManager || this.authService.isAdmin;
+    this.isManagerOrAdmin = this.permissionService.isManager || this.permissionService.isAdmin;
   }
 
   private findAllBuyers(): void {

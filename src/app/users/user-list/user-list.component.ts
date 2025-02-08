@@ -13,8 +13,8 @@ import { Card } from 'primeng/card';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { InputText } from 'primeng/inputtext';
-import { AuthService } from '../../core/services/auth.service';
 import { ToasterService } from '../../core/services/toaster.service';
+import { PermissionService } from '../../core/services/permission.service';
 
 @Component({
   selector: 'app-user-list',
@@ -42,13 +42,13 @@ export class UserListComponent implements OnInit {
               private confirmationService: ConfirmationService,
               private usersService: UsersService,
               private translateService: TranslateService,
-              private authService: AuthService,
+              private permissionService: PermissionService,
               private toasterService: ToasterService,) {
   }
 
   ngOnInit(): void {
     this.findAllUsers();
-    this.isAdmin = this.authService.isAdmin
+    this.isAdmin = this.permissionService.isAdmin
   }
 
   private findAllUsers(): void {
