@@ -98,7 +98,15 @@
     "preferred_language": "Langue de communication préférée",
     "select": "Sélectionner",
     "identifier": "Identifiant",
-    "edit": "Modifier"
+    "edit": "Modifier",
+    "send_email": "Envoyer un email",
+    "subject": "Sujet",
+    "enter_mail_subject": "Saisir le sujet de l'email",
+    "mail_subject_required": "Le sujet de l'email est obligatoire",
+    "message": "Message",
+    "message_required" : "Le message est obligatoire",
+    "send_email_to": "Envoyer un email à {{recipient}}",
+    "send": "Envoyer"
   },
   "calendar": {
     "calendar": "Agenda",
@@ -116,6 +124,7 @@
     "date_picker_placeholder": "jj.mm.aaaa",
     "time_picker_placeholder": "hh:mm",
     "add_calendar_event": "Ajouter un événement",
-    "edit_calendar_event": "Modifier cet événement"
+    "edit_calendar_event": "Modifier cet événement",
+    "enter_event_title": "Saisir le titre de l'événement"
   }
 }

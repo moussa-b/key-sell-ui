@@ -6,6 +6,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
+import { ResponseStatus } from '../../core/models/response-status.model';
 
 @Component({
   selector: 'app-activate',
@@ -37,7 +38,7 @@ export class ResetPasswordComponent implements OnInit {
 
   onSubmit(form: any) {
     if (form.valid) {
-      this.authService.resetPassword(this.username!, this.password!, this.resetPasswordToken!).subscribe((response: {status: boolean}) => {
+      this.authService.resetPassword(this.username!, this.password!, this.resetPasswordToken!).subscribe((response: ResponseStatus) => {
         if (response.status) {
           this.router.navigateByUrl('/login', {info: {message: {severity: 'info', message: this.translateService.instant('auth.reset_password_confirmation_message')}}});
         }

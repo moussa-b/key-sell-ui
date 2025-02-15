@@ -16,6 +16,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Sex } from '../../core/models/sex.enum';
 import { ToasterService } from '../../core/services/toaster.service';
+import { ResponseStatus } from '../../core/models/response-status.model';
 
 @Component({
   selector: 'app-my-account',
@@ -111,7 +112,7 @@ export class MyAccountComponent implements OnInit {
         },
         accept: () => {
           let securityFormValue = this.securityForm.getRawValue();
-          this.authService.updateProfileSecurity(securityFormValue).subscribe((response: {status: boolean}) => {
+          this.authService.updateProfileSecurity(securityFormValue).subscribe((response: ResponseStatus) => {
             if (response.status) {
               this.dialogRef.close();
               this.authService.logout();

@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { User } from './entities/user.entity';
 import { environment } from '../../environments/environment';
 import { SaveUserDto } from './dto/save-user.dto';
+import { SendEmailModel } from '../core/models/send-email.model';
+import { ResponseStatus } from '../core/models/response-status.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +28,10 @@ export class UsersService {
 
   remove(userId: number): Observable<boolean> {
     return this.http.delete<boolean>(`${environment.API_URL}/api/users/${userId}`);
+  }
+
+
+  sendEmail(userId: number, sendEmail: SendEmailModel): Observable<ResponseStatus> {
+    return this.http.post<ResponseStatus>(`${environment.API_URL}/api/users/${userId}/email/sent`, sendEmail);
   }
 }

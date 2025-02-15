@@ -9,4 +9,5 @@ export class UserAccess {
   canEditBuyers= false;
   canShowSellers= false;
   canEditSellers= false;
+  canSendEmail= false;
 }

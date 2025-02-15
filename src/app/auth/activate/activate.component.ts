@@ -6,6 +6,7 @@ import { Password } from 'primeng/password';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../core/services/auth.service';
+import { ResponseStatus } from '../../core/models/response-status.model';
 
 @Component({
   selector: 'app-activate',
@@ -37,7 +38,7 @@ export class ActivateComponent implements OnInit {
 
   onSubmit(form: any) {
     if (form.valid) {
-      this.authService.activate(this.username!, this.password!, this.activationToken!).subscribe((response: {status: boolean}) => {
+      this.authService.activate(this.username!, this.password!, this.activationToken!).subscribe((response: ResponseStatus) => {
         if (response.status) {
           this.router.navigateByUrl('/login', {info: {message: {severity: 'info', message: this.translateService.instant('auth.activation_confirmation_message')}}});
         }

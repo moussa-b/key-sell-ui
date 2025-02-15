@@ -9,6 +9,7 @@ import { SaveUserDto } from '../../users/dto/save-user.dto';
 import { SkipErrorDetection } from '../interceptors/error.interceptor';
 import { AccessToken } from '../models/access-token.model';
 import { UserAccess } from '../models/user-access.model';
+import { ResponseStatus } from '../models/response-status.model';
 
 export interface DecodedToken {
   sub: number;
@@ -46,16 +47,16 @@ export class AuthService {
       }));
   }
 
-  activate(username: string, password: string, activationToken: string): Observable<{status: boolean}> {
-    return this.http.post<{status: boolean}>(`${environment.API_URL}/api/auth/activate`, {username, password, activationToken});
+  activate(username: string, password: string, activationToken: string): Observable<ResponseStatus> {
+    return this.http.post<ResponseStatus>(`${environment.API_URL}/api/auth/activate`, {username, password, activationToken});
   }
 
-  resetPassword(username: string, password: string, resetPasswordToken: string): Observable<{status: boolean}> {
-    return this.http.post<{status: boolean}>(`${environment.API_URL}/api/auth/password/reset`, {username, password, resetPasswordToken});
+  resetPassword(username: string, password: string, resetPasswordToken: string): Observable<ResponseStatus> {
+    return this.http.post<ResponseStatus>(`${environment.API_URL}/api/auth/password/reset`, {username, password, resetPasswordToken});
   }
 
-  forgotPassword(email: string): Observable<{status: boolean}> {
-    return this.http.post<{status: boolean}>(`${environment.API_URL}/api/auth/password/forgot`, {email});
+  forgotPassword(email: string): Observable<ResponseStatus> {
+    return this.http.post<ResponseStatus>(`${environment.API_URL}/api/auth/password/forgot`, {email});
   }
 
   getProfile(): Observable<User> {
@@ -66,8 +67,8 @@ export class AuthService {
     return this.http.patch<User>(`${environment.API_URL}/api/auth/profile`, updateClientDto);
   }
 
-  updateProfileSecurity(securityFormValue: any): Observable<{ status: boolean }> {
-    return this.http.patch<{status: boolean}>(`${environment.API_URL}/api/auth/profile/security`, securityFormValue);
+  updateProfileSecurity(securityFormValue: any): Observable<ResponseStatus> {
+    return this.http.patch<ResponseStatus>(`${environment.API_URL}/api/auth/profile/security`, securityFormValue);
   }
 
   logout(): void {

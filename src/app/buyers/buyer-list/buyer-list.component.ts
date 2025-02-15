@@ -17,6 +17,9 @@ import { PermissionService } from '../../core/services/permission.service';
 import { UserAccess } from '../../core/models/user-access.model';
 import { Menu } from 'primeng/menu';
 import { UpperCasePipe } from '@angular/common';
+import { SendEmailComponent } from '../../core/components/send-email/send-email.component';
+import { SendEmailModel } from '../../core/models/send-email.model';
+import { ResponseStatus } from '../../core/models/response-status.model';
 
 @Component({
   selector: 'app-buyer-list',
@@ -61,14 +64,22 @@ export class BuyerListComponent implements OnInit {
       {
         label: this.translateService.instant('common.edit'),
         icon: PrimeIcons.USER_EDIT,
-        command: () => this.editBuyer()
+        command: () => this.editBuyer(),
+        visible: this.userAccess.canEditSellers
       },
       {
         label: this.translateService.instant('common.delete'),
         icon: PrimeIcons.TRASH,
-        command: (menuEvent: MenuItemCommandEvent) => this.deleteBuyer(menuEvent.originalEvent!)
+        command: (menuEvent: MenuItemCommandEvent) => this.deleteBuyer(menuEvent.originalEvent!),
+        visible: this.userAccess.canEditSellers
+      },
+      {
+        label: this.translateService.instant('common.send_email'),
+        icon: PrimeIcons.ENVELOPE,
+        command: () => this.sendEmailToBuyer(),
+        visible: this.userAccess.canSendEmail
       }
-    ];
+    ].filter((m: MenuItem) => m.visible !== false);
   }
 
   private findAllBuyers(): void {
@@ -142,6 +153,27 @@ export class BuyerListComponent implements OnInit {
           }
         });
       }
+    });
+  }
+
+  sendEmailToBuyer() {
+    this.dialogService.open(SendEmailComponent, {
+      header: this.translateService.instant('common.send_email_to', { recipient: `${this.selectedBuyer!.lastName.toUpperCase()} ${this.selectedBuyer!.firstName}` }),
+      closable: true,
+      modal: true,
+    }).onClose.subscribe((sendEmailModel: SendEmailModel) => {
+      if (sendEmailModel) {
+        this.buyersService.sendEmail(this.selectedBuyer!.id, sendEmailModel).subscribe((res: ResponseStatus) => {
+          if (res.status) {
+            this.toasterService.emitValue({
+              severity: 'success',
+              summary: this.translateService.instant('common.success'),
+              detail: this.translateService.instant('common.success_message')
+            });
+          }
+        });
+      }
+      this.selectedBuyer = undefined;
     });
   }
 }

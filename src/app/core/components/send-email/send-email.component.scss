@@ -1,0 +1,22 @@
+app-send-email {
+  form {
+    padding: 10px;
+    width: 100%;
+  }
+
+  @media (min-width: 600px) {
+    form {
+      min-width: 600px;
+    }
+  }
+
+  .ck-editor__editable_inline {
+    min-height: 200px;
+  }
+
+  .ck-editor__main {
+    ul, ol {
+      padding-left: 20px;
+    }
+  }
+}

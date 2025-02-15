@@ -98,7 +98,15 @@
     "preferred_language": "Preferred communication language",
     "select": "Select",
     "identifier": "Identifier",
-    "edit": "Edit"
+    "edit": "Edit",
+    "send_email": "Send an email",
+    "subject": "Subject",
+    "enter_mail_subject": "Enter mail subject",
+    "mail_subject_required": "Mail subject is required",
+    "message": "Message",
+    "message_required": "Message is required",
+    "send_email_to": "Send email to {{recipient}}",
+    "send": "Send"
   },
   "calendar": {
     "calendar": "Calendar",
@@ -116,6 +124,7 @@
     "date_picker_placeholder": "dd.mm.yyyy",
     "time_picker_placeholder": "hh:mm",
     "add_calendar_event": "Add calendar event",
-    "edit_calendar_event": "Edit calendar event"
+    "edit_calendar_event": "Edit calendar event",
+    "enter_event_title": "Enter event title"
   }
 }

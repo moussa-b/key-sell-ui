@@ -41,7 +41,7 @@
       <tr [attr.data-user-id]="user.id">
         <td>{{ user.id }}</td>
         <td>
-          @if (userAccess.canEditUsers && user.id > 1) {
+          @if (items.length > 0 && user.id > 1) {
             <button (click)="selectedUser = user; menu.toggle($event)" class="text-blue-500 hover:text-blue-700 underline">
               {{user.lastName | uppercase}}
             </button>

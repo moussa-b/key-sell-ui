@@ -39,7 +39,7 @@
       <tr [attr.data-buyer-id]="buyer.id">
         <td>{{ buyer.id }}</td>
         <td>
-          @if (userAccess.canEditSellers) {
+          @if (items.length > 0) {
             <button (click)="selectedBuyer = buyer; menu.toggle($event)" class="text-blue-500 hover:text-blue-700 underline">
               {{buyer.lastName | uppercase}}
             </button>

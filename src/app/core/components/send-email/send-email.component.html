@@ -1,0 +1,39 @@
+<form [formGroup]="sendEmailForm" (ngSubmit)="onSubmit()">
+  <div class="mb-4">
+    <label for="subject" class="block text-lg">{{ 'common.subject' | translate }}</label>
+    <input
+      class="mt-1 p-2 w-full border border-gray-300 rounded-md"
+      formControlName="subject"
+      id="subject"
+      type="text"
+      [placeholder]="'common.enter_mail_subject' | translate">
+    @if (sendEmailForm.get('subject')?.invalid && sendEmailForm.get('subject')?.touched) {
+      <div class="text-red-500 text-sm">
+        {{ 'common.mail_subject_required' | translate }}
+      </div>
+    }
+  </div>
+
+  <div class="mb-4">
+    <label for="messageHtml" class="block text-lg">{{ 'common.message' | translate }}</label>
+    @if (Editor && config) {
+      <ckeditor [config]="config"
+                [editor]="Editor"
+                formControlName="messageHtml"
+                id="messageHtml"></ckeditor>
+    }
+    @if (sendEmailForm.get('messageHtml')?.invalid && sendEmailForm.get('messageHtml')?.touched) {
+      <div class="text-red-500 text-sm">
+        {{ 'common.message_required' | translate }}
+      </div>
+    }
+  </div>
+
+  <div class="mt-6 flex">
+    <p-button [disabled]="sendEmailForm.invalid"
+              class="ml-auto"
+              type="submit">
+      {{ 'common.send' | translate }}
+    </p-button>
+  </div>
+</form>

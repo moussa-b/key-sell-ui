@@ -6,7 +6,7 @@
       formControlName="title"
       id="title"
       type="text"
-      placeholder="Enter event title">
+      [placeholder]="'calendar.enter_event_title' | translate">
     @if (eventForm.get('title')?.invalid && eventForm.get('title')?.touched) {
       <div class="text-red-500 text-sm">
         {{ 'calendar.title_required' | translate }}
