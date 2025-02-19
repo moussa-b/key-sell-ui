@@ -44,7 +44,8 @@
     "buyer_list": "Liste des acheteurs",
     "add_buyer": "Ajouter un acheteur",
     "edit_buyer": "Modifier cet acheteur",
-    "delete_buyer_confirmation_message": "Êtes-vous sûr de vouloir supprimer cet acheteur ?"
+    "delete_buyer_confirmation_message": "Êtes-vous sûr de vouloir supprimer cet acheteur ?",
+    "budget": "Budget"
   },
   "header": {
     "change_language": "Changer de langue",
@@ -126,5 +127,18 @@
     "add_calendar_event": "Ajouter un événement",
     "edit_calendar_event": "Modifier cet événement",
     "enter_event_title": "Saisir le titre de l'événement"
+  },
+  "address": {
+    "number_and_street": "Numéro et rue",
+    "street_required": "La rue est obligatoire",
+    "complement_long": "Complément d'adresse (bâtiment, étage, appartement...)",
+    "complement": "Complément d'adresse",
+    "zip_code": "Code postal",
+    "zip_code_required": "Le code postal est obligatoire",
+    "city": "Commune",
+    "city_required": "La commune est obligatoire",
+    "country": "Pays",
+    "country_required": "Le pays est obligatoire",
+    "select_country": "Sélectionner un pays"
   }
 }

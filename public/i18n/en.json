@@ -37,7 +37,8 @@
     "buyer_list": "List of buyers",
     "add_buyer": "Add a buyer",
     "edit_buyer": "Edit buyer",
-    "delete_buyer_confirmation_message": "Are you sure you want to delete this buyer?"
+    "delete_buyer_confirmation_message": "Are you sure you want to delete this buyer?",
+    "budget": "Budget"
   },
   "sellers": {
     "sellers": "Sellers",
@@ -126,5 +127,18 @@
     "add_calendar_event": "Add calendar event",
     "edit_calendar_event": "Edit calendar event",
     "enter_event_title": "Enter event title"
+  },
+  "address": {
+    "number_and_street": "Number and street",
+    "street_required": "Street is required",
+    "complement_long": "Address complement (building, floor, apartment...)",
+    "complement": "Address complement",
+    "zip_code": "Postal code",
+    "zip_code_required": "Postal code is required",
+    "city": "City",
+    "city_required": "The city is required",
+    "country": "Country",
+    "country_required": "Country is required",
+    "select_country": "Select a country"
   }
 }

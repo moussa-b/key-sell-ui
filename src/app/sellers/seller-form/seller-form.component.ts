@@ -9,8 +9,11 @@ import { Sex } from '../../core/models/sex.enum';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SellersService } from '../sellers.service';
 import { Seller } from '../entities/seller.entity';
-import { Textarea } from 'primeng/textarea';
 import { Select } from 'primeng/select';
+import { AddressFormComponent } from '../../core/components/address-form/address-form.component';
+import { Address } from '../../core/models/address.model';
+import { LabelValue } from '../../core/models/label-value.model';
+import { CommonService } from '../../core/services/common.service';
 
 @Component({
   selector: 'app-seller-form',
@@ -22,8 +25,8 @@ import { Select } from 'primeng/select';
     ReactiveFormsModule,
     SelectButton,
     TranslatePipe,
-    Textarea,
-    Select
+    Select,
+    AddressFormComponent
   ],
   templateUrl: './seller-form.component.html',
   styleUrl: './seller-form.component.scss'
@@ -32,12 +35,14 @@ export class SellerFormComponent implements OnInit {
   sellerForm!: FormGroup;
   sexOptions!: SelectItem<Sex>[];
   preferredLanguageOptions!: SelectItem<string>[];
+  supportedCountries: LabelValue<string>[] = [];
 
   constructor(private fb: FormBuilder,
               private translateService: TranslateService,
               private sellersService: SellersService,
               private dialogRef: DynamicDialogRef,
-              private dialogConfig: DynamicDialogConfig) {}
+              private dialogConfig: DynamicDialogConfig,
+              private commonService: CommonService) {}
 
   ngOnInit(): void {
     const seller: Seller | undefined = this.dialogConfig.data?.seller;
@@ -49,7 +54,7 @@ export class SellerFormComponent implements OnInit {
       phone: [seller?.phone],
       sex: [seller?.sex || Sex.MALE],
       preferredLanguage: [seller ? seller.preferredLanguage : 'fr'],
-      address: [seller?.address],
+      address: [seller?.address || new Address()],
     });
     this.sexOptions= [
       { label: this.translateService.instant('common.man'), value: Sex.MALE },
@@ -59,6 +64,9 @@ export class SellerFormComponent implements OnInit {
       { label: this.translateService.instant('common.french'), value: 'fr' },
       { label: this.translateService.instant('common.english'), value: 'en' },
     ];
+    this.commonService.getSupportedCountries().subscribe((countries: LabelValue<string>[]) => {
+      this.supportedCountries = countries;
+    });
   }
 
   onSubmit(): void {

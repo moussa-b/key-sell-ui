@@ -1,0 +1,64 @@
+<form [formGroup]="addressForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+  <div>
+    <label for="street" class="block">{{ 'address.number_and_street' | translate }}</label>
+    <input class="mt-1 p-2 w-full"
+           formControlName="street"
+           pInputText
+           id="street"
+           [placeholder]="'address.number_and_street' | translate"
+           type="text">
+    @if (addressForm.get('street')?.invalid && addressForm.get('street')?.touched) {
+      <div class="text-red-500 text-sm">{{ 'address.street_required' | translate }}</div>
+    }
+  </div>
+
+  <div>
+    <label for="complement" class="block">{{ 'address.complement_long' | translate }}</label>
+    <input class="mt-1 p-2 w-full"
+           formControlName="complement"
+           pInputText
+           id="complement"
+           [placeholder]="'address.complement' | translate"
+           type="text">
+  </div>
+
+  <div>
+    <label for="zipCode" class="block">{{ 'address.zip_code' | translate }}</label>
+    <input class="mt-1 p-2 w-full"
+           formControlName="zipCode"
+           pInputText
+           id="zipCode"
+           [placeholder]="'address.zip_code' | translate"
+           type="text">
+    @if (addressForm.get('zipCode')?.invalid && addressForm.get('zipCode')?.touched) {
+      <div class="text-red-500 text-sm">{{ 'address.zip_code_required' | translate }}</div>
+    }
+  </div>
+
+  <div>
+    <label for="city" class="block">{{ 'address.city' | translate }}</label>
+    <input class="mt-1 p-2 w-full"
+           formControlName="city"
+           pInputText
+           id="city"
+           [placeholder]="'address.city' | translate"
+           type="text">
+    @if (addressForm.get('city')?.invalid && addressForm.get('city')?.touched) {
+      <div class="text-red-500 text-sm">{{ 'address.city_required' | translate }}</div>
+    }
+  </div>
+
+  <div>
+    <label for="countryCode" class="block">{{ 'address.country' | translate }}</label>
+    <p-select [options]="countries"
+              [placeholder]="'address.select_country' | translate"
+              [showClear]="true"
+              class="mt-1"
+              formControlName="countryCode"
+              id="countryCode"/>
+    @if (addressForm.get('countryCode')?.invalid && addressForm.get('countryCode')?.touched) {
+      <div class="text-red-500 text-sm">{{ 'address.country_required' | translate }}</div>
+    }
+  </div>
+</form>

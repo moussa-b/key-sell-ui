@@ -9,8 +9,11 @@ import { Sex } from '../../core/models/sex.enum';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BuyersService } from '../buyers.service';
 import { Buyer } from '../entities/buyer.entity';
-import { Textarea } from 'primeng/textarea';
 import { Select } from 'primeng/select';
+import { AddressFormComponent } from '../../core/components/address-form/address-form.component';
+import { Address } from '../../core/models/address.model';
+import { CommonService } from '../../core/services/common.service';
+import { LabelValue } from '../../core/models/label-value.model';
 
 @Component({
   selector: 'app-buyer-form',
@@ -22,8 +25,8 @@ import { Select } from 'primeng/select';
     ReactiveFormsModule,
     SelectButton,
     TranslatePipe,
-    Textarea,
-    Select
+    Select,
+    AddressFormComponent
   ],
   templateUrl: './buyer-form.component.html',
   styleUrl: './buyer-form.component.scss'
@@ -32,12 +35,15 @@ export class BuyerFormComponent implements OnInit {
   buyerForm!: FormGroup;
   sexOptions!: SelectItem<Sex>[];
   preferredLanguageOptions!: SelectItem<string>[];
+  supportedCountries: LabelValue<string>[] = [];
+  supportedCurrencies: LabelValue<string>[] = [];
 
   constructor(private fb: FormBuilder,
               private translateService: TranslateService,
               private buyersService: BuyersService,
               private dialogRef: DynamicDialogRef,
-              private dialogConfig: DynamicDialogConfig) {}
+              private dialogConfig: DynamicDialogConfig,
+              private commonService: CommonService) {}
 
   ngOnInit(): void {
     const buyer: Buyer | undefined = this.dialogConfig.data?.buyer;
@@ -49,7 +55,9 @@ export class BuyerFormComponent implements OnInit {
       phone: [buyer?.phone],
       sex: [buyer?.sex || Sex.MALE],
       preferredLanguage: [buyer ? buyer.preferredLanguage : 'fr'],
-      address: [buyer?.address],
+      address: [buyer?.address || new Address()],
+      budget: [buyer?.budget],
+      budgetCurrency: [buyer?.budgetCurrency],
     });
     this.sexOptions= [
       { label: this.translateService.instant('common.man'), value: Sex.MALE },
@@ -59,6 +67,16 @@ export class BuyerFormComponent implements OnInit {
       { label: this.translateService.instant('common.french'), value: 'fr' },
       { label: this.translateService.instant('common.english'), value: 'en' },
     ];
+    this.commonService.getSupportedCountries().subscribe((countries: LabelValue<string>[]) => {
+      this.supportedCountries = countries;
+    });
+    this.commonService.getSupportedCurrencies().subscribe((currencies: LabelValue<string>[]) => {
+      this.supportedCurrencies = currencies;
+      if (currencies?.length === 1) {
+        this.buyerForm.get('budgetCurrency')!.patchValue(currencies[0].value, {emitEvent: false});
+        this.buyerForm.get('budgetCurrency')!.disable();
+      }
+    });
   }
 
   onSubmit(): void {
