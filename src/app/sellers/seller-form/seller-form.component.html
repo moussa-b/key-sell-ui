@@ -1,85 +1,91 @@
-<div>
-  <form [formGroup]="sellerForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div>
-      <label for="lastName" class="block">{{ 'common.last_name' | translate }}</label>
-      <input class="mt-1 p-2 w-full"
-             formControlName="lastName"
-             pInputText
-             id="lastName"
-             [placeholder]="'common.last_name' | translate"
-             type="text">
-      @if (sellerForm.get('lastName')?.invalid && sellerForm.get('lastName')?.touched) {
-        <div class="text-red-500 text-sm">{{ 'common.last_name_required' | translate }}</div>
-      }
-    </div>
+<p-tabs value="personalInfo">
+  <p-tablist>
+    <p-tab value="personalInfo"><i class="pi pi-user mr-1"></i>{{ 'common.personal_info' | translate }}</p-tab>
+    <p-tab value="address"><i class="pi pi-map-marker mr-1"></i>{{ 'common.address' | translate }}</p-tab>
+  </p-tablist>
+  <p-tabpanels>
+    <p-tabpanel value="personalInfo">
+      <form [formGroup]="sellerForm"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4 min-w-0 sm:min-w-[40rem]">
+        <div>
+          <label for="lastName" class="block">{{ 'common.last_name' | translate }}</label>
+          <input class="mt-1 p-2 w-full"
+                 formControlName="lastName"
+                 pInputText
+                 id="lastName"
+                 [placeholder]="'common.last_name' | translate"
+                 type="text">
+          @if (sellerForm.get('lastName')?.invalid && sellerForm.get('lastName')?.touched) {
+            <div class="text-red-500 text-sm">{{ 'common.last_name_required' | translate }}</div>
+          }
+        </div>
 
-    <div>
-      <label for="firstName" class="block">{{ 'common.first_name' | translate }}</label>
-      <input class="mt-1 p-2 w-full"
-             formControlName="firstName"
-             pInputText
-             id="firstName"
-             [placeholder]="'common.first_name' | translate"
-             type="text">
-      @if (sellerForm.get('firstName')?.invalid && sellerForm.get('firstName')?.touched) {
-        <div class="text-red-500 text-sm">{{ 'common.first_name_required' | translate }}</div>
-      }
-    </div>
+        <div>
+          <label for="firstName" class="block">{{ 'common.first_name' | translate }}</label>
+          <input class="mt-1 p-2 w-full"
+                 formControlName="firstName"
+                 pInputText
+                 id="firstName"
+                 [placeholder]="'common.first_name' | translate"
+                 type="text">
+          @if (sellerForm.get('firstName')?.invalid && sellerForm.get('firstName')?.touched) {
+            <div class="text-red-500 text-sm">{{ 'common.first_name_required' | translate }}</div>
+          }
+        </div>
 
-    <div>
-      <label class="block">{{ 'common.gender' | translate }}</label>
-      <p-selectbutton [options]="sexOptions"
-                      formControlName="sex"
-                      id="sex"/>
-    </div>
+        <div>
+          <label class="block">{{ 'common.gender' | translate }}</label>
+          <p-selectbutton [options]="sexOptions"
+                          formControlName="sex"
+                          id="sex"/>
+        </div>
 
-    <div>
-      <label class="block">{{ 'common.preferred_language' | translate }}</label>
-      <p-select [options]="preferredLanguageOptions"
-                [placeholder]="'common.select' | translate"
-                class="mt-1 w-full"
-                formControlName="preferredLanguage"
-                id="sex"/>
-    </div>
+        <div>
+          <label class="block">{{ 'common.preferred_language' | translate }}</label>
+          <p-select [options]="preferredLanguageOptions"
+                    [placeholder]="'common.select' | translate"
+                    class="mt-1 w-full"
+                    formControlName="preferredLanguage"
+                    id="sex"/>
+        </div>
 
-    <div>
-      <label for="email" class="block">{{ 'common.email' | translate }}</label>
-      <input class="mt-1 p-2 w-full"
-             formControlName="email"
-             pInputText
-             id="email"
-             [placeholder]="'common.email' | translate"
-             type="email">
-      @if (sellerForm.get('email')?.invalid && sellerForm.get('email')?.touched) {
-        <div class="text-red-500 text-sm">{{ 'common.email_required' | translate }}</div>
-      }
-    </div>
+        <div>
+          <label for="email" class="block">{{ 'common.email' | translate }}</label>
+          <input class="mt-1 p-2 w-full"
+                 formControlName="email"
+                 pInputText
+                 id="email"
+                 [placeholder]="'common.email' | translate"
+                 type="email">
+          @if (sellerForm.get('email')?.invalid && sellerForm.get('email')?.touched) {
+            <div class="text-red-500 text-sm">{{ 'common.email_required' | translate }}</div>
+          }
+        </div>
 
-    <div>
-      <label for="email" class="block">{{ 'common.phoneNumber' | translate }}</label>
-      <input class="mt-1 p-2 w-full"
-             formControlName="phone"
-             pInputText
-             id="phone"
-             [placeholder]="'common.phoneNumber' | translate">
-    </div>
-
-    <div class="md:col-span-2">
-      <div class="border-t border-gray-200"></div>
-      <h3 class="text-md font-semibold py-2">{{ 'common.address' | translate }}</h3>
-      <app-address-form [countries]="supportedCountries"
-                        formControlName="address"
-                        id="address"/>
-    </div>
-
-    <div class="hidden md:block"><!--Required for alignment in display grid--></div>
-
-    <div class="mt-6 flex">
-      <p-button [disabled]="sellerForm.invalid"
-                class="ml-auto"
-                type="submit">
-        {{ 'common.validate' | translate }}
-      </p-button>
-    </div>
-  </form>
+        <div>
+          <label for="email" class="block">{{ 'common.phoneNumber' | translate }}</label>
+          <input class="mt-1 p-2 w-full"
+                 formControlName="phone"
+                 pInputText
+                 id="phone"
+                 [placeholder]="'common.phoneNumber' | translate">
+        </div>
+      </form>
+    </p-tabpanel>
+    <p-tabpanel value="address">
+      <div class="md:col-span-2 min-w-0 sm:min-w-[40rem]" [formGroup]="sellerForm">
+        <app-address-form [countries]="supportedCountries"
+                          formControlName="address"
+                          id="address"/>
+      </div>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>
+<div class="flex">
+  <p-button [disabled]="sellerForm.invalid"
+            (onClick)="onSubmit()"
+            class="ml-auto"
+            type="submit">
+    {{ 'common.validate' | translate }}
+  </p-button>
 </div>

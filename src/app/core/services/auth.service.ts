@@ -84,7 +84,7 @@ export class AuthService {
   isTokenExpired(): boolean {
     const expiryTime = this.getExpiryTime();
     if (expiryTime) {
-      console.log('Automatic deconnexion after token expiration');
+      console.log('Automatic deconnexion after token expiration : ', ((1000 * expiryTime) - (new Date()).getTime()) < 5000);
       return ((1000 * expiryTime) - (new Date()).getTime()) < 5000;
     } else {
       return false;

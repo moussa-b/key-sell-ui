@@ -14,6 +14,7 @@ import { AddressFormComponent } from '../../core/components/address-form/address
 import { Address } from '../../core/models/address.model';
 import { LabelValue } from '../../core/models/label-value.model';
 import { CommonService } from '../../core/services/common.service';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 
 @Component({
   selector: 'app-seller-form',
@@ -26,10 +27,14 @@ import { CommonService } from '../../core/services/common.service';
     SelectButton,
     TranslatePipe,
     Select,
-    AddressFormComponent
+    AddressFormComponent,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Tabs
   ],
   templateUrl: './seller-form.component.html',
-  styleUrl: './seller-form.component.scss'
 })
 export class SellerFormComponent implements OnInit {
   sellerForm!: FormGroup;

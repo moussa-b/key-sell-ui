@@ -34,8 +34,8 @@ import { Select } from 'primeng/select';
   ],
 })
 export class AddressFormComponent implements ControlValueAccessor, OnInit, OnDestroy {
-
-  addressForm: FormGroup;
+  @Input() required = false;
+  addressForm!: FormGroup;
   valueChangeSubscription!: Subscription;
   onChange: (value: Address) => void = () => {
   };
@@ -54,34 +54,20 @@ export class AddressFormComponent implements ControlValueAccessor, OnInit, OnDes
     }
   }
 
-  private _required: boolean = false;
-  get required(): boolean {
-    return this._required;
-  }
-  @Input() set required(value: boolean) {
-    const controls = ['street', 'zipCode', 'city', 'countryCode'];
-    if (value) {
-      controls.forEach(control => this.addressForm.get(control)!.setValidators([Validators.required]));
-    } else {
-      controls.forEach(control => this.addressForm.get(control)!.clearValidators());
-    }
-    controls.forEach(control => this.addressForm.get(control)!.updateValueAndValidity());
-  }
-
   constructor(private fb: FormBuilder) {
-    this.addressForm = this.fb.group({
-      id: [],
-      street: ['', Validators.required],
-      zipCode: ['', Validators.required],
-      city: ['', Validators.required],
-      countryCode: ['', Validators.required],
-      complement: [''],
-    });
   }
 
   ngOnInit(): void {
-    this.valueChangeSubscription = this.addressForm.valueChanges.subscribe((address: Address) => {
-      this.onChange(address);
+    this.addressForm = this.fb.group({
+      id: [],
+      street: ['', this.required ? Validators.required : null],
+      zipCode: ['', this.required ? Validators.required : null],
+      city: ['', this.required ? Validators.required : null],
+      countryCode: ['', this.required ? Validators.required : null],
+      complement: [''],
+    });
+    this.valueChangeSubscription = this.addressForm.valueChanges.subscribe(() => {
+      this.onChange(this.addressForm.getRawValue());
     });
   }
 

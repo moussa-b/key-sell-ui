@@ -107,7 +107,8 @@
     "message": "Message",
     "message_required" : "Le message est obligatoire",
     "send_email_to": "Envoyer un email à {{recipient}}",
-    "send": "Envoyer"
+    "send": "Envoyer",
+    "personal_info": "Informations personnelles"
   },
   "calendar": {
     "calendar": "Agenda",
@@ -131,7 +132,7 @@
   "address": {
     "number_and_street": "Numéro et rue",
     "street_required": "La rue est obligatoire",
-    "complement_long": "Complément d'adresse (bâtiment, étage, appartement...)",
+    "complement_placeholder": "Bâtiment, étage, appartement...",
     "complement": "Complément d'adresse",
     "zip_code": "Code postal",
     "zip_code_required": "Le code postal est obligatoire",
