@@ -92,6 +92,7 @@ export class BuyerListComponent implements OnInit {
     this.dialogService.open(BuyerFormComponent, {
       header: this.translateService.instant('buyers.add_buyer'),
       closable: true,
+      closeOnEscape: false,
       modal: true,
     }).onClose.subscribe((buyer: Buyer) => {
       if (buyer) {
@@ -110,6 +111,7 @@ export class BuyerListComponent implements OnInit {
       data: {buyer: this.selectedBuyer},
       header: this.translateService.instant('buyers.edit_buyer'),
       closable: true,
+      closeOnEscape: false,
       modal: true,
     }).onClose.subscribe((updatedBuyer: Buyer) => {
       this.selectedBuyer = undefined;
@@ -160,6 +162,7 @@ export class BuyerListComponent implements OnInit {
     this.dialogService.open(SendEmailComponent, {
       header: this.translateService.instant('common.send_email_to', { recipient: `${this.selectedBuyer!.lastName.toUpperCase()} ${this.selectedBuyer!.firstName}` }),
       closable: true,
+      closeOnEscape: false,
       modal: true,
     }).onClose.subscribe((sendEmailModel: SendEmailModel) => {
       if (sendEmailModel) {

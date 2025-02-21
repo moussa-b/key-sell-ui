@@ -2,7 +2,7 @@
   <div class="container mx-auto flex items-center justify-between p-4">
     <div class="flex items-center">
       <i class="pi pi-briefcase mr-2 text-2xl"></i>
-      <span class="font-bold text-xl">Agency Service</span>
+      <span class="font-bold text-xl">Key Sell</span>
     </div>
 
     <nav class="hidden md:flex space-x-6 items-center">
@@ -11,6 +11,12 @@
            class="hover:text-blue-300"
            routerLinkActive="bg-white text-blue-600 shadow-md px-4 py-2 rounded-lg"
            [routerLinkActiveOptions]="{ exact: true }">{{ 'users.users' | translate }}</a>
+      }
+      @if (userAccess.canShowRealEstate) {
+        <a routerLink="/real-estates"
+           class="hover:text-blue-300"
+           routerLinkActive="bg-white text-blue-600 shadow-md px-4 py-2 rounded-lg"
+           [routerLinkActiveOptions]="{ exact: true }">{{ 'real_estates.real_estates' | translate }}</a>
       }
       @if (userAccess.canShowBuyers) {
         <a routerLink="/buyers"
@@ -50,6 +56,9 @@
     <div class="md:hidden bg-blue-700 text-white flex flex-col space-y-2 p-4">
       @if (userAccess.canShowUsers) {
         <a routerLink="/users" class="hover:text-blue-300">{{'users.users' | translate}}</a>
+      }
+      @if (userAccess.canShowRealEstate) {
+        <a routerLink="/real-estates" class="hover:text-blue-300">{{'real_estates.real_estates' | translate}}</a>
       }
       @if (userAccess.canShowBuyers) {
         <a routerLink="/buyers" class="hover:text-blue-300">{{'buyers.buyers' | translate}}</a>

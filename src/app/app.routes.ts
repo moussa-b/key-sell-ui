@@ -53,6 +53,12 @@ export const routes: Routes = [
         loadComponent: () => import('./calendar/calendar/calendar.component').then(m => m.CalendarComponent),
         canActivate: [userAccessGuard]
       },
+      {
+        path: 'real-estates',
+        data: {userAccessFieldName: 'canShowRealEstate'},
+        loadComponent: () => import('./real-estates/real-estate-list/real-estate-list.component').then(m => m.RealEstateListComponent),
+        canActivate: [userAccessGuard]
+      },
       {path: '**', redirectTo: 'buyers'}
     ]
   }

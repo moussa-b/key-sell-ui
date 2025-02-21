@@ -81,6 +81,7 @@ export class HeaderComponent implements OnInit {
     this.dialogService.open(MyAccountComponent, {
       header: this.translateService.instant('auth.edit_my_account'),
       closable: true,
+      closeOnEscape: false,
       modal: true,
     });
   }

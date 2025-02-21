@@ -91,6 +91,7 @@ export class SellerListComponent implements OnInit {
   openNew(): void {
     this.dialogService.open(SellerFormComponent, {
       header: this.translateService.instant('sellers.add_seller'),
+      closeOnEscape: false,
       closable: true,
       modal: true,
     }).onClose.subscribe((seller: Seller) => {
@@ -109,6 +110,7 @@ export class SellerListComponent implements OnInit {
     this.dialogService.open(SellerFormComponent, {
       data: {seller: this.selectedSeller},
       header: this.translateService.instant('sellers.edit_seller'),
+      closeOnEscape: false,
       closable: true,
       modal: true,
     }).onClose.subscribe((updatedSeller: Seller) => {
@@ -159,6 +161,7 @@ export class SellerListComponent implements OnInit {
   sendEmailToSeller() {
     this.dialogService.open(SendEmailComponent, {
       header: this.translateService.instant('common.send_email_to', {recipient: `${this.selectedSeller!.lastName.toUpperCase()} ${this.selectedSeller!.firstName}`}),
+      closeOnEscape: false,
       closable: true,
       modal: true,
     }).onClose.subscribe((sendEmailModel: SendEmailModel) => {

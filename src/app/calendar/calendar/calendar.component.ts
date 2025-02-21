@@ -84,6 +84,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.dialogService.open(CalendarEventFormComponent, {
       header: this.translateService.instant('calendar.add_calendar_event'),
       data: {calendarEvent},
+      closeOnEscape: false,
       closable: true,
       modal: true,
     }).onClose.subscribe((calendarEvent: CalendarEvent) => {
@@ -122,6 +123,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.dialogService.open(CalendarEventFormComponent, {
       header: this.translateService.instant('calendar.edit_calendar_event'),
       data: {calendarEvent},
+      closeOnEscape: false,
       closable: true,
       modal: true,
     }).onClose.subscribe((calendarEvent: CalendarEvent) => {

@@ -91,6 +91,7 @@ export class UserListComponent implements OnInit {
   openNew(): void {
     this.dialogService.open(UserFormComponent, {
       header: this.translateService.instant('users.add_user'),
+      closeOnEscape: false,
       closable: true,
       modal: true,
     }).onClose.subscribe((user: User) => {
@@ -109,6 +110,7 @@ export class UserListComponent implements OnInit {
     this.dialogService.open(UserFormComponent, {
       data: {user: this.selectedUser},
       header: this.translateService.instant('users.edit_user'),
+      closeOnEscape: false,
       closable: true,
       modal: true,
     }).onClose.subscribe((user: User) => {
@@ -160,6 +162,7 @@ export class UserListComponent implements OnInit {
     this.dialogService.open(SendEmailComponent, {
       header: this.translateService.instant('common.send_email_to', { recipient: `${this.selectedUser!.lastName.toUpperCase()} ${this.selectedUser!.firstName}` }),
       closable: true,
+      closeOnEscape: false,
       modal: true,
     }).onClose.subscribe((sendEmailModel: SendEmailModel) => {
       if (sendEmailModel) {

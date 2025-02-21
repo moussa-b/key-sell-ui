@@ -1,0 +1,77 @@
+<p-card>
+  <ng-template pTemplate="title">
+    <div class="flex flex-col items-center justify-between sm:flex-row">
+      <h5 class="m-0">{{'real_estates.real_estate_list' | translate}}</h5>
+      <div class="flex items-center">
+        @if (userAccess.canEditRealEstate) {
+          <p-button (onClick)="openNew()"
+                    [label]="'real_estates.add_real_estate' | translate"
+                    class="mr-2 responsive-button"
+                    icon="pi pi-plus"/>
+        }
+        <p-iconfield>
+          <p-inputicon styleClass="pi pi-search" />
+          <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" [placeholder]="('common.search' | translate)" />
+        </p-iconfield>
+      </div>
+    </div>
+  </ng-template>
+  <p-table #dt
+           [globalFilterFields]="['lastName', 'firstName', 'email']"
+           [paginator]="true"
+           [rowHover]="true"
+           [rows]="10"
+           [showCurrentPageReport]="true"
+           [value]="realEstates"
+           [currentPageReportTemplate]="'common.current_page_report_template' | translate"
+           dataKey="id"
+           responsiveLayout="stack">
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn="id">{{'common.identifier' | translate}} <p-sortIcon field="id" /></th>
+        <th pSortableColumn="lastName">{{'common.address' | translate}} <p-sortIcon field="lastName" /></th>
+        <th pSortableColumn="type">{{'real_estates.type' | translate}} <p-sortIcon field="type" /></th>
+        <th pSortableColumn="surface">{{'real_estates.surface' | translate}} <p-sortIcon field="surface" /></th>
+        <th pSortableColumn="roomCount">{{'real_estates.room_count' | translate}} <p-sortIcon field="roomCount" /></th>
+        <th pSortableColumn="price">{{'real_estates.price' | translate}} <p-sortIcon field="price" /></th>
+        <th pSortableColumn="sex">{{'real_estates.owner_or_owners' | translate}} <p-sortIcon field="sex" /></th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-realEstate>
+      <tr [attr.data-real-estate-id]="realEstate.id">
+        <td>{{ realEstate.id }}</td>
+        <td>
+          @if (items.length) {
+            <button (click)="selectedRealEstate = realEstate; menu.toggle($event)"
+                    class="text-blue-500 hover:text-blue-700 underline">
+              {{ realEstate.address | formatAddress:('common.not_specified_female' | translate) }}
+            </button>
+            <p-menu #menu
+                    [model]="items"
+                    [popup]="true"
+                    [appendTo]="'body'"/>
+          } @else {
+            {{ realEstate.address | formatAddress:('common.not_specified_female' | translate) }}
+          }
+        </td>
+        <td>{{ realEstate.type }}</td>
+        <td>{{ realEstate.surface }}@if(realEstate.surface > 0) { m²}</td>
+        <td>{{ realEstate.roomCount }}</td>
+        <td>{{ realEstate.price }} {{ realEstate.priceCurrency }}</td>
+        <td>
+          @if (realEstate.owners?.length > 0) {
+            @for (ownerId of realEstate.owners; track ownerId; let last = $last) {
+              @if (ownersDictionary[ownerId]) {
+                {{ownersDictionary[ownerId]}}@if (!last) {, }
+              }
+            }
+          } @else {
+            {{'common.not_specified' | translate}}
+          }
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+
+<p-confirmpopup></p-confirmpopup>

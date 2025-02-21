@@ -116,7 +116,10 @@
     "yes": "Oui",
     "no": "Non",
     "other": "Autre",
-    "continue": "Continuer"
+    "continue": "Continuer",
+    "not_specified": "Non renseigné",
+    "not_specified_female": "Non renseignée",
+    "return": "Retour"
   },
   "calendar": {
     "calendar": "Agenda",

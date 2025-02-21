@@ -6,9 +6,9 @@ import { Address } from '../models/address.model';
 })
 export class AddressPipe implements PipeTransform {
 
-  transform(address: Address): string {
+  transform(address: Address, unknownLabel = '-'): string {
     if (!address) {
-      return '-';
+      return unknownLabel;
     }
     let formatedAddress = '';
     if (address.street && address.street.trim().length > 0) {
@@ -20,6 +20,6 @@ export class AddressPipe implements PipeTransform {
     if (address.city && address.city.trim().length > 0) {
       formatedAddress += ((formatedAddress.length > 0 ? ' ' : '') + address.city);
     }
-    return formatedAddress.length > 0 ? formatedAddress : '-';
+    return formatedAddress.length > 0 ? formatedAddress : unknownLabel;
   }
 }
