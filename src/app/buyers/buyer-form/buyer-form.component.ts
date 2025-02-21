@@ -15,6 +15,7 @@ import { Address } from '../../core/models/address.model';
 import { CommonService } from '../../core/services/common.service';
 import { LabelValue } from '../../core/models/label-value.model';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
+import { InputNumber } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-buyer-form',
@@ -32,7 +33,8 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
     TabList,
     Tab,
     TabPanels,
-    TabPanel
+    TabPanel,
+    InputNumber
   ],
   templateUrl: './buyer-form.component.html',
 })
@@ -40,7 +42,6 @@ export class BuyerFormComponent implements OnInit {
   buyerForm!: FormGroup;
   sexOptions!: SelectItem<Sex>[];
   preferredLanguageOptions!: SelectItem<string>[];
-  supportedCountries: LabelValue<string>[] = [];
   supportedCurrencies: LabelValue<string>[] = [];
 
   constructor(private fb: FormBuilder,
@@ -72,9 +73,6 @@ export class BuyerFormComponent implements OnInit {
       { label: this.translateService.instant('common.french'), value: 'fr' },
       { label: this.translateService.instant('common.english'), value: 'en' },
     ];
-    this.commonService.getSupportedCountries().subscribe((countries: LabelValue<string>[]) => {
-      this.supportedCountries = countries;
-    });
     this.commonService.getSupportedCurrencies().subscribe((currencies: LabelValue<string>[]) => {
       this.supportedCurrencies = currencies;
       if (currencies?.length === 1) {

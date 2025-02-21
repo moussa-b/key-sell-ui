@@ -2,8 +2,8 @@
   <form [formGroup]="addressForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
     <div>
-      <label for="street" class="block">{{ 'address.number_and_street' | translate }}</label>
-      <input class="mt-1 p-2 w-full"
+      <label for="street" class="block">{{ 'address.number_and_street' | translate }}@if(required) { *}</label>
+      <input class="mt-1 w-full"
              formControlName="street"
              pInputText
              id="street"
@@ -16,7 +16,7 @@
 
     <div>
       <label for="complement" class="block">{{ 'address.complement' | translate }}</label>
-      <input class="mt-1 p-2 w-full"
+      <input class="mt-1 w-full"
              formControlName="complement"
              pInputText
              id="complement"
@@ -25,8 +25,8 @@
     </div>
 
     <div>
-      <label for="zipCode" class="block">{{ 'address.zip_code' | translate }}</label>
-      <input class="mt-1 p-2 w-full"
+      <label for="zipCode" class="block">{{ 'address.zip_code' | translate }}@if(required) { *}</label>
+      <input class="mt-1 w-full"
              formControlName="zipCode"
              pInputText
              id="zipCode"
@@ -38,8 +38,8 @@
     </div>
 
     <div>
-      <label for="city" class="block">{{ 'address.city' | translate }}</label>
-      <input class="mt-1 p-2 w-full"
+      <label for="city" class="block">{{ 'address.city' | translate }}@if(required) { *}</label>
+      <input class="mt-1 w-full"
              formControlName="city"
              pInputText
              id="city"
@@ -51,8 +51,8 @@
     </div>
 
     <div>
-      <label for="countryCode" class="block">{{ 'address.country' | translate }}</label>
-      <p-select [options]="countries"
+      <label for="countryCode" class="block">{{ 'address.country' | translate }}@if(required) { *}</label>
+      <p-select [options]="supportedCountries"
                 [placeholder]="'address.select_country' | translate"
                 [showClear]="true"
                 class="mt-1"

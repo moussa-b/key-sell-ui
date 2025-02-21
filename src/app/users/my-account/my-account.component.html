@@ -12,7 +12,7 @@
           <form [formGroup]="userForm" (ngSubmit)="onSavePersonalInfo()">
             <div class="mb-4">
               <label for="lastName" class="block">{{ 'common.last_name' | translate }}</label>
-              <input class="mt-1 p-2 w-full"
+              <input class="mt-1 w-full"
                      formControlName="lastName"
                      pInputText
                      id="lastName"
@@ -25,7 +25,7 @@
 
             <div class="mb-4">
               <label for="firstName" class="block">{{ 'common.first_name' | translate }}</label>
-              <input class="mt-1 p-2 w-full"
+              <input class="mt-1 w-full"
                      formControlName="firstName"
                      pInputText
                      id="firstName"
@@ -45,7 +45,7 @@
 
             <div class="mb-4">
               <label for="email" class="block">{{ 'common.email' | translate }}</label>
-              <input class="mt-1 p-2 w-full"
+              <input class="mt-1 w-full"
                      formControlName="email"
                      pInputText
                      id="email"

@@ -44,7 +44,6 @@ import { ResponseStatus } from '../../core/models/response-status.model';
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];
-  isAdmin = false;
   userAccess!: UserAccess;
   items!: MenuItem[];
   selectedUser?: User;
@@ -70,7 +69,8 @@ export class UserListComponent implements OnInit {
       {
         label: this.translateService.instant('common.delete'),
         icon: PrimeIcons.TRASH,
-        command: (menuEvent: MenuItemCommandEvent) => this.deleteUser(menuEvent.originalEvent!)
+        command: (menuEvent: MenuItemCommandEvent) => this.deleteUser(menuEvent.originalEvent!),
+        visible: this.userAccess.canEditUsers
       },
       {
         label: this.translateService.instant('common.send_email'),
@@ -80,7 +80,6 @@ export class UserListComponent implements OnInit {
       }
     ].filter((m: MenuItem) => m.visible !== false);
     this.findAllUsers();
-    this.isAdmin = this.permissionService.isAdmin
   }
 
   private findAllUsers(): void {

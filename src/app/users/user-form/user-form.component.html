@@ -1,77 +1,75 @@
-<div>
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div>
-      <label for="lastName" class="block">{{ 'common.last_name' | translate }}</label>
-      <input class="mt-1 p-2 w-full"
-             formControlName="lastName"
-             pInputText
-             id="lastName"
-             [placeholder]="'common.last_name' | translate"
-             type="text">
-      @if (userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched) {
-        <div class="text-red-500 text-sm">{{ 'common.last_name_required' | translate }}</div>
-      }
-    </div>
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div>
+    <label for="lastName" class="block">{{ 'common.last_name' | translate }}</label>
+    <input class="mt-1 w-full"
+           formControlName="lastName"
+           pInputText
+           id="lastName"
+           [placeholder]="'common.last_name' | translate"
+           type="text">
+    @if (userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched) {
+      <div class="text-red-500 text-sm">{{ 'common.last_name_required' | translate }}</div>
+    }
+  </div>
 
-    <div>
-      <label for="firstName" class="block">{{ 'common.first_name' | translate }}</label>
-      <input class="mt-1 p-2 w-full"
-             formControlName="firstName"
-             pInputText
-             id="firstName"
-             [placeholder]="'common.first_name' | translate"
-             type="text">
-      @if (userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched) {
-        <div class="text-red-500 text-sm">{{ 'common.first_name_required' | translate }}</div>
-      }
-    </div>
+  <div>
+    <label for="firstName" class="block">{{ 'common.first_name' | translate }}</label>
+    <input class="mt-1 w-full"
+           formControlName="firstName"
+           pInputText
+           id="firstName"
+           [placeholder]="'common.first_name' | translate"
+           type="text">
+    @if (userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched) {
+      <div class="text-red-500 text-sm">{{ 'common.first_name_required' | translate }}</div>
+    }
+  </div>
 
-    <div>
-      <label class="block">{{ 'common.gender' | translate }}</label>
-      <p-selectbutton [options]="sexOptions"
-                      formControlName="sex"
-                      id="sex"/>
-    </div>
+  <div>
+    <label class="block">{{ 'common.gender' | translate }}</label>
+    <p-selectbutton [options]="sexOptions"
+                    formControlName="sex"
+                    id="sex"/>
+  </div>
 
-    <div>
-      <label class="block">{{ 'common.preferred_language' | translate }}</label>
-      <p-select [options]="preferredLanguageOptions"
-                [placeholder]="'common.select' | translate"
-                class="mt-1 w-full"
-                formControlName="preferredLanguage"
-                id="sex"/>
-    </div>
+  <div>
+    <label class="block">{{ 'common.preferred_language' | translate }}</label>
+    <p-select [options]="preferredLanguageOptions"
+              [placeholder]="'common.select' | translate"
+              class="mt-1 w-full"
+              formControlName="preferredLanguage"
+              id="sex"/>
+  </div>
 
-    <div>
-      <label for="email" class="block">{{ 'common.email' | translate }}</label>
-      <input class="mt-1 p-2 w-full"
-             formControlName="email"
-             pInputText
-             id="email"
-             [placeholder]="'common.email' | translate"
-             type="email">
-      @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
-        <div class="text-red-500 text-sm">{{ 'common.email_required' | translate }}</div>
-      }
-    </div>
+  <div>
+    <label for="email" class="block">{{ 'common.email' | translate }}</label>
+    <input class="mt-1 w-full"
+           formControlName="email"
+           pInputText
+           id="email"
+           [placeholder]="'common.email' | translate"
+           type="email">
+    @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
+      <div class="text-red-500 text-sm">{{ 'common.email_required' | translate }}</div>
+    }
+  </div>
 
-    <div>
-      <label for="role" class="block">{{ 'users.role' | translate }}</label>
-      <p-select [options]="roleOptions"
-                appendTo="body"
-                class="mt-1 w-full"
-                formControlName="role"
-                id="role"/>
-    </div>
+  <div>
+    <label for="role" class="block">{{ 'users.role' | translate }}</label>
+    <p-select [options]="roleOptions"
+              appendTo="body"
+              class="mt-1 w-full"
+              formControlName="role"
+              id="role"/>
+  </div>
 
-    <div class="hidden md:block"><!--Required for alignment in display grid--></div>
+  <div class="hidden md:block"><!--Required for alignment in display grid--></div>
 
-    <div class="flex">
-      <p-button [disabled]="userForm.invalid"
-                class="ml-auto"
-                type="submit">
-        {{ 'common.validate' | translate }}
-      </p-button>
-    </div>
-  </form>
-</div>
+  <div class="flex">
+    <p-button [disabled]="userForm.invalid"
+              class="ml-auto"
+              type="submit">
+      {{ 'common.validate' | translate }}
+    </p-button>
+  </div>
+</form>

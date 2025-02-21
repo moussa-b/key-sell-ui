@@ -12,8 +12,6 @@ import { Seller } from '../entities/seller.entity';
 import { Select } from 'primeng/select';
 import { AddressFormComponent } from '../../core/components/address-form/address-form.component';
 import { Address } from '../../core/models/address.model';
-import { LabelValue } from '../../core/models/label-value.model';
-import { CommonService } from '../../core/services/common.service';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 
 @Component({
@@ -40,14 +38,13 @@ export class SellerFormComponent implements OnInit {
   sellerForm!: FormGroup;
   sexOptions!: SelectItem<Sex>[];
   preferredLanguageOptions!: SelectItem<string>[];
-  supportedCountries: LabelValue<string>[] = [];
 
   constructor(private fb: FormBuilder,
               private translateService: TranslateService,
               private sellersService: SellersService,
               private dialogRef: DynamicDialogRef,
-              private dialogConfig: DynamicDialogConfig,
-              private commonService: CommonService) {}
+              private dialogConfig: DynamicDialogConfig) {
+  }
 
   ngOnInit(): void {
     const seller: Seller | undefined = this.dialogConfig.data?.seller;
@@ -61,17 +58,14 @@ export class SellerFormComponent implements OnInit {
       preferredLanguage: [seller ? seller.preferredLanguage : 'fr'],
       address: [seller?.address || new Address()],
     });
-    this.sexOptions= [
-      { label: this.translateService.instant('common.man'), value: Sex.MALE },
-      { label: this.translateService.instant('common.woman'), value: Sex.FEMALE },
+    this.sexOptions = [
+      {label: this.translateService.instant('common.man'), value: Sex.MALE},
+      {label: this.translateService.instant('common.woman'), value: Sex.FEMALE},
     ];
-    this.preferredLanguageOptions= [
-      { label: this.translateService.instant('common.french'), value: 'fr' },
-      { label: this.translateService.instant('common.english'), value: 'en' },
+    this.preferredLanguageOptions = [
+      {label: this.translateService.instant('common.french'), value: 'fr'},
+      {label: this.translateService.instant('common.english'), value: 'en'},
     ];
-    this.commonService.getSupportedCountries().subscribe((countries: LabelValue<string>[]) => {
-      this.supportedCountries = countries;
-    });
   }
 
   onSubmit(): void {

@@ -30,7 +30,6 @@ export class UsersService {
     return this.http.delete<boolean>(`${environment.API_URL}/api/users/${userId}`);
   }
 
-
   sendEmail(userId: number, sendEmail: SendEmailModel): Observable<ResponseStatus> {
     return this.http.post<ResponseStatus>(`${environment.API_URL}/api/users/${userId}/email/sent`, sendEmail);
   }

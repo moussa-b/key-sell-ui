@@ -10,4 +10,6 @@ export class UserAccess {
   canShowSellers= false;
   canEditSellers= false;
   canSendEmail= false;
+  canShowRealEstate= false;
+  canEditRealEstate= false;
 }

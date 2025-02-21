@@ -3,7 +3,7 @@
     <div class="flex flex-col items-center justify-between sm:flex-row">
       <h5 class="m-0">{{'users.user_list' | translate}}</h5>
       <div class="flex items-center">
-        @if (isAdmin) {
+        @if (userAccess.canEditUsers) {
           <p-button (onClick)="openNew()"
                     [label]="'users.add_user' | translate"
                     class="mr-2 responsive-button"

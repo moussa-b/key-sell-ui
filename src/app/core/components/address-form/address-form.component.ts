@@ -14,6 +14,7 @@ import { Address } from '../../models/address.model';
 import { Subscription } from 'rxjs';
 import { LabelValue } from '../../models/label-value.model';
 import { Select } from 'primeng/select';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'app-address-form',
@@ -42,19 +43,9 @@ export class AddressFormComponent implements ControlValueAccessor, OnInit, OnDes
   onTouched: () => void = () => {
   };
 
-  private _countries!: LabelValue<string>[];
-  get countries(): LabelValue<string>[] {
-    return this._countries;
-  }
-  @Input() set countries(value: LabelValue<string>[]) {
-    this._countries = value;
-    if (value?.length === 1) {
-      this.addressForm.get('countryCode')!.patchValue(value[0].value, {emitEvent: false});
-      this.addressForm.get('countryCode')!.disable();
-    }
-  }
+  supportedCountries: LabelValue<string>[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private commonService: CommonService) {
   }
 
   ngOnInit(): void {
@@ -68,6 +59,14 @@ export class AddressFormComponent implements ControlValueAccessor, OnInit, OnDes
     });
     this.valueChangeSubscription = this.addressForm.valueChanges.subscribe(() => {
       this.onChange(this.addressForm.getRawValue());
+    });
+
+    this.commonService.getSupportedCountries().subscribe((countries: LabelValue<string>[]) => {
+      this.supportedCountries = countries;
+      if (countries?.length === 1) {
+        this.addressForm.get('countryCode')!.patchValue(countries[0].value, {emitEvent: false});
+        this.addressForm.get('countryCode')!.disable();
+      }
     });
   }
 

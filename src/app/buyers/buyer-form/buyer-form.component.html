@@ -10,7 +10,7 @@
 
         <div>
           <label for="lastName" class="block">{{ 'common.last_name' | translate }}</label>
-          <input class="mt-1 p-2 w-full"
+          <input class="mt-1 w-full"
                  formControlName="lastName"
                  pInputText
                  id="lastName"
@@ -23,7 +23,7 @@
 
         <div>
           <label for="firstName" class="block">{{ 'common.first_name' | translate }}</label>
-          <input class="mt-1 p-2 w-full"
+          <input class="mt-1 w-full"
                  formControlName="firstName"
                  pInputText
                  id="firstName"
@@ -52,7 +52,7 @@
 
         <div>
           <label for="email" class="block">{{ 'common.email' | translate }}</label>
-          <input class="mt-1 p-2 w-full"
+          <input class="mt-1 w-full"
                  formControlName="email"
                  pInputText
                  id="email"
@@ -65,7 +65,7 @@
 
         <div>
           <label for="phone" class="block">{{ 'common.phoneNumber' | translate }}</label>
-          <input class="mt-1 p-2 w-full"
+          <input class="mt-1 w-full"
                  formControlName="phone"
                  pInputText
                  id="phone"
@@ -75,11 +75,11 @@
         <div>
           <label for="budget" class="block">{{ 'buyers.budget' | translate }}</label>
           <div class="flex">
-            <input class="mt-1 p-2 mr-4 w-full"
-                   formControlName="budget"
-                   pInputText
-                   id="budget"
-                   [placeholder]="'buyers.budget' | translate">
+            <p-inputnumber [placeholder]="'buyers.budget' | translate"
+                           [useGrouping]="false"
+                           class="mt-1 mr-3"
+                           formControlName="budget"
+                           inputId="budget"/>
             <p-select [options]="supportedCurrencies"
                       [placeholder]="'common.select' | translate"
                       class="mt-1"
@@ -92,8 +92,7 @@
 
     <p-tabpanel value="address">
       <div class="md:col-span-2 min-w-0 sm:min-w-[40rem]" [formGroup]="buyerForm">
-        <app-address-form [countries]="supportedCountries"
-                          formControlName="address"
+        <app-address-form formControlName="address"
                           id="address"/>
       </div>
     </p-tabpanel>
