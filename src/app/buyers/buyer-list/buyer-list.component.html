@@ -17,22 +17,26 @@
     </div>
   </ng-template>
   <p-table #dt
-           [globalFilterFields]="['lastName', 'firstName', 'email']"
+           [globalFilterFields]="['lastName', 'firstName', 'email', 'phone']"
            [paginator]="true"
            [rowHover]="true"
            [rows]="10"
            [showCurrentPageReport]="true"
            [value]="buyers"
            [currentPageReportTemplate]="'common.current_page_report_template' | translate"
+           [rowsPerPageOptions]="[10, 25, 50]"
+           sortField="id"
            dataKey="id"
-           responsiveLayout="stack">
+           responsiveLayout="stack"
+           stripedRows>
     <ng-template #header>
       <tr>
-        <th pSortableColumn="id">{{'common.identifier' | translate}} <p-sortIcon field="id" /></th>
-        <th pSortableColumn="lastName">{{'common.last_name' | translate}} <p-sortIcon field="lastName" /></th>
-        <th pSortableColumn="firstName">{{'common.first_name' | translate}} <p-sortIcon field="firstName" /></th>
-        <th pSortableColumn="sex">{{'common.gender' | translate}} <p-sortIcon field="sex" /></th>
-        <th pSortableColumn="email">{{'common.email' | translate}} <p-sortIcon field="email" /></th>
+        <th pSortableColumn="id"><p-sortIcon field="id" /> {{'common.identifier' | translate}}</th>
+        <th pSortableColumn="lastName"><p-sortIcon field="lastName" /> {{'common.last_name' | translate}}</th>
+        <th pSortableColumn="firstName"><p-sortIcon field="firstName" /> {{'common.first_name' | translate}}</th>
+        <th pSortableColumn="sex"><p-sortIcon field="sex" /> {{'common.gender' | translate}}</th>
+        <th pSortableColumn="email"><p-sortIcon field="email" /> {{'common.email' | translate}}</th>
+        <th>{{'common.phoneNumber' | translate}}</th>
       </tr>
     </ng-template>
     <ng-template #body let-buyer>
@@ -53,7 +57,8 @@
         </td>
         <td>{{ buyer.firstName }}</td>
         <td>{{ buyer.sex === 'M' ? ('common.man' | translate) : (buyer.sex === 'F' ? ('common.woman' | translate) : '')}}</td>
-        <td>{{ buyer.email }}</td>
+        <td>{{ buyer.email }} <i class="text-blue-500 hover:text-blue-700 cursor-pointer p-2 pi pi-copy" (click)="copyToClipboard(buyer.email)"></i></td>
+        <td>{{ buyer.phone || ('common.not_specified' | translate) }} @if(buyer.phone){<i (click)="copyToClipboard(buyer.phone)" class="text-blue-500 hover:text-blue-700 cursor-pointer p-2 pi pi-copy"></i>}</td>
       </tr>
     </ng-template>
   </p-table>

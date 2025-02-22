@@ -60,12 +60,7 @@ export class RealEstateFormComponent implements OnInit {
 
   ngOnInit() {
     const realEstate: RealEstate | undefined = this.dialogConfig.data?.realEstate;
-    this.realEstateTypes = [
-      {label: this.translateService.instant('real_estates.house'), value: RealEstateType.HOUSE},
-      {label: this.translateService.instant('real_estates.villa'), value: RealEstateType.VILLA},
-      {label: this.translateService.instant('real_estates.apartment'), value: RealEstateType.APARTMENT},
-      {label: this.translateService.instant('common.other'), value: RealEstateType.NONE}
-    ];
+    this.realEstateTypes = this.realEstateService.getRealEstatesTypes();
     this.booleanOptions = [
       {label: this.translateService.instant('common.yes'), value: true},
       {label: this.translateService.instant('common.no'), value: false}

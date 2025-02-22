@@ -20,6 +20,7 @@ import { UpperCasePipe } from '@angular/common';
 import { SendEmailComponent } from '../../core/components/send-email/send-email.component';
 import { SendEmailModel } from '../../core/models/send-email.model';
 import { ResponseStatus } from '../../core/models/response-status.model';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-buyer-list',
@@ -53,7 +54,8 @@ export class BuyerListComponent implements OnInit {
               private translateService: TranslateService,
               private permissionService: PermissionService,
               private elementRef: ElementRef,
-              private toasterService: ToasterService,) {
+              private toasterService: ToasterService,
+              private clipboard: Clipboard) {
   }
 
   ngOnInit(): void {
@@ -177,6 +179,15 @@ export class BuyerListComponent implements OnInit {
         });
       }
       this.selectedBuyer = undefined;
+    });
+  }
+
+  copyToClipboard(text: string): void {
+    this.clipboard.copy(text);
+    this.toasterService.emitValue({
+      severity: 'success',
+      summary: this.translateService.instant('common.success'),
+      detail: this.translateService.instant('common.success_message')
     });
   }
 }

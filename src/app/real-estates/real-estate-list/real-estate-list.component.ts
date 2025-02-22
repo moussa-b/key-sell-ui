@@ -3,7 +3,7 @@ import { TableModule } from 'primeng/table';
 import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
-import { ConfirmationService, MenuItem, MenuItemCommandEvent, PrimeIcons } from 'primeng/api';
+import { ConfirmationService, FilterService, MenuItem, MenuItemCommandEvent, PrimeIcons } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Card } from 'primeng/card';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -18,6 +18,12 @@ import { RealEstate } from '../model/real-estate';
 import { RealEstateFormComponent } from '../real-estate-form/real-estate-form.component';
 import { AddressPipe } from '../../core/pipes/address.pipe';
 import { LabelValue } from '../../core/models/label-value.model';
+import { AddressService } from '../../core/services/address.service';
+import { MultiSelect } from 'primeng/multiselect';
+import { FormsModule } from '@angular/forms';
+import { DropdownModule } from 'primeng/dropdown';
+import { RealEstateType } from '../model/real-estate-type.enum';
+type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOwners?: string;};
 
 @Component({
   selector: 'app-real-estate-list',
@@ -31,7 +37,10 @@ import { LabelValue } from '../../core/models/label-value.model';
     TranslatePipe,
     InputText,
     Menu,
-    AddressPipe
+    AddressPipe,
+    MultiSelect,
+    FormsModule,
+    DropdownModule
   ],
   templateUrl: './real-estate-list.component.html',
   styleUrl: './real-estate-list.component.scss',
@@ -39,21 +48,24 @@ import { LabelValue } from '../../core/models/label-value.model';
   encapsulation: ViewEncapsulation.None
 })
 export class RealEstateListComponent implements OnInit {
-  realEstates: RealEstate[] = [];
-  isAdmin = false;
+  realEstates: (RealEstate & uiFields)[] = [];
   userAccess!: UserAccess;
   items!: MenuItem[];
   selectedRealEstate?: RealEstate;
-  private owners?: LabelValue<number>[];
-  ownersDictionary: { [key: number]: string } = {};
+  owners: LabelValue<number>[] = [];
+  realEstateTypes!: LabelValue<RealEstateType>[];
+  get locale(): string {
+    return this.translateService.currentLang;
+  }
 
   constructor(private dialogService: DialogService,
               private confirmationService: ConfirmationService,
               private realEstateService: RealEstateService,
-              private translateService: TranslateService,
+              public translateService: TranslateService,
               private elementRef: ElementRef,
               private permissionService: PermissionService,
-              private toasterService: ToasterService,) {
+              private toasterService: ToasterService,
+              private filterService: FilterService,) {
   }
 
   ngOnInit(): void {
@@ -71,25 +83,45 @@ export class RealEstateListComponent implements OnInit {
         command: (menuEvent: MenuItemCommandEvent) => this.deleteRealEstate(menuEvent.originalEvent!)
       },
     ].filter((m: MenuItem) => m.visible !== false);
+    this.realEstateTypes = this.realEstateService.getRealEstatesTypes();
     this.findAllRealEstates();
-    this.isAdmin = this.permissionService.isAdmin
+    this.filterService.register('owners', (owners: LabelValue<number>[], filter: number[]): boolean => {
+      if (!filter || filter.length === 0) {
+        return true;
+      }
+      for (let owner of owners) {
+        if (filter.includes(owner.value)) {
+          return true;
+        }
+      }
+      return false;
+    });
   }
 
   private findAllRealEstates(): void {
     this.realEstateService.findAll().subscribe((realEstates: RealEstate[]) => {
-      this.realEstates = realEstates || [];
-      if (this.realEstates.length > 0) {
-        this.findAllOwners();
-      }
-    });
-  }
-
-  private findAllOwners() {
-    this.realEstateService.findAllOwners().subscribe((owners: LabelValue<number>[]) => {
-      this.owners = owners || [];
-      this.ownersDictionary = {};
+      const addedOwnersId: number[] = [];
+      this.owners = [];
+      this.realEstates = (realEstates || []).map((realEstate: RealEstate) => {
+        let concatenedOwners = '';
+        if (realEstate.ownersDetails && realEstate.ownersDetails.length > 0) {
+          concatenedOwners = realEstate.ownersDetails!.map((owner: LabelValue<number>) => owner.label).join(' ');
+          realEstate.ownersDetails.forEach((owner: LabelValue<number>) => {
+            if (!addedOwnersId.includes(owner.value)) {
+              this.owners.push(owner);
+              addedOwnersId.push(owner.value);
+            }
+          })
+        }
+        return {
+          ...realEstate,
+          concatenedAddress: AddressService.format(realEstate.address),
+          concatenedOwners: concatenedOwners,
+          formatedType: this.realEstateService.getRealEstateFormatedType(realEstate.type)
+        }
+      });
       if (this.owners.length > 0) {
-        this.owners.forEach((owner: LabelValue<number>) => this.ownersDictionary[owner.value] = owner.label)
+        this.owners.sort((owner1: LabelValue<number>, owner2: LabelValue<number>) => owner1.label.localeCompare(owner2.label))
       }
     });
   }
@@ -157,7 +189,7 @@ export class RealEstateListComponent implements OnInit {
               summary: this.translateService.instant('common.success'),
               detail: this.translateService.instant('common.success_message')
             });
-            this.realEstates = this.realEstates.filter((u: RealEstate) => u.id !== realEstateId);
+            this.realEstates = this.realEstates.filter((u: RealEstate & uiFields) => u.id !== realEstateId);
           }
         });
       }

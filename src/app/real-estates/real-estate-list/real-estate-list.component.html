@@ -17,24 +17,53 @@
     </div>
   </ng-template>
   <p-table #dt
-           [globalFilterFields]="['lastName', 'firstName', 'email']"
+           [globalFilterFields]="['concatenedAddress', 'concatenedOwners', 'formatedType']"
            [paginator]="true"
            [rowHover]="true"
            [rows]="10"
            [showCurrentPageReport]="true"
            [value]="realEstates"
            [currentPageReportTemplate]="'common.current_page_report_template' | translate"
+           [rowsPerPageOptions]="[10, 25, 50]"
+           sortField="id"
            dataKey="id"
-           responsiveLayout="stack">
+           responsiveLayout="stack"
+           stripedRows>
     <ng-template #header>
       <tr>
-        <th pSortableColumn="id">{{'common.identifier' | translate}} <p-sortIcon field="id" /></th>
-        <th pSortableColumn="lastName">{{'common.address' | translate}} <p-sortIcon field="lastName" /></th>
-        <th pSortableColumn="type">{{'real_estates.type' | translate}} <p-sortIcon field="type" /></th>
-        <th pSortableColumn="surface">{{'real_estates.surface' | translate}} <p-sortIcon field="surface" /></th>
-        <th pSortableColumn="roomCount">{{'real_estates.room_count' | translate}} <p-sortIcon field="roomCount" /></th>
-        <th pSortableColumn="price">{{'real_estates.price' | translate}} <p-sortIcon field="price" /></th>
-        <th pSortableColumn="sex">{{'real_estates.owner_or_owners' | translate}} <p-sortIcon field="sex" /></th>
+        <th pSortableColumn="id"><p-sortIcon field="id" /> {{'common.identifier' | translate}}</th>
+        <th>{{'common.address' | translate}}<p-columnFilter type="text" field="concatenedAddress" display="menu" [locale]="locale"/></th>
+        <th pSortableColumn="formatedType"><p-sortIcon field="formatedType" /> {{'real_estates.type' | translate}}
+          <p-columnFilter field="type" matchMode="equals" display="menu" [locale]="locale">
+            <ng-template #filter let-value let-filter="filterCallback">
+              <p-dropdown (onChange)="filter($event.value)"
+                          [ngModel]="value"
+                          [options]="realEstateTypes"
+                          [placeholder]="'common.select' | translate">
+              </p-dropdown>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+        <th pSortableColumn="surface"><p-sortIcon field="surface" /> {{'real_estates.surface' | translate}} <p-columnFilter type="numeric" field="surface" display="menu"  [locale]="locale"/></th>
+        <th pSortableColumn="roomCount"><p-sortIcon field="roomCount" /> {{'real_estates.room_count' | translate}} <p-columnFilter type="numeric" field="roomCount" display="menu"  [locale]="locale"/></th>
+        <th pSortableColumn="price"><p-sortIcon field="price" /> {{'real_estates.price' | translate}} <p-columnFilter type="numeric" field="price" display="menu" [useGrouping]="false" [locale]="locale"/></th>
+        <th>{{'real_estates.owner_or_owners' | translate}}
+          <p-columnFilter [showAddButton]="false"
+                          [showMatchModes]="false"
+                          [showOperator]="false"
+                          display="menu"
+                          [locale]="locale"
+                          field="ownersDetails"
+                          matchMode="owners">
+            <ng-template #filter let-value let-filter="filterCallback">
+              <p-multiSelect (onChange)="filter($event.value)"
+                             [ngModel]="value"
+                             [options]="owners"
+                             [placeholder]="'common.select' | translate">
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter>
+        </th>
       </tr>
     </ng-template>
     <ng-template #body let-realEstate>
@@ -54,16 +83,14 @@
             {{ realEstate.address | formatAddress:('common.not_specified_female' | translate) }}
           }
         </td>
-        <td>{{ realEstate.type }}</td>
+        <td>{{ realEstate.formatedType }}</td>
         <td>{{ realEstate.surface }}@if(realEstate.surface > 0) { m²}</td>
         <td>{{ realEstate.roomCount }}</td>
         <td>{{ realEstate.price }} {{ realEstate.priceCurrency }}</td>
         <td>
-          @if (realEstate.owners?.length > 0) {
-            @for (ownerId of realEstate.owners; track ownerId; let last = $last) {
-              @if (ownersDictionary[ownerId]) {
-                {{ownersDictionary[ownerId]}}@if (!last) {, }
-              }
+          @if (realEstate.ownersDetails?.length > 0) {
+            @for (owner of realEstate.ownersDetails; track owner.value; let last = $last) {
+              {{owner.label}}@if (!last) {, }
             }
           } @else {
             {{'common.not_specified' | translate}}
