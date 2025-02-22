@@ -1,12 +1,20 @@
-import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
-import { ConfirmationService, FilterService, MenuItem, MenuItemCommandEvent, PrimeIcons } from 'primeng/api';
+import {
+  ConfirmationService,
+  FilterService,
+  FilterMatchMode,
+  MenuItem,
+  MenuItemCommandEvent,
+  PrimeIcons,
+  FilterOperator
+} from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Card } from 'primeng/card';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { InputText } from 'primeng/inputtext';
 import { ToasterService } from '../../core/services/toaster.service';
@@ -23,6 +31,8 @@ import { MultiSelect } from 'primeng/multiselect';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { RealEstateType } from '../model/real-estate-type.enum';
+import { PrimeNG } from 'primeng/config';
+import { Subscription } from 'rxjs';
 type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOwners?: string;};
 
 @Component({
@@ -47,16 +57,16 @@ type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOw
   providers: [ConfirmationService, DialogService],
   encapsulation: ViewEncapsulation.None
 })
-export class RealEstateListComponent implements OnInit {
+export class RealEstateListComponent implements OnInit, OnDestroy {
   realEstates: (RealEstate & uiFields)[] = [];
   userAccess!: UserAccess;
   items!: MenuItem[];
   selectedRealEstate?: RealEstate;
   owners: LabelValue<number>[] = [];
   realEstateTypes!: LabelValue<RealEstateType>[];
-  get locale(): string {
-    return this.translateService.currentLang;
-  }
+  FilterMatchMode: typeof FilterMatchMode = FilterMatchMode;
+  FilterOperator: typeof FilterOperator = FilterOperator;
+  private langChangeSubscription!: Subscription;
 
   constructor(private dialogService: DialogService,
               private confirmationService: ConfirmationService,
@@ -65,10 +75,15 @@ export class RealEstateListComponent implements OnInit {
               private elementRef: ElementRef,
               private permissionService: PermissionService,
               private toasterService: ToasterService,
-              private filterService: FilterService,) {
+              private filterService: FilterService,
+              private config: PrimeNG) {
   }
 
   ngOnInit(): void {
+    this.translateService.get('prime_ng').subscribe(res => this.config.setTranslation(res));
+    this.langChangeSubscription = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.translateService.get('prime_ng').subscribe(res => this.config.setTranslation(res));
+    });
     this.userAccess = this.permissionService.getUserAccess();
     this.items = [
       {
@@ -96,6 +111,18 @@ export class RealEstateListComponent implements OnInit {
       }
       return false;
     });
+    this.filterService.register('realEstateTypes', (type: RealEstateType, filter: RealEstateType[]): boolean => {
+      if (!filter || filter.length === 0) {
+        return true;
+      }
+      return filter.includes(type);
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.langChangeSubscription) {
+      this.langChangeSubscription.unsubscribe();
+    }
   }
 
   private findAllRealEstates(): void {
