@@ -43,7 +43,7 @@ export class LoginComponent {
       this.authService.login(this.username!, this.password!, this.rememberMe).subscribe({
         next: (response: AccessToken) => {
           if (response?.accessToken && response.accessToken?.length > 0) {
-            this.router.navigateByUrl('/buyers');
+            this.router.navigateByUrl('/real-estates');
           }
         },
         error: (error: HttpErrorResponse) => {

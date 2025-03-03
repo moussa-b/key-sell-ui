@@ -119,7 +119,16 @@
     "continue": "Continuer",
     "not_specified": "Non renseigné",
     "not_specified_female": "Non renseignée",
-    "return": "Retour"
+    "return": "Retour",
+    "complete": "Terminer",
+    "pictures": "Photos",
+    "select_files": "Choisir des fichiers",
+    "select_file": "Choisir un fichier",
+    "confirmation_question": "Êtes-vous sûr de vouloir continuer ?",
+    "confirmation": "Confirmation",
+    "pending_file_warning_message": "Des fichiers sont en attente de transmission. Quitter cette page entraînera la perte des fichiers non envoyées.",
+    "videos": "Vidéo",
+    "documents": "Documents"
   },
   "calendar": {
     "calendar": "Agenda",
@@ -180,7 +189,14 @@
     "owner_or_owners_required": "Le(s) propriétaire(s) sont obligatoires",
     "price_required": "Le prix est obligatoire",
     "surface_required": "La superficie est obligatoire",
-    "room_count_required": "Le nombre de chambres est obligatoire"
+    "room_count_required": "Le nombre de chambres est obligatoire",
+    "upload_pending": "Téléchargement en attente",
+    "upload_completed": "Téléchargement terminé",
+    "drag_and_drop_files": "Déposer les fichiers ici pour les télécharger",
+    "pictures_max_file_size": "Taille maximale autorisée : 2 Mo (Maximum 10 photos)",
+    "max_file_size_exceeded": "La taille totale des fichiers dépasse la limite autorisée",
+    "video_max_file_size": "Taille maximale autorisée : 20 Mo",
+    "documents_max_file_size": "Taille maximale autorisée : 1 Mo (Maximum 5 fichiers)"
   },
   "prime_ng": {
     "startsWith": "Commence par",

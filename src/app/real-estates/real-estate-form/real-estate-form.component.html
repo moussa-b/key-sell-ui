@@ -1,255 +1,308 @@
-<p-stepper [value]="1" [linear]="true">
-  <p-step-list>
-    <p-step [value]="1">{{'common.description' | translate}}</p-step>
-    <p-step [value]="2">{{'common.address' | translate}}</p-step>
-    <p-step [value]="3">{{'common.attachments' | translate}}</p-step>
-  </p-step-list>
-  <p-step-panels>
-    <p-step-panel [value]="1">
-      <ng-template #content let-activateCallback="activateCallback">
-        <form [formGroup]="realEstateForm"
-              (ngSubmit)="onSubmit();activateCallback(2)"
-              class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:min-w-[40rem]">
+<p-card>
+  <ng-template pTemplate="title">
+    <div class="flex flex-col items-center justify-between sm:flex-row">
+      <h5 class="m-0">{{(linear ? 'real_estates.add_real_estate' : 'real_estates.edit_real_estate') | translate}}</h5>
+    </div>
+  </ng-template>
 
-          <div>
-            <label for="type"
-                   class="block">{{ 'real_estates.type' | translate }} *</label>
-            <p-select [options]="realEstateTypes"
-                      formControlName="type"
-                      placeholder="{{ 'common.select' | translate }}"
-                      class="mt-1 w-full"
-                      id="type"/>
-            @if (realEstateForm.get('type')?.invalid && realEstateForm.get('type')?.touched) {
-              <div class="text-red-500 text-sm">{{ 'real_estates.type_required' | translate }}</div>
-            }
-          </div>
+  <p-stepper [value]="1" [linear]="linear">
+    <p-step-list>
+      <p-step [value]="1">{{'common.description' | translate}}</p-step>
+      <p-step [value]="2">{{'common.address' | translate}}</p-step>
+      <p-step [value]="3">{{'common.attachments' | translate}}</p-step>
+    </p-step-list>
+    <p-step-panels>
+      <p-step-panel [value]="1">
+        <ng-template #content let-activateCallback="activateCallback">
+          <form [formGroup]="realEstateForm"
+                (ngSubmit)="onSubmit();activateCallback(2)"
+                class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:min-w-[40rem]">
 
-          <div>
-            <label for="type"
-                   class="block">{{ 'real_estates.owner_or_owners' | translate }} *</label>
-            <p-multiselect formControlName="owners"
-                           [options]="owners"
-                           class="mt-1"
-                           display="chip"
-                           placeholder="{{ 'common.select' | translate }}"
-                           styleClass="w-full"/>
-            @if (realEstateForm.get('owners')?.invalid && realEstateForm.get('owners')?.touched) {
-              <div class="text-red-500 text-sm">{{ 'real_estates.owner_or_owners_required' | translate }}</div>
-            }
-          </div>
-
-          <div>
-            <label for="price"
-                   class="block">{{ 'real_estates.price' | translate }} *</label>
-            <div class="flex">
-              <div>
-                <p-inputnumber [useGrouping]="false"
-                               class="mt-1 mr-3"
-                               formControlName="price"
-                               inputId="price"/>
-                @if (realEstateForm.get('price')?.invalid && realEstateForm.get('price')?.touched) {
-                  <div class="text-red-500 text-sm">{{ 'real_estates.price_required' | translate }}</div>
-                }
-              </div>
-              <p-select [options]="supportedCurrencies"
-                        formControlName="priceCurrency"
-                        [placeholder]="'common.select' | translate"
-                        class="mt-1 self-start"
-                        id="priceCurrency"/>
-            </div>
-          </div>
-
-          <div>
-            <label for="surface"
-                   class="block">{{ 'real_estates.surface' | translate }} *</label>
-            <p-inputnumber [useGrouping]="false"
-                           class="mt-1 w-full"
-                           formControlName="surface"
-                           inputId="surface"
-                           suffix=" m²"
-                           mode="decimal"/>
-            @if (realEstateForm.get('surface')?.invalid && realEstateForm.get('surface')?.touched) {
-              <div class="text-red-500 text-sm">{{ 'real_estates.surface_required' | translate }}</div>
-            }
-          </div>
-
-          <div>
-            <label for="roomCount"
-                   class="block">{{ 'real_estates.room_count' | translate }} *</label>
-            <p-inputnumber [showButtons]="true"
-                           [min]="0"
-                           buttonLayout="horizontal"
-                           formControlName="roomCount"
-                           class="mt-1"
-                           inputId="roomCount"
-                           spinnerMode="horizontal">
-              <ng-template #incrementbuttonicon>
-                <span class="pi pi-plus"></span>
-              </ng-template>
-              <ng-template #decrementbuttonicon>
-                <span class="pi pi-minus"></span>
-              </ng-template>
-            </p-inputnumber>
-            @if (realEstateForm.get('roomCount')?.invalid && realEstateForm.get('roomCount')?.touched) {
-              <div class="text-red-500 text-sm">{{ 'real_estates.room_count_required' | translate }}</div>
-            }
-          </div>
-
-          <div>
-            <label for="showerCount"
-                   class="block">{{ 'real_estates.shower_count' | translate }}</label>
-            <p-inputnumber [showButtons]="true"
-                           [min]="0"
-                           buttonLayout="horizontal"
-                           formControlName="showerCount"
-                           class="mt-1"
-                           inputId="showerCount"
-                           spinnerMode="horizontal">
-              <ng-template #incrementbuttonicon>
-                <span class="pi pi-plus"></span>
-              </ng-template>
-              <ng-template #decrementbuttonicon>
-                <span class="pi pi-minus"></span>
-              </ng-template>
-            </p-inputnumber>
-          </div>
-
-          <div>
-            <label for="facadeCount"
-                   class="block">{{ 'real_estates.facade_count' | translate }}</label>
-            <p-inputnumber [showButtons]="true"
-                           [min]="0"
-                           buttonLayout="horizontal"
-                           formControlName="facadeCount"
-                           class="mt-1"
-                           inputId="facadeCount"
-                           spinnerMode="horizontal">
-              <ng-template #incrementbuttonicon>
-                <span class="pi pi-plus"></span>
-              </ng-template>
-              <ng-template #decrementbuttonicon>
-                <span class="pi pi-minus"></span>
-              </ng-template>
-            </p-inputnumber>
-          </div>
-
-          <div>
-            <label for="terraceCount"
-                   class="block">{{ 'real_estates.terrace_count' | translate }}</label>
-            <p-inputnumber [showButtons]="true"
-                           [min]="0"
-                           buttonLayout="horizontal"
-                           formControlName="terraceCount"
-                           class="mt-1"
-                           inputId="terraceCount"
-                           spinnerMode="horizontal">
-              <ng-template #incrementbuttonicon>
-                <span class="pi pi-plus"></span>
-              </ng-template>
-              <ng-template #decrementbuttonicon>
-                <span class="pi pi-minus"></span>
-              </ng-template>
-            </p-inputnumber>
-          </div>
-
-          <div>
-            <label class="block">{{ 'real_estates.terraced' | translate }}</label>
-            <p-selectbutton [options]="booleanOptions"
-                            formControlName="terraced"
-                            id="terraced"/>
-          </div>
-
-          <div>
-            <label class="block">{{ 'real_estates.has_garden' | translate }}</label>
-            <div class="flex">
-              <p-selectbutton [options]="booleanOptions"
-                              formControlName="hasGarden"
-                              id="hasGarden"/>
-              @if (realEstateForm.get('hasGarden')?.value === true) {
-                <p-inputnumber [useGrouping]="false"
-                               class="ml-3"
-                               formControlName="gardenSurface"
-                               inputId="gardenSurface"
-                               [placeholder]="'real_estates.garden_surface' | translate"
-                               suffix=" m²"
-                               mode="decimal"/>
+            <div>
+              <label for="type"
+                     class="block">{{ 'real_estates.type' | translate }} *</label>
+              <p-select [options]="realEstateTypes"
+                        formControlName="type"
+                        placeholder="{{ 'common.select' | translate }}"
+                        class="mt-1 w-full"
+                        id="type"/>
+              @if (realEstateForm.get('type')?.invalid && realEstateForm.get('type')?.touched) {
+                <div class="text-red-500 text-sm">{{ 'real_estates.type_required' | translate }}</div>
               }
             </div>
-          </div>
 
-          <div>
-            <label for="location"
-                   class="block">{{ 'real_estates.location' | translate }}</label>
-            <input type="text"
-                   class="mt-1 w-full"
-                   formControlName="location"
-                   id="location"
-                   pInputText>
-          </div>
+            <div>
+              <label for="type"
+                     class="block">{{ 'real_estates.owner_or_owners' | translate }} *</label>
+              <p-multiselect formControlName="owners"
+                             [options]="owners"
+                             class="mt-1"
+                             display="chip"
+                             placeholder="{{ 'common.select' | translate }}"
+                             styleClass="w-full"/>
+              @if (realEstateForm.get('owners')?.invalid && realEstateForm.get('owners')?.touched) {
+                <div class="text-red-500 text-sm">{{ 'real_estates.owner_or_owners_required' | translate }}</div>
+              }
+            </div>
 
-          <div>
-            <label class="block">{{ 'real_estates.is_secured' | translate }}</label>
-            <p-selectbutton [options]="booleanOptions"
-                            formControlName="isSecured"
-                            id="isSecured"/>
-            @if (realEstateForm.get('isSecured')?.value === true) {
+            <div>
+              <label for="price"
+                     class="block">{{ 'real_estates.price' | translate }} *</label>
+              <div class="flex">
+                <div>
+                  <p-inputnumber [useGrouping]="false"
+                                 class="mt-1 mr-3"
+                                 formControlName="price"
+                                 inputId="price"/>
+                  @if (realEstateForm.get('price')?.invalid && realEstateForm.get('price')?.touched) {
+                    <div class="text-red-500 text-sm">{{ 'real_estates.price_required' | translate }}</div>
+                  }
+                </div>
+                <p-select [options]="supportedCurrencies"
+                          formControlName="priceCurrency"
+                          [placeholder]="'common.select' | translate"
+                          class="mt-1 self-start"
+                          id="priceCurrency"/>
+              </div>
+            </div>
+
+            <div>
+              <label for="surface"
+                     class="block">{{ 'real_estates.surface' | translate }} *</label>
+              <p-inputnumber [useGrouping]="false"
+                             class="mt-1 w-full"
+                             formControlName="surface"
+                             inputId="surface"
+                             suffix=" m²"
+                             mode="decimal"/>
+              @if (realEstateForm.get('surface')?.invalid && realEstateForm.get('surface')?.touched) {
+                <div class="text-red-500 text-sm">{{ 'real_estates.surface_required' | translate }}</div>
+              }
+            </div>
+
+            <div>
+              <label for="roomCount"
+                     class="block">{{ 'real_estates.room_count' | translate }} *</label>
+              <p-inputnumber [showButtons]="true"
+                             [min]="0"
+                             buttonLayout="horizontal"
+                             formControlName="roomCount"
+                             class="mt-1"
+                             inputId="roomCount"
+                             spinnerMode="horizontal">
+                <ng-template #incrementbuttonicon>
+                  <span class="pi pi-plus"></span>
+                </ng-template>
+                <ng-template #decrementbuttonicon>
+                  <span class="pi pi-minus"></span>
+                </ng-template>
+              </p-inputnumber>
+              @if (realEstateForm.get('roomCount')?.invalid && realEstateForm.get('roomCount')?.touched) {
+                <div class="text-red-500 text-sm">{{ 'real_estates.room_count_required' | translate }}</div>
+              }
+            </div>
+
+            <div>
+              <label for="showerCount"
+                     class="block">{{ 'real_estates.shower_count' | translate }}</label>
+              <p-inputnumber [showButtons]="true"
+                             [min]="0"
+                             buttonLayout="horizontal"
+                             formControlName="showerCount"
+                             class="mt-1"
+                             inputId="showerCount"
+                             spinnerMode="horizontal">
+                <ng-template #incrementbuttonicon>
+                  <span class="pi pi-plus"></span>
+                </ng-template>
+                <ng-template #decrementbuttonicon>
+                  <span class="pi pi-minus"></span>
+                </ng-template>
+              </p-inputnumber>
+            </div>
+
+            <div>
+              <label for="facadeCount"
+                     class="block">{{ 'real_estates.facade_count' | translate }}</label>
+              <p-inputnumber [showButtons]="true"
+                             [min]="0"
+                             buttonLayout="horizontal"
+                             formControlName="facadeCount"
+                             class="mt-1"
+                             inputId="facadeCount"
+                             spinnerMode="horizontal">
+                <ng-template #incrementbuttonicon>
+                  <span class="pi pi-plus"></span>
+                </ng-template>
+                <ng-template #decrementbuttonicon>
+                  <span class="pi pi-minus"></span>
+                </ng-template>
+              </p-inputnumber>
+            </div>
+
+            <div>
+              <label for="terraceCount"
+                     class="block">{{ 'real_estates.terrace_count' | translate }}</label>
+              <p-inputnumber [showButtons]="true"
+                             [min]="0"
+                             buttonLayout="horizontal"
+                             formControlName="terraceCount"
+                             class="mt-1"
+                             inputId="terraceCount"
+                             spinnerMode="horizontal">
+                <ng-template #incrementbuttonicon>
+                  <span class="pi pi-plus"></span>
+                </ng-template>
+                <ng-template #decrementbuttonicon>
+                  <span class="pi pi-minus"></span>
+                </ng-template>
+              </p-inputnumber>
+            </div>
+
+            <div>
+              <label class="block">{{ 'real_estates.terraced' | translate }}</label>
+              <p-selectbutton [options]="booleanOptions"
+                              formControlName="terraced"
+                              id="terraced"/>
+            </div>
+
+            <div>
+              <label class="block">{{ 'real_estates.has_garden' | translate }}</label>
+              <div class="flex">
+                <p-selectbutton [options]="booleanOptions"
+                                formControlName="hasGarden"
+                                id="hasGarden"/>
+                @if (realEstateForm.get('hasGarden')?.value === true) {
+                  <p-inputnumber [useGrouping]="false"
+                                 class="ml-3"
+                                 formControlName="gardenSurface"
+                                 inputId="gardenSurface"
+                                 [placeholder]="'real_estates.garden_surface' | translate"
+                                 suffix=" m²"
+                                 mode="decimal"/>
+                }
+              </div>
+            </div>
+
+            <div>
+              <label for="location"
+                     class="block">{{ 'real_estates.location' | translate }}</label>
+              <input type="text"
+                     class="mt-1 w-full"
+                     formControlName="location"
+                     id="location"
+                     pInputText>
+            </div>
+
+            <div>
+              <label class="block">{{ 'real_estates.is_secured' | translate }}</label>
+              <p-selectbutton [options]="booleanOptions"
+                              formControlName="isSecured"
+                              id="isSecured"/>
+              @if (realEstateForm.get('isSecured')?.value === true) {
+                <textarea class="mt-1 w-full"
+                          formControlName="securityDetail"
+                          [placeholder]="'real_estates.security_detail' | translate"
+                          id="securityDetail"
+                          pTextarea></textarea>
+              }
+            </div>
+
+            <div>
+              <label for="remark"
+                     class="block">{{ 'common.remarks' | translate }}</label>
               <textarea class="mt-1 w-full"
-                        formControlName="securityDetail"
-                        [placeholder]="'real_estates.security_detail' | translate"
-                        id="securityDetail"
+                        formControlName="remark"
+                        id="remark"
                         pTextarea></textarea>
-            }
+            </div>
+
+            <div class="flex justify-end items-end">
+              <p-button [disabled]="realEstateForm.invalid"
+                        [label]="'common.continue' | translate"
+                        class="ml-auto"
+                        icon="pi pi-arrow-right"
+                        iconPos="right"
+                        type="submit"/>
+            </div>
+
+          </form>
+        </ng-template>
+      </p-step-panel>
+      <p-step-panel [value]="2">
+        <ng-template #content let-activateCallback="activateCallback">
+          <div class="md:col-span-2 min-w-0 sm:min-w-[40rem]" [formGroup]="realEstateForm">
+            <app-address-form [required]="true"
+                              formControlName="address"
+                              id="address"/>
+            <div class="md:col-span-2 mt-2 flex justify-between">
+              <p-button (onClick)="activateCallback(1)"
+                        [label]="'common.return' | translate"
+                        severity="secondary"
+                        icon="pi pi-arrow-left"
+                        type="submit"/>
+
+              <p-button (onClick)="onSubmit(); activateCallback(3)"
+                        [disabled]="realEstateForm.get('address')!.invalid"
+                        [label]="'common.continue' | translate"
+                        class="ml-auto"
+                        icon="pi pi-arrow-right"
+                        iconPos="right"
+                        type="submit"/>
+            </div>
           </div>
+        </ng-template>
+      </p-step-panel>
+      <p-step-panel [value]="3">
+        <ng-template #content let-activateCallback="activateCallback">
+          <div class="md:col-span-2 min-w-0 sm:min-w-[40rem]">
+            <div>
+              <div class="flex gap-2 mb-2 items-center">
+                <h4 class="text-lg font-semibold">{{'common.pictures' | translate}}</h4>
+                <p-message severity="secondary" variant="simple">{{'real_estates.pictures_max_file_size' | translate}}</p-message>
+              </div>
+              <app-real-estates-attachments [(hasPendingFiles)]="hasPendingPictures"
+                                            [medias]="pictures"
+                                            [realEstateId]="realEstateForm.get('id')!.value"
+                                            attachmentType="pictures"/>
+            </div>
+            <div class="mt-4">
+              <div class="flex gap-2 mb-2 items-center">
+                <h4 class="text-lg font-semibold">{{'common.videos' | translate}}</h4>
+                <p-message severity="secondary" variant="simple">{{'real_estates.video_max_file_size' | translate}}</p-message>
+              </div>
+              <app-real-estates-attachments [(hasPendingFiles)]="hasPendingVideo"
+                                            [medias]="videos"
+                                            [realEstateId]="realEstateForm.get('id')!.value"
+                                            attachmentType="videos"/>
+            </div>
+            <div class="mt-4">
+              <div class="flex gap-2 mb-2 items-center">
+                <h4 class="text-lg font-semibold">{{'common.documents' | translate}}</h4>
+                <p-message severity="secondary" variant="simple">{{'real_estates.documents_max_file_size' | translate}}</p-message>
+              </div>
+              <app-real-estates-attachments [(hasPendingFiles)]="hasPendingDocuments"
+                                            [medias]="documents"
+                                            [realEstateId]="realEstateForm.get('id')!.value"
+                                            attachmentType="documents"/>
+            </div>
+            <div class="md:col-span-2 mt-2 flex justify-between">
+              <p-button (onClick)="activateCallback(2)"
+                        [label]="'common.return' | translate"
+                        severity="secondary"
+                        icon="pi pi-arrow-left"
+                        type="submit"/>
 
-          <div>
-            <label for="remark"
-                   class="block">{{ 'common.remarks' | translate }}</label>
-            <textarea class="mt-1 w-full"
-                      formControlName="remark"
-                      id="remark"
-                      pTextarea></textarea>
+              <p-button (onClick)="onFinish()"
+                        [label]="'common.complete' | translate"
+                        class="ml-auto"
+                        type="submit"/>
+            </div>
           </div>
+        </ng-template>
+      </p-step-panel>
+    </p-step-panels>
+  </p-stepper>
+</p-card>
 
-          <div class="flex justify-end items-end">
-            <p-button [disabled]="realEstateForm.invalid"
-                      [label]="'common.continue' | translate"
-                      class="ml-auto"
-                      icon="pi pi-arrow-right"
-                      iconPos="right"
-                      type="submit"/>
-          </div>
-
-        </form>
-      </ng-template>
-    </p-step-panel>
-    <p-step-panel [value]="2">
-      <ng-template #content let-activateCallback="activateCallback">
-        <div class="md:col-span-2 min-w-0 sm:min-w-[40rem]" [formGroup]="realEstateForm">
-          <app-address-form [required]="true"
-                            formControlName="address"
-                            id="address"/>
-          <div class="md:col-span-2 mt-2 flex justify-between">
-            <p-button (onClick)="activateCallback(1)"
-                      [label]="'common.return' | translate"
-                      severity="secondary"
-                      icon="pi pi-arrow-left"
-                      type="submit"/>
-
-            <p-button (onClick)="onSubmit(); activateCallback(3)"
-                      [disabled]="realEstateForm.get('address')!.invalid"
-                      [label]="'common.continue' | translate"
-                      class="ml-auto"
-                      icon="pi pi-arrow-right"
-                      iconPos="right"
-                      type="submit"/>
-          </div>
-        </div>
-      </ng-template>
-    </p-step-panel>
-    <p-step-panel [value]="3">
-      <ng-template #content let-activateCallback="activateCallback">
-
-      </ng-template>
-    </p-step-panel>
-  </p-step-panels>
-</p-stepper>
+<p-confirmdialog styleClass="max-w-[30rem]"/>

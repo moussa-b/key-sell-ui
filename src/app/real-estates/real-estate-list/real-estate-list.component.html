@@ -31,11 +31,11 @@
            stripedRows>
     <ng-template #header>
       <tr>
-        <th pSortableColumn="id">
+        <th pSortableColumn="id" class="whitespace-nowrap">
           <p-sortIcon field="id"/>
           {{ 'common.identifier' | translate }}
         </th>
-        <th>{{ 'common.address' | translate }}
+        <th class="whitespace-nowrap">{{ 'common.address' | translate }}
           <p-columnFilter [matchMode]="FilterMatchMode.CONTAINS"
                           [operator]="FilterOperator.OR"
                           [showOperator]="false"
@@ -43,7 +43,8 @@
                           field="concatenedAddress"
                           type="text"/>
         </th>
-        <th pSortableColumn="formatedType"><p-sortIcon field="formatedType" /> {{'real_estates.type' | translate}}
+        <th class="whitespace-nowrap" pSortableColumn="formatedType">
+          <p-sortIcon field="formatedType" /> {{'real_estates.type' | translate}}
           <p-columnFilter [showAddButton]="false"
                           [showMatchModes]="false"
                           [showOperator]="false"
@@ -61,7 +62,7 @@
             </ng-template>
           </p-columnFilter>
         </th>
-        <th pSortableColumn="surface">
+        <th class="whitespace-nowrap" pSortableColumn="surface">
           <p-sortIcon field="surface"/>
           {{ 'real_estates.surface' | translate }}
           <p-columnFilter
@@ -71,7 +72,7 @@
             field="surface"
             type="numeric"/>
         </th>
-        <th pSortableColumn="roomCount">
+        <th class="whitespace-nowrap" pSortableColumn="roomCount">
           <p-sortIcon field="roomCount"/>
           {{ 'real_estates.room_count' | translate }}
           <p-columnFilter [operator]="FilterOperator.AND"
@@ -80,7 +81,7 @@
                           field="roomCount"
                           display="menu"/>
         </th>
-        <th pSortableColumn="price">
+        <th class="whitespace-nowrap" pSortableColumn="price">
           <p-sortIcon field="price"/>
           {{ 'real_estates.price' | translate }}
           <p-columnFilter [operator]="FilterOperator.AND"
@@ -90,7 +91,7 @@
                           field="price"
                           type="numeric"/>
         </th>
-        <th>{{'real_estates.owner_or_owners' | translate}}
+        <th class="whitespace-nowrap">{{'real_estates.owner_or_owners' | translate}}
           <p-columnFilter [showAddButton]="false"
                           [showMatchModes]="false"
                           [showOperator]="false"
@@ -114,7 +115,7 @@
         <td>
           @if (items.length) {
             <button (click)="selectedRealEstate = realEstate; menu.toggle($event)"
-                    class="text-blue-500 hover:text-blue-700 underline">
+                    class="text-blue-500 hover:text-blue-700 underline text-left">
               {{ realEstate.address | formatAddress:('common.not_specified_female' | translate) }}
             </button>
             <p-menu #menu

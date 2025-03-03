@@ -7,17 +7,21 @@ import { LabelValue } from '../core/models/label-value.model';
 import { SaveRealEstateDto } from './dto/save-real-estate.dto';
 import { RealEstateType } from './model/real-estate-type.enum';
 import { TranslateService } from '@ngx-translate/core';
+import { ResponseStatus } from '../core/models/response-status.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RealEstateService {
-
   constructor(private http: HttpClient, private translateService: TranslateService) {
   }
 
   findAll(): Observable<RealEstate[]> {
     return this.http.get<RealEstate[]>(`${environment.API_URL}/api/real-estates`);
+  }
+
+  findOne(realEstateId: number): Observable<RealEstate> {
+    return this.http.get<RealEstate>(`${environment.API_URL}/api/real-estates/${realEstateId}`);
   }
 
   create(saveRealEstateDto: SaveRealEstateDto): Observable<RealEstate> {
@@ -34,6 +38,10 @@ export class RealEstateService {
 
   remove(realEstateId: number): Observable<boolean> {
     return this.http.delete<boolean>(`${environment.API_URL}/api/real-estates/${realEstateId}`);
+  }
+
+  removePictures(realEstateId: number, pictureUuid: string): Observable<ResponseStatus> {
+    return this.http.delete<ResponseStatus>(`${environment.API_URL}/api/real-estates/${realEstateId}/pictures/${pictureUuid}`);
   }
 
   getRealEstatesTypes(): LabelValue<RealEstateType>[] {

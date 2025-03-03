@@ -119,7 +119,18 @@
     "continue": "Continue",
     "not_specified": "Not specified",
     "not_specified_female": "Not specified",
-    "return": "Return"
+    "return": "Return",
+    "complete": "Complete",
+    "pictures": "Pictures",
+    "select_files": "Select files",
+    "select_file": "Select file",
+    "confirmation_question": "Are you sure that you want to proceed?",
+    "confirmation": "Confirmation",
+    "pending_file_warning_message": "Files are waiting to be sent. Leaving this page will result in the loss of any unsent files.",
+    "videos": "Video",
+    "documents": "Documents",
+    "video_max_file_size": "Maximum authorised size: 20 MB",
+    "documents_max_file_size": "Maximum size allowed: 1 MB (Maximum 5 files)"
   },
   "calendar": {
     "calendar": "Calendar",
@@ -180,7 +191,12 @@
     "owner_or_owners_required": "The owner(s) are required",
     "price_required": "The price is required",
     "surface_required": "The surface area is required",
-    "room_count_required": "The number of rooms is required"
+    "room_count_required": "The number of rooms is required",
+    "upload_pending": "Upload pending",
+    "upload_completed": "Upload completed",
+    "drag_and_drop_files": "Drag and drop files here to upload",
+    "pictures_max_file_size": "Maximum authorised size: 2 MB (Maximum 10 pictures)",
+    "max_file_size_exceeded": "Total file size exceeds authorised limit"
   },
   "prime_ng": {
     "startsWith": "Starts with",

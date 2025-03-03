@@ -6,12 +6,6 @@
     </div>
 
     <nav class="hidden md:flex space-x-6 items-center">
-      @if (userAccess.canShowUsers) {
-        <a routerLink="/users"
-           class="hover:text-blue-300"
-           routerLinkActive="bg-white text-blue-600 shadow-md px-4 py-2 rounded-lg"
-           [routerLinkActiveOptions]="{ exact: true }">{{ 'users.users' | translate }}</a>
-      }
       @if (userAccess.canShowRealEstate) {
         <a routerLink="/real-estates"
            class="hover:text-blue-300"
@@ -29,6 +23,12 @@
            class="hover:text-blue-300"
            routerLinkActive="bg-white text-blue-600 shadow-md px-4 py-2 rounded-lg"
            [routerLinkActiveOptions]="{ exact: true }">{{ 'sellers.sellers' | translate }}</a>
+      }
+      @if (userAccess.canShowUsers) {
+        <a routerLink="/users"
+           class="hover:text-blue-300"
+           routerLinkActive="bg-white text-blue-600 shadow-md px-4 py-2 rounded-lg"
+           [routerLinkActiveOptions]="{ exact: true }">{{ 'users.users' | translate }}</a>
       }
       @if (userAccess.canShowCalendarEvents) {
         <a routerLink="/calendar"
@@ -54,9 +54,6 @@
   <!-- Mobile Menu -->
   @if (isMenuOpen) {
     <div class="md:hidden bg-blue-700 text-white flex flex-col space-y-2 p-4">
-      @if (userAccess.canShowUsers) {
-        <a routerLink="/users" class="hover:text-blue-300">{{'users.users' | translate}}</a>
-      }
       @if (userAccess.canShowRealEstate) {
         <a routerLink="/real-estates" class="hover:text-blue-300">{{'real_estates.real_estates' | translate}}</a>
       }
@@ -65,6 +62,9 @@
       }
       @if (userAccess.canShowSellers) {
         <a routerLink="/sellers" class="hover:text-blue-300">{{'sellers.sellers' | translate}}</a>
+      }
+      @if (userAccess.canShowUsers) {
+        <a routerLink="/users" class="hover:text-blue-300">{{'users.users' | translate}}</a>
       }
       @if (userAccess.canShowCalendarEvents) {
         <a routerLink="/calendar" class="hover:text-blue-300">{{'calendar.calendar' | translate}}</a>

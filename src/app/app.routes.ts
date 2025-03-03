@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { alreadyConnectedGuard } from './core/guards/already-connected.guard';
 import { userAccessGuard } from './core/guards/user-access.guard';
+import { realEstateResolver } from './real-estates/real-estate.resolver';
+import { leavePageGuard } from './core/guards/leave-page.guard';
 
 export const routes: Routes = [
   {
@@ -56,7 +58,23 @@ export const routes: Routes = [
       {
         path: 'real-estates',
         data: {userAccessFieldName: 'canShowRealEstate'},
-        loadComponent: () => import('./real-estates/real-estate-list/real-estate-list.component').then(m => m.RealEstateListComponent),
+        children: [
+          {
+            path: 'new',
+            loadComponent: () => import('./real-estates/real-estate-form/real-estate-form.component').then(m => m.RealEstateFormComponent),
+            canDeactivate: [leavePageGuard]
+          },
+          {
+            path: ':id/edit',
+            loadComponent: () => import('./real-estates/real-estate-form/real-estate-form.component').then(m => m.RealEstateFormComponent),
+            resolve: {realEstate: realEstateResolver},
+            canDeactivate: [leavePageGuard]
+          },
+          {
+            path: '',
+            loadComponent: () => import('./real-estates/real-estate-list/real-estate-list.component').then(m => m.RealEstateListComponent),
+          }
+        ],
         canActivate: [userAccessGuard]
       },
       {path: '**', redirectTo: 'buyers'}

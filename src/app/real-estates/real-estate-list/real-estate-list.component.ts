@@ -5,14 +5,13 @@ import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import {
   ConfirmationService,
-  FilterService,
   FilterMatchMode,
+  FilterOperator,
+  FilterService,
   MenuItem,
   MenuItemCommandEvent,
-  PrimeIcons,
-  FilterOperator
+  PrimeIcons
 } from 'primeng/api';
-import { DialogService } from 'primeng/dynamicdialog';
 import { Card } from 'primeng/card';
 import { LangChangeEvent, TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
@@ -23,7 +22,6 @@ import { UserAccess } from '../../core/models/user-access.model';
 import { Menu } from 'primeng/menu';
 import { RealEstateService } from '../real-estate.service';
 import { RealEstate } from '../model/real-estate';
-import { RealEstateFormComponent } from '../real-estate-form/real-estate-form.component';
 import { AddressPipe } from '../../core/pipes/address.pipe';
 import { LabelValue } from '../../core/models/label-value.model';
 import { AddressService } from '../../core/services/address.service';
@@ -33,6 +31,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { RealEstateType } from '../model/real-estate-type.enum';
 import { PrimeNG } from 'primeng/config';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+
 type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOwners?: string;};
 
 @Component({
@@ -54,7 +54,7 @@ type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOw
   ],
   templateUrl: './real-estate-list.component.html',
   styleUrl: './real-estate-list.component.scss',
-  providers: [ConfirmationService, DialogService],
+  providers: [ConfirmationService],
   encapsulation: ViewEncapsulation.None
 })
 export class RealEstateListComponent implements OnInit, OnDestroy {
@@ -68,14 +68,14 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
   FilterOperator: typeof FilterOperator = FilterOperator;
   private langChangeSubscription!: Subscription;
 
-  constructor(private dialogService: DialogService,
-              private confirmationService: ConfirmationService,
+  constructor(private confirmationService: ConfirmationService,
               private realEstateService: RealEstateService,
               public translateService: TranslateService,
               private elementRef: ElementRef,
               private permissionService: PermissionService,
               private toasterService: ToasterService,
               private filterService: FilterService,
+              private router: Router,
               private config: PrimeNG) {
   }
 
@@ -154,41 +154,11 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
   }
 
   openNew(): void {
-    this.dialogService.open(RealEstateFormComponent, {
-      header: this.translateService.instant('real_estates.add_real_estate'),
-      closable: true,
-      closeOnEscape: false,
-      modal: true,
-    }).onClose.subscribe((realEstate: RealEstate) => {
-      this.findAllRealEstates();
-      if (realEstate) {
-        this.toasterService.emitValue({
-          severity: 'success',
-          summary: this.translateService.instant('common.success'),
-          detail: this.translateService.instant('common.success_message')
-        });
-      }
-    });
+    this.router.navigateByUrl('/real-estates/new');
   }
 
   editRealEstate() {
-    this.dialogService.open(RealEstateFormComponent, {
-      data: {realEstate: this.selectedRealEstate},
-      header: this.translateService.instant('real_estates.edit_real_estate'),
-      closeOnEscape: false,
-      closable: true,
-      modal: true,
-    }).onClose.subscribe((realEstate: RealEstate) => {
-      this.selectedRealEstate = undefined;
-      this.findAllRealEstates();
-      if (realEstate) {
-        this.toasterService.emitValue({
-          severity: 'success',
-          summary: this.translateService.instant('common.success'),
-          detail: this.translateService.instant('common.success_message')
-        });
-      }
-    });
+    this.router.navigateByUrl(`/real-estates/${this.selectedRealEstate!.id}/edit`);
   }
 
   deleteRealEstate(event: Event) {

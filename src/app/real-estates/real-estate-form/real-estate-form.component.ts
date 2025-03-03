@@ -17,11 +17,21 @@ import { ToasterService } from '../../core/services/toaster.service';
 import { RealEstateType } from '../model/real-estate-type.enum';
 import { Address } from '../../core/models/address.model';
 import { AddressFormComponent } from '../../core/components/address-form/address-form.component';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { Message } from 'primeng/message';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Card } from 'primeng/card';
+import { ConfirmationService, PrimeTemplate } from 'primeng/api';
+import { TableModule } from 'primeng/table';
+import { RealEstatesAttachmentsComponent } from '../real-estates-attachments/real-estates-attachments.component';
+import { CanComponentDeactivate, CanDeactivateType } from '../../core/guards/leave-page.guard';
+import { Subject } from 'rxjs';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { Media, MediaType } from '../../core/models/media.model';
 
 @Component({
   selector: 'app-real-estate-form',
   imports: [
+    ConfirmDialog,
     ReactiveFormsModule,
     TranslatePipe,
     Select,
@@ -36,54 +46,109 @@ import { DynamicDialogConfig } from 'primeng/dynamicdialog';
     StepPanel,
     InputNumber,
     MultiSelect,
-    AddressFormComponent
+    AddressFormComponent,
+    Message,
+    Card,
+    PrimeTemplate,
+    TableModule,
+    RealEstatesAttachmentsComponent
   ],
+  providers: [ConfirmationService],
   templateUrl: './real-estate-form.component.html',
   styleUrl: './real-estate-form.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class RealEstateFormComponent implements OnInit {
+export class RealEstateFormComponent implements OnInit, CanComponentDeactivate {
   realEstateForm!: FormGroup;
   realEstateTypes!: LabelValue<RealEstateType>[];
   booleanOptions!: LabelValue<boolean>[];
   supportedCurrencies: LabelValue<string>[] = [];
   owners: LabelValue<number>[] = [];
+  linear = true;
+  realEstate?: RealEstate;
+  hasPendingPictures = false;
+  hasPendingVideo = false;
+  hasPendingDocuments = false;
+  pictures: Media[] = [];
+  videos: Media[] = [];
+  documents: Media[] = [];
 
   constructor(private fb: FormBuilder,
               private commonService: CommonService,
               private realEstateService: RealEstateService,
               private toasterService: ToasterService,
               private translateService: TranslateService,
-              private dialogConfig: DynamicDialogConfig
+              private activatedRoute: ActivatedRoute,
+              private router: Router,
+              private confirmationService: ConfirmationService,
   ) {
   }
 
+  canDeactivate(): CanDeactivateType {
+    if (this.hasPendingPictures || this.hasPendingDocuments || this.hasPendingVideo) {
+      const deactivateSubject = new Subject<boolean>();
+      this.confirmationService.confirm({
+        message: this.translateService.instant('common.pending_file_warning_message'),
+        header: this.translateService.instant('common.confirmation'),
+        closable: true,
+        closeOnEscape: true,
+        icon: 'pi pi-exclamation-triangle',
+        rejectButtonProps: {
+          label: this.translateService.instant('common.no'),
+          severity: 'secondary',
+          outlined: true,
+        },
+        acceptButtonProps: {
+          label: this.translateService.instant('common.yes'),
+          severity: 'danger',
+        },
+        accept: () => {
+          deactivateSubject.next(true);
+        },
+        reject: () => {
+          deactivateSubject.next(false);
+        },
+      });
+      return deactivateSubject;
+    } else {
+      return true;
+    }
+  }
+
   ngOnInit() {
-    const realEstate: RealEstate | undefined = this.dialogConfig.data?.realEstate;
+    this.realEstate = this.activatedRoute.snapshot.data['realEstate'];
+    if (this.realEstate) {
+      this.linear = false;
+    }
+    if (this.realEstate && this.realEstate.medias && this.realEstate.medias.length > 0) {
+      this.pictures = this.realEstate.medias.filter((m: Media) => m.mediaType === MediaType.IMAGE);
+      this.videos = this.realEstate.medias.filter((m: Media) => m.mediaType === MediaType.VIDEO);
+      this.documents = this.realEstate.medias.filter((m: Media) => m.mediaType === MediaType.DOCUMENT);
+    }
     this.realEstateTypes = this.realEstateService.getRealEstatesTypes();
     this.booleanOptions = [
       {label: this.translateService.instant('common.yes'), value: true},
       {label: this.translateService.instant('common.no'), value: false}
     ];
     this.realEstateForm = this.fb.group({
-      id: [realEstate?.id],
-      type: [realEstate?.type, Validators.required],
-      terraced: [realEstate?.terraced || false],
-      surface: [realEstate?.surface, Validators.required],
-      roomCount: [realEstate?.roomCount, Validators.required],
-      showerCount: [realEstate?.showerCount],
-      terraceCount: [realEstate?.terraceCount],
-      hasGarden: [realEstate?.hasGarden || false],
-      gardenSurface: [{value: realEstate?.hasGarden, disabled: !(realEstate?.hasGarden)}],
-      isSecured: [realEstate?.isSecured || false],
-      securityDetail: [{value: realEstate?.securityDetail, disabled: !(realEstate?.securityDetail)}],
-      facadeCount: [realEstate?.facadeCount],
-      location: [realEstate?.location],
-      price: [realEstate?.price, Validators.required],
-      priceCurrency: [realEstate?.priceCurrency, Validators.required],
-      remark: [realEstate?.remark],
-      owners: [realEstate?.owners, Validators.required],
-      address: [realEstate?.address || new Address()],
+      id: [this.realEstate?.id],
+      type: [this.realEstate?.type, Validators.required],
+      terraced: [this.realEstate?.terraced || false],
+      surface: [this.realEstate?.surface, Validators.required],
+      roomCount: [this.realEstate?.roomCount, Validators.required],
+      showerCount: [this.realEstate?.showerCount],
+      terraceCount: [this.realEstate?.terraceCount],
+      hasGarden: [this.realEstate?.hasGarden || false],
+      gardenSurface: [{value: this.realEstate?.hasGarden, disabled: !(this.realEstate?.hasGarden)}],
+      isSecured: [this.realEstate?.isSecured || false],
+      securityDetail: [{value: this.realEstate?.securityDetail, disabled: !(this.realEstate?.securityDetail)}],
+      facadeCount: [this.realEstate?.facadeCount],
+      location: [this.realEstate?.location],
+      price: [this.realEstate?.price, Validators.required],
+      priceCurrency: [this.realEstate?.priceCurrency, Validators.required],
+      remark: [this.realEstate?.remark],
+      owners: [this.realEstate?.owners, Validators.required],
+      address: [this.realEstate?.address || new Address()],
     });
 
     this.realEstateForm.get('hasGarden')?.valueChanges.subscribe(value => {
@@ -110,24 +175,26 @@ export class RealEstateFormComponent implements OnInit {
   onSubmit() {
     const id: number = this.realEstateForm.get('id')!.value;
     if (id > 0) {
-      this.realEstateService.update(id, this.realEstateForm.getRawValue()).subscribe((realEstate: RealEstate) => {
-        this.toasterService.emitValue({
-          severity: 'success',
-          summary: this.translateService.instant('common.success'),
-          detail: this.translateService.instant('common.success_message')
-        });
-      });
+      this.realEstateService.update(id, this.realEstateForm.getRawValue()).subscribe();
     } else {
       this.realEstateService.create(this.realEstateForm.getRawValue()).subscribe((realEstate: RealEstate) => {
         if (realEstate.id > 0) {
           this.realEstateForm.get('id')?.patchValue(realEstate.id, {emitEvent: false})
-          this.toasterService.emitValue({
-            severity: 'success',
-            summary: this.translateService.instant('common.success'),
-            detail: this.translateService.instant('common.success_message')
-          });
         }
       });
+    }
+  }
+
+  onFinish(): void {
+    if (!this.hasPendingPictures && !this.hasPendingDocuments && !this.hasPendingVideo) {
+      this.toasterService.emitValue({
+        severity: 'success',
+        summary: this.translateService.instant('common.success'),
+        detail: this.translateService.instant('common.success_message')
+      });
+      this.router.navigateByUrl('/real-estates');
+    } else {
+      this.router.navigateByUrl('/real-estates');
     }
   }
 }
