@@ -13,32 +13,33 @@
                let-clearCallback="clearCallback"
                let-files
                let-uploadCallback="uploadCallback">
-    <div class="flex flex-wrap justify-between items-center flex-1 gap-4">
-      <div class="flex gap-2 items-center">
-        <p-button (onClick)="chooseCallback()"
-                  [outlined]="true"
-                  [label]="'common.select_files' | translate"
-                  icon="pi pi-images"
-                  size="small"/>
-        <p-button (onClick)="uploadCallback()"
-                  [disabled]="!files || files.length === 0 || filesTotalSize > maxFileSize"
-                  [outlined]="true"
-                  [label]="'common.send' | translate"
-                  icon="pi pi-cloud-upload"
-                  severity="success"
-                  size="small"/>
-        <p-button (onClick)="clearCallback(); onClear();"
-                  [disabled]="!files || files.length === 0"
-                  [outlined]="true"
-                  [label]="'common.cancel' | translate"
-                  icon="pi pi-times"
-                  severity="danger"
-                  size="small"/>
-        @if (filesTotalSize > maxFileSize) {
-          <p-message severity="warn" icon="pi pi-exclamation-triangle" variant="simple">{{'real_estates.max_file_size_exceeded' | translate}}</p-message>
-        }
-      </div>
+    <div class="flex gap-2 items-center">
+      <p-button (onClick)="chooseCallback()"
+                [outlined]="true"
+                [label]="'common.select_files' | translate"
+                icon="pi pi-images"
+                size="small"/>
+      <p-button (onClick)="uploadCallback()"
+                [disabled]="!files || files.length === 0 || totalFileSize > maxFileSize || (pendingFiles.length + uploadedFiles.length) > fileLimit"
+                [outlined]="true"
+                [label]="'common.send' | translate"
+                icon="pi pi-cloud-upload"
+                severity="success"
+                size="small"/>
+      <p-button (onClick)="clearCallback(); onClear();"
+                [disabled]="!files || files.length === 0"
+                [outlined]="true"
+                [label]="'common.cancel' | translate"
+                icon="pi pi-times"
+                severity="danger"
+                size="small"/>
     </div>
+    @if ((pendingFiles.length + uploadedFiles.length) > fileLimit) {
+      <p-message size="small" severity="error" icon="pi pi-exclamation-triangle">{{'real_estates.max_file_number_exceeded' | translate}}</p-message>
+    }
+    @else if (totalFileSize > maxFileSize) {
+      <p-message size="small" severity="error" icon="pi pi-exclamation-triangle">{{'real_estates.max_file_size_exceeded' | translate}}</p-message>
+    }
   </ng-template>
   <ng-template #content
                let-files
@@ -46,74 +47,66 @@
                let-clearCallback="clearCallback"
                let-removeUploadedFileCallback="removeUploadedFileCallback"
                let-uploadedFiles="uploadedFiles">
-    <div class="flex flex-col gap-8 pt-4">
-      @if (files?.length > 0) {
-        <div>
-          <div class="flex flex-wrap gap-4">
-            @for (file of files; track file.name; let index = $index) {
-              <div class="p-4 flex flex-col border items-center justify-between gap-4">
-                <div class="flex flex-col gap-4 items-center">
-                  @switch (attachmentType) {
-                    @case ('pictures') {
-                      <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="100" height="50" />
-                    }
-                    @case ('documents') {
-                      <i [class]="PrimeIcons.FILE_PDF" class="attachment-type text-blue-600"></i>
-                    }
-                    @case ('videos') {
-                      <i [class]="PrimeIcons.VIDEO" class="attachment-type text-blue-600"></i>
-                    }
-                  }
-                  <span class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{ file.name }}</span>
-                  <div>{{ formatSize(file.size) }}</div>
-                </div>
-                <div class="flex flex-col gap-4 items-center">
-                  <p-badge [value]="'real_estates.upload_pending' | translate" severity="warn" />
-                  <p-button icon="pi pi-times"
-                            (click)="onRemovePendingFile(file); removeFileCallback($event, index)"
-                            [outlined]="true"
-                            [rounded]="true"
-                            severity="danger"/>
-                </div>
-              </div>
-            }
-          </div>
-        </div>
-      }
+    <div class="flex flex-wrap gap-4">
       @if (uploadedFiles?.length > 0) {
-        <div>
-          <div class="flex flex-wrap gap-4">
-            @for (file of uploadedFiles; track file.name; let index = $index) {
-              <div class="p-4 flex flex-col border items-center justify-between gap-4">
-                <div class="flex flex-col gap-4 items-center">
-                  @switch (attachmentType) {
-                    @case ('pictures') {
-                      <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="100" height="50" />
-                    }
-                    @case ('documents') {
-                      <i [class]="PrimeIcons.FILE_PDF" class="attachment-type text-blue-600"></i>
-                    }
-                    @case ('videos') {
-                      <i [class]="PrimeIcons.VIDEO" class="attachment-type text-blue-600"></i>
-                    }
-                  }
-                  <span class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{ file.name }}</span>
-                  <div>{{ formatSize(file.size) }}</div>
-                </div>
-                <div class="flex flex-col gap-4 items-center">
-                  <p-badge [value]="'real_estates.upload_completed' | translate"
-                           class="mt-4"
-                           severity="success"/>
-                  <p-button icon="pi pi-times"
-                            (onClick)="onRemoveUploadedFile(file, removeUploadedFileCallback, index, clearCallback)"
-                            [outlined]="true"
-                            [rounded]="true"
-                            severity="danger"/>
-                </div>
-              </div>
-            }
+        @for (file of uploadedFiles; track file.name; let index = $index) {
+          <div class="p-4 flex flex-col border items-center justify-between gap-4">
+            <div class="flex flex-col gap-4 items-center">
+              @switch (attachmentType) {
+                @case ('pictures') {
+                  <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="100" height="50" />
+                }
+                @case ('documents') {
+                  <i [class]="PrimeIcons.FILE_PDF" class="attachment-type text-blue-600"></i>
+                }
+                @case ('videos') {
+                  <i [class]="PrimeIcons.VIDEO" class="attachment-type text-blue-600"></i>
+                }
+              }
+              <span class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{ file.name }}</span>
+              <div>{{ formatSize(file.size) }}</div>
+            </div>
+            <div class="flex flex-col gap-4 items-center">
+              <p-badge [value]="'real_estates.upload_completed' | translate"
+                       class="mt-4"
+                       severity="success"/>
+              <p-button icon="pi pi-times"
+                        (onClick)="onRemoveUploadedFile(file, removeUploadedFileCallback, index, clearCallback)"
+                        [outlined]="true"
+                        [rounded]="true"
+                        severity="danger"/>
+            </div>
           </div>
-        </div>
+        }
+      }
+      @if (files?.length > 0) {
+        @for (file of files; track file.name; let index = $index) {
+          <div class="p-4 flex flex-col border items-center justify-between gap-4">
+            <div class="flex flex-col gap-4 items-center">
+              @switch (attachmentType) {
+                @case ('pictures') {
+                  <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="100" height="50" />
+                }
+                @case ('documents') {
+                  <i [class]="PrimeIcons.FILE_PDF" class="attachment-type text-blue-600"></i>
+                }
+                @case ('videos') {
+                  <i [class]="PrimeIcons.VIDEO" class="attachment-type text-blue-600"></i>
+                }
+              }
+              <span class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{ file.name }}</span>
+              <div>{{ formatSize(file.size) }}</div>
+            </div>
+            <div class="flex flex-col gap-4 items-center">
+              <p-badge [value]="'real_estates.upload_pending' | translate" severity="warn" />
+              <p-button icon="pi pi-times"
+                        (click)="onRemovePendingFile(file); removeFileCallback($event, index)"
+                        [outlined]="true"
+                        [rounded]="true"
+                        severity="danger"/>
+            </div>
+          </div>
+        }
       }
     </div>
   </ng-template>

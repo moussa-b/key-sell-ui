@@ -1,6 +1,11 @@
 app-real-estates-attachments {
-  p-progressbar {
-    display: none;
+  .p-fileupload-content {
+    p-progressbar {
+      display: none;
+    }
+    p-message {
+      display: none;
+    }
   }
 
   .attachment-type {

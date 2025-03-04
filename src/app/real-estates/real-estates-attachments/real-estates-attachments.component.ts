@@ -48,17 +48,25 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit, O
   @Input() hasPendingFiles: boolean = false;
   @Output() hasPendingFilesChange = new EventEmitter<boolean>();
   pendingFiles: File[] = [];
-  filesTotalSize = 0;
-  private uploadedFiles: UploadedFile[] = [];
+  pendingFilesTotalSize = 0;
+  uploadedFiles: UploadedFile[] = [];
   private fileUploadInit = false;
   fileLimit!: number;
   maxFileSize!: number;
   uploadParameterName!: string;
   uploadAcceptFileType!: string;
+  uploadUrl!: string;
   PrimeIcons: typeof PrimeIcons = PrimeIcons;
 
-  get uploadUrl(): string {
-    return `${environment.API_URL}/api/real-estates/${this.realEstateId}/${this.attachmentType}/upload`;
+  get totalFileSize(): number {
+    let totalSize = 0;
+    if (this.pendingFiles.length > 0) {
+      totalSize += this.pendingFiles.reduce((size: number, file: File) => size + file.size, 0);
+    }
+    if (this.uploadedFiles.length > 0) {
+      totalSize += this.uploadedFiles.reduce((size: number, file: UploadedFile) => size + file.size, 0);
+    }
+    return totalSize;
   }
 
   constructor(private realEstateService: RealEstateService,
@@ -70,6 +78,7 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit, O
   }
 
   ngOnInit(): void {
+    this.uploadUrl = `${environment.API_URL}/api/real-estates/${this.realEstateId}/${this.attachmentType}/upload`;
     this.uploadParameterName = this.attachmentType + '[]';
     switch(this.attachmentType) {
       case 'pictures':
@@ -125,10 +134,7 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit, O
 
   onSelectFiles(event: FileSelectEvent) {
     this.pendingFiles = event.currentFiles;
-    this.pendingFiles.forEach((file: File) => {
-      this.filesTotalSize += file.size;
-    });
-    this.hasPendingFilesChange.emit(this.pendingFiles.length > 0);
+    this.updatePendingFileSizeAndEmit();
   }
 
   onFileUploaded(event: FileUploadEvent) {
@@ -167,15 +173,18 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit, O
   }
 
   onClear(): void {
-    this.filesTotalSize = 0;
     this.pendingFiles = [];
+    this.updatePendingFileSizeAndEmit();
+  }
+
+  private updatePendingFileSizeAndEmit() {
+    this.pendingFilesTotalSize = this.pendingFiles.reduce((size: number, file: File) => size + file.size, 0);
     this.hasPendingFilesChange.emit(this.pendingFiles.length > 0);
   }
 
   onRemovePendingFile(file: File) {
     this.pendingFiles = this.pendingFiles.filter((f: File) => f.name !== file.name);
-    this.hasPendingFilesChange.emit(this.pendingFiles.length > 0);
-    this.filesTotalSize -= file.size;
+    this.updatePendingFileSizeAndEmit();
   }
 
   onRemoveUploadedFile(file: File, removeFileCallback: (index: number) => void, index: number, clearCallback: VoidFunction) {
@@ -188,7 +197,6 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit, O
           if (this.uploadedFiles.length === 0) {
             clearCallback();
           }
-          this.filesTotalSize -= file.size;
         }
       });
     }
