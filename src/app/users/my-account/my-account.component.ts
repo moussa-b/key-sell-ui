@@ -19,7 +19,7 @@ import { ToasterService } from '../../core/services/toaster.service';
 import { ResponseStatus } from '../../core/models/response-status.model';
 
 @Component({
-  selector: 'app-my-account',
+  selector: 'ks-my-account',
   imports: [
     FormsModule,
     ConfirmPopupModule,

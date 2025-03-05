@@ -8,7 +8,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { ResponseStatus } from '../../core/models/response-status.model';
 
 @Component({
-  selector: 'app-password-reset',
+  selector: 'ks-password-reset',
   imports: [
     Button,
     FormsModule,

@@ -17,7 +17,7 @@ import { Select } from 'primeng/select';
 import { CommonService } from '../../services/common.service';
 
 @Component({
-  selector: 'app-address-form',
+  selector: 'ks-address-form',
   imports: [
     ReactiveFormsModule,
     InputText,

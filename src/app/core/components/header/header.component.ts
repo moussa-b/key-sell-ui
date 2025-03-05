@@ -11,7 +11,7 @@ import { PermissionService } from '../../services/permission.service';
 import { UserAccess } from '../../models/user-access.model';
 
 @Component({
-  selector: 'app-header',
+  selector: 'ks-header',
   imports: [
     TranslatePipe,
     RouterLink,

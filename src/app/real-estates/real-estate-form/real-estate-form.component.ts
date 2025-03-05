@@ -29,7 +29,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Media, MediaType } from '../../core/models/media.model';
 
 @Component({
-  selector: 'app-real-estate-form',
+  selector: 'ks-real-estate-form',
   imports: [
     ConfirmDialog,
     ReactiveFormsModule,

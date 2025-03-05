@@ -36,7 +36,7 @@ import { Router } from '@angular/router';
 type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOwners?: string;};
 
 @Component({
-  selector: 'app-real-estate-list',
+  selector: 'ks-real-estate-list',
   imports: [
     TableModule,
     ConfirmPopupModule,

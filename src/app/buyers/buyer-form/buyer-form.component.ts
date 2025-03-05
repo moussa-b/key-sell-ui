@@ -18,7 +18,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { InputNumber } from 'primeng/inputnumber';
 
 @Component({
-  selector: 'app-buyer-form',
+  selector: 'ks-buyer-form',
   standalone: true,
   imports: [
     Button,

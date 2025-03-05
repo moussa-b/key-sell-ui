@@ -9,7 +9,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { ResponseStatus } from '../../core/models/response-status.model';
 
 @Component({
-  selector: 'app-activate',
+  selector: 'ks-activate',
   imports: [
     Button,
     FormsModule,

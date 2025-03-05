@@ -19,22 +19,22 @@ import { Media } from '../../core/models/media.model';
 import { HttpResponse } from '@angular/common/http';
 import { RealEstateService } from '../real-estate.service';
 import { ToasterService } from '../../core/services/toaster.service';
-import { PrimeNG } from 'primeng/config';
 import { MediasService } from '../../core/services/medias.service';
 import { ResponseStatus } from '../../core/models/response-status.model';
 import { forkJoin } from 'rxjs';
-import { PrimeIcons } from 'primeng/api';
+import { RealEstatesMediaCardComponent } from '../real-estates-media-card/real-estates-media-card.component';
 
 type UploadedFile = { name: string, size: number, type: string; objectURL: any; uuid: string; mimeType: string; };
 
 @Component({
-  selector: 'app-real-estates-attachments',
+  selector: 'ks-real-estates-attachments',
   imports: [
     FileUpload,
     Button,
     Message,
     Badge,
-    TranslatePipe
+    TranslatePipe,
+    RealEstatesMediaCardComponent
   ],
   templateUrl: './real-estates-attachments.component.html',
   styleUrl: './real-estates-attachments.component.scss',
@@ -56,7 +56,6 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit, O
   uploadParameterName!: string;
   uploadAcceptFileType!: string;
   uploadUrl!: string;
-  PrimeIcons: typeof PrimeIcons = PrimeIcons;
 
   get totalFileSize(): number {
     let totalSize = 0;
@@ -72,7 +71,6 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit, O
   constructor(private realEstateService: RealEstateService,
               private toasterService: ToasterService,
               private translateService: TranslateService,
-              private config: PrimeNG,
               private mediasService: MediasService
   ) {
   }
@@ -133,6 +131,11 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit, O
   }
 
   onSelectFiles(event: FileSelectEvent) {
+    event.currentFiles.forEach((file: File) => {
+      if (file.type.startsWith('video/')) {
+        (file as any).objectURL = URL.createObjectURL(file);
+      }
+    });
     this.pendingFiles = event.currentFiles;
     this.updatePendingFileSizeAndEmit();
   }
@@ -163,7 +166,8 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit, O
             summary: this.translateService.instant('common.success'),
             detail: this.translateService.instant('common.success_message')
           });
-          this.hasPendingFilesChange.emit(false);
+          this.pendingFiles = [];
+          this.updatePendingFileSizeAndEmit();
         } else {
           this.fileUploadInit = false;
           this.fileUpload!.uploadedFiles = [...event.files];
@@ -177,7 +181,7 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit, O
     this.updatePendingFileSizeAndEmit();
   }
 
-  private updatePendingFileSizeAndEmit() {
+  private updatePendingFileSizeAndEmit(): void {
     this.pendingFilesTotalSize = this.pendingFiles.reduce((size: number, file: File) => size + file.size, 0);
     this.hasPendingFilesChange.emit(this.pendingFiles.length > 0);
   }
@@ -200,19 +204,5 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit, O
         }
       });
     }
-  }
-
-  formatSize(bytes: number) {
-    const k = 1024;
-    const dm = 2;
-    const sizes = this.config.translation.fileSizeTypes!;
-    if (bytes === 0) {
-      return `0 ${sizes[0]}`;
-    }
-
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    const formattedSize = parseFloat((bytes / Math.pow(k, i)).toFixed(dm));
-
-    return `${formattedSize} ${sizes[i]}`;
   }
 }

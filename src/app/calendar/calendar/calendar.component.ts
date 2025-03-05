@@ -21,7 +21,7 @@ import { CalendarService } from '../calendar.service';
 import { SaveCalendarEventDto } from '../dto/save-calendar-event.dto';
 
 @Component({
-  selector: 'app-calendar',
+  selector: 'ks-calendar',
   imports: [FullCalendarModule],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',

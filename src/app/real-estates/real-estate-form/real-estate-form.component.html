@@ -232,7 +232,7 @@
       <p-step-panel [value]="2">
         <ng-template #content let-activateCallback="activateCallback">
           <div class="md:col-span-2 min-w-0 sm:min-w-[40rem]" [formGroup]="realEstateForm">
-            <app-address-form [required]="true"
+            <ks-address-form [required]="true"
                               formControlName="address"
                               id="address"/>
             <div class="md:col-span-2 mt-2 flex justify-between">
@@ -261,7 +261,7 @@
                 <h4 class="text-lg font-semibold">{{'common.pictures' | translate}}</h4>
                 <p-message severity="secondary" variant="simple">{{'real_estates.pictures_max_file_size' | translate}}</p-message>
               </div>
-              <app-real-estates-attachments [(hasPendingFiles)]="hasPendingPictures"
+              <ks-real-estates-attachments [(hasPendingFiles)]="hasPendingPictures"
                                             [medias]="pictures"
                                             [realEstateId]="realEstateForm.get('id')!.value"
                                             attachmentType="pictures"/>
@@ -271,7 +271,7 @@
                 <h4 class="text-lg font-semibold">{{'common.videos' | translate}}</h4>
                 <p-message severity="secondary" variant="simple">{{'real_estates.video_max_file_size' | translate}}</p-message>
               </div>
-              <app-real-estates-attachments [(hasPendingFiles)]="hasPendingVideo"
+              <ks-real-estates-attachments [(hasPendingFiles)]="hasPendingVideo"
                                             [medias]="videos"
                                             [realEstateId]="realEstateForm.get('id')!.value"
                                             attachmentType="videos"/>
@@ -281,7 +281,7 @@
                 <h4 class="text-lg font-semibold">{{'common.documents' | translate}}</h4>
                 <p-message severity="secondary" variant="simple">{{'real_estates.documents_max_file_size' | translate}}</p-message>
               </div>
-              <app-real-estates-attachments [(hasPendingFiles)]="hasPendingDocuments"
+              <ks-real-estates-attachments [(hasPendingFiles)]="hasPendingDocuments"
                                             [medias]="documents"
                                             [realEstateId]="realEstateForm.get('id')!.value"
                                             attachmentType="documents"/>

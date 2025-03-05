@@ -12,7 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AccessToken } from '../../core/models/access-token.model';
 
 @Component({
-  selector: 'app-login',
+  selector: 'ks-login',
   imports: [
     FormsModule,
     TranslatePipe,

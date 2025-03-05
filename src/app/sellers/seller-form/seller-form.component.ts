@@ -15,7 +15,7 @@ import { Address } from '../../core/models/address.model';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 
 @Component({
-  selector: 'app-seller-form',
+  selector: 'ks-seller-form',
   standalone: true,
   imports: [
     Button,

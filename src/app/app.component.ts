@@ -9,7 +9,7 @@ import { MessageService } from 'primeng/api';
 import { ToasterMessage } from './core/models/toaster-message.model';
 
 @Component({
-  selector: 'app-root',
+  selector: 'ks-root',
   imports: [RouterOutlet, FormsModule, Toast],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

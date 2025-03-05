@@ -23,7 +23,7 @@ import { SendEmailModel } from '../../core/models/send-email.model';
 import { ResponseStatus } from '../../core/models/response-status.model';
 
 @Component({
-  selector: 'app-user-list',
+  selector: 'ks-user-list',
   imports: [
     TableModule,
     ConfirmPopupModule,

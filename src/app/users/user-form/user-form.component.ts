@@ -13,7 +13,7 @@ import { SelectButton } from 'primeng/selectbutton';
 import { Sex } from '../../core/models/sex.enum';
 
 @Component({
-  selector: 'app-user-form',
+  selector: 'ks-user-form',
   standalone: true,
   imports: [
     FormsModule,

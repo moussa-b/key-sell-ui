@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
 
 @Component({
-  selector: 'app-main',
+  selector: 'ks-main',
   imports: [
     RouterOutlet,
     HeaderComponent

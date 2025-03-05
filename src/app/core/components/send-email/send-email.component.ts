@@ -19,7 +19,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Button } from 'primeng/button';
 
 @Component({
-  selector: 'app-send-email',
+  selector: 'ks-send-email',
   imports: [ReactiveFormsModule, CKEditorModule, TranslatePipe, Button,],
   templateUrl: './send-email.component.html',
   styleUrl: './send-email.component.scss',

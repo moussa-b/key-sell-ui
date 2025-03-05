@@ -23,7 +23,7 @@ import { ResponseStatus } from '../../core/models/response-status.model';
 import {Clipboard} from '@angular/cdk/clipboard';
 
 @Component({
-  selector: 'app-seller-list',
+  selector: 'ks-seller-list',
   imports: [
     Button,
     Card,

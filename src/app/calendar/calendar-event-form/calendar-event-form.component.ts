@@ -11,7 +11,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Button } from 'primeng/button';
 
 @Component({
-  selector: 'app-calendar-event-form',
+  selector: 'ks-calendar-event-form',
   imports: [ReactiveFormsModule, CKEditorModule, DatePicker, TranslatePipe, Button,],
   templateUrl: './calendar-event-form.component.html',
   styleUrl: './calendar-event-form.component.scss',

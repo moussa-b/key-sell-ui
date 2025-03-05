@@ -15,7 +15,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req).pipe(
       catchError((error: HttpErrorResponse) => {
         toasterService.emitValue({
-          detail: error.message,
+          detail: error.error?.message || translateService.instant('common.error'),
           severity: 'error',
           summary: translateService.instant('common.error')
         })

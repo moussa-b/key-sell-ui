@@ -9,7 +9,7 @@ import { InputText } from 'primeng/inputtext';
 import { ResponseStatus } from '../../core/models/response-status.model';
 
 @Component({
-  selector: 'app-activate',
+  selector: 'ks-activate',
   imports: [
     FormsModule,
     Password,
