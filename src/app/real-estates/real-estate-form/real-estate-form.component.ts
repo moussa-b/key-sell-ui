@@ -115,6 +115,16 @@ export class RealEstateFormComponent implements OnInit, CanComponentDeactivate {
     }
   }
 
+  get isAddressInvalid(): boolean {
+    if (this.realEstateForm) {
+      const address: Address = this.realEstateForm.get('address')!.value;
+      if (address.city?.length > 0 && address.countryCode?.length > 0 && (address.street && address.street.length > 0) && address.zipCode?.length > 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   ngOnInit() {
     this.realEstate = this.activatedRoute.snapshot.data['realEstate'];
     if (this.realEstate) {

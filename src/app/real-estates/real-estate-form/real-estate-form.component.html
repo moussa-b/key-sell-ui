@@ -231,7 +231,7 @@
       </p-step-panel>
       <p-step-panel [value]="2">
         <ng-template #content let-activateCallback="activateCallback">
-          <div class="md:col-span-2 min-w-0 sm:min-w-[40rem]" [formGroup]="realEstateForm">
+          <div class="md:col-span-2" [formGroup]="realEstateForm">
             <ks-address-form [required]="true"
                               formControlName="address"
                               id="address"/>
@@ -243,7 +243,7 @@
                         type="submit"/>
 
               <p-button (onClick)="onSubmit(); activateCallback(3)"
-                        [disabled]="realEstateForm.get('address')!.invalid"
+                        [disabled]="isAddressInvalid"
                         [label]="'common.continue' | translate"
                         class="ml-auto"
                         icon="pi pi-arrow-right"
@@ -255,7 +255,7 @@
       </p-step-panel>
       <p-step-panel [value]="3">
         <ng-template #content let-activateCallback="activateCallback">
-          <div class="md:col-span-2 min-w-0 sm:min-w-[40rem]">
+          <div class="md:col-span-2">
             <div>
               <div class="flex gap-2 mb-2 items-center">
                 <h4 class="text-lg font-semibold">{{'common.pictures' | translate}}</h4>
