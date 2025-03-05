@@ -5,12 +5,12 @@
   </p-tablist>
   <p-tabpanels>
     <p-tabpanel value="0">
-      <div [ngClass]="{'flex justify-center': isLoading}" class="space-y-4 w-full">
+      <div [ngClass]="{'flex justify-center': isLoading}">
         @if (isLoading) {
           <p-progress-spinner ariaLabel="loading" />
         } @else {
-          <form [formGroup]="userForm" (ngSubmit)="onSavePersonalInfo()">
-            <div class="mb-4">
+          <form [formGroup]="userForm" (ngSubmit)="onSavePersonalInfo()" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-[40rem]">
+            <div>
               <label for="lastName" class="block">{{ 'common.last_name' | translate }}</label>
               <input class="mt-1 w-full"
                      formControlName="lastName"
@@ -23,7 +23,7 @@
               }
             </div>
 
-            <div class="mb-4">
+            <div>
               <label for="firstName" class="block">{{ 'common.first_name' | translate }}</label>
               <input class="mt-1 w-full"
                      formControlName="firstName"
@@ -36,14 +36,14 @@
               }
             </div>
 
-            <div class="mb-4">
+            <div>
               <label class="block">{{ 'common.gender' | translate }}</label>
               <p-selectbutton [options]="sexOptions"
                               formControlName="sex"
                               id="sex"/>
             </div>
 
-            <div class="mb-4">
+            <div>
               <label for="email" class="block">{{ 'common.email' | translate }}</label>
               <input class="mt-1 w-full"
                      formControlName="email"
@@ -56,7 +56,9 @@
               }
             </div>
 
-            <div class="mt-6 flex">
+            <div class="hidden md:block"><!--Required for alignment in display grid--></div>
+
+            <div class="flex">
               <p-button [disabled]="userForm.invalid"
                         class="ml-auto"
                         type="submit">
@@ -68,15 +70,15 @@
       </div>
     </p-tabpanel>
     <p-tabpanel value="1">
-      <div [ngClass]="{'flex justify-center': isLoading}" class="space-y-4 w-full">
+      <div [ngClass]="{'flex justify-center': isLoading}">
         @if (isLoading) {
           <p-progress-spinner ariaLabel="loading" />
         } @else {
-          <form [formGroup]="securityForm" (ngSubmit)="onSaveSecurityInfo(validateSecurityFormButton)">
-            <div class="mb-4">
+          <form [formGroup]="securityForm" (ngSubmit)="onSaveSecurityInfo(validateSecurityFormButton)" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-[40rem]">
+            <div>
               <label for="username" class="block">{{'auth.username' | translate}}</label>
               <input [placeholder]="'security.enter_new_username' | translate"
-                     class="mt-1 block w-full "
+                     class="mt-1 w-full"
                      formControlName="username"
                      id="username"
                      pInputText
@@ -86,49 +88,48 @@
               }
             </div>
 
-            <div class="mb-4">
+            <div>
               <label for="currentPassword" class="block">{{'security.current_password' | translate}}</label>
               <p-password [placeholder]="'security.enter_current_password' | translate"
                           [toggleMask]="true"
-                          class="mt-1"
                           formControlName="currentPassword"
                           id="currentPassword"
                           inputStyleClass="w-full"
-                          styleClass="w-full"/>
+                          styleClass="mt-1 w-full"/>
               @if (securityForm.get('currentPassword')?.invalid && securityForm.get('currentPassword')?.touched) {
                 <div class="text-red-500 text-sm">{{'security.current_password_required' | translate}}</div>
               }
             </div>
 
-            <div class="mb-4">
+            <div>
               <label for="newPassword" class="block">{{'security.new_password' | translate}}</label>
               <p-password [placeholder]="'security.enter_new_password' | translate"
                           [toggleMask]="true"
-                          class="mt-1"
                           formControlName="newPassword"
                           id="newPassword"
                           inputStyleClass="w-full"
-                          styleClass="w-full"/>
+                          styleClass="mt-1 w-full"/>
               @if (securityForm.get('newPassword')?.invalid && securityForm.get('newPassword')?.touched) {
                 <div class="text-red-500 text-sm">{{'security.new_password_required' | translate}}</div>
               }
             </div>
 
-            <div class="mb-4">
+            <div>
               <label for="confirmPassword" class="block">{{'security.new_password_confirmation' | translate}}</label>
               <p-password [placeholder]="'security.confirm_new_password' | translate"
                           [toggleMask]="true"
-                          class="mt-1"
                           formControlName="confirmPassword"
                           id="confirmPassword"
                           inputStyleClass="w-full"
-                          styleClass="w-full"/>
+                          styleClass="mt-1 w-full"/>
               @if (securityForm.hasError('passwordsMismatch') && securityForm.get('confirmPassword')?.touched) {
                 <div class="text-red-500 text-sm">{{'security.passwords_not_match' | translate}}</div>
               }
             </div>
 
-            <div class="mt-6 flex">
+            <div class="hidden md:block"><!--Required for alignment in display grid--></div>
+
+            <div class="flex">
               <p-button #validateSecurityFormButton
                         [disabled]="securityForm.invalid"
                         class="ml-auto"
