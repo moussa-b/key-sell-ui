@@ -1,6 +1,9 @@
 <div class="flex flex-col gap-4 items-center">
   <ks-real-estates-media [attachmentType]="attachmentType"
-                         [file]="file"/>
-  <span class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{ file.name }}</span>
-  <div>{{ formatSize(file.size) }}</div>
+                         [file]="file"
+                         [media]="media"/>
+  <span class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{ file ? file.name : (media ? media.fileName : '')}}</span>
+  @if (showFileSize) {
+    <div>{{ formatSize(file ? file.size : (media ? media.fileSize : 0)) }}</div>
+  }
 </div>

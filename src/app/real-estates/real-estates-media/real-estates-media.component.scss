@@ -1,3 +1,9 @@
-.attachment-type {
-  font-size: 3rem;
+ks-real-estates-media {
+  .attachment-type {
+    font-size: 3rem;
+  }
+
+  .p-image-rotate-left-button, .p-image-rotate-right-button, {
+    display: none;
+  }
 }

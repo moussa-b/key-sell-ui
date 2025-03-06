@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { RealEstatesMediaComponent } from '../real-estates-media/real-estates-media.component';
 import { PrimeNG } from 'primeng/config';
+import { Media } from '../../core/models/media.model';
 
 @Component({
   selector: 'ks-real-estates-media-card',
@@ -10,7 +11,9 @@ import { PrimeNG } from 'primeng/config';
   templateUrl: './real-estates-media-card.component.html',
 })
 export class RealEstatesMediaCardComponent {
-  @Input({required: true}) file!: { name: string; objectURL: string; size: number };
+  @Input() file?: { name: string; objectURL: string; size: number };
+  @Input() media?: Media;
+  @Input() showFileSize = true;
   @Input({required: true}) attachmentType!: 'pictures' | 'documents' | 'videos';
 
   constructor(private config: PrimeNG) {

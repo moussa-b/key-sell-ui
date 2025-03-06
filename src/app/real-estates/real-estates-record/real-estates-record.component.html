@@ -40,19 +40,48 @@
       @if (realEstate.remark) {
         <div><strong>{{ 'common.remarks' | translate }} :</strong> {{ realEstate.remark }}</div>
       }
-
-      <div>
-
-<!--        <div *ngIf="realEstate.medias && realEstate.medias.length > 0">-->
-<!--          <strong>Médias:</strong>-->
-<!--          <div class="flex flex-wrap">-->
-<!--            <img *ngFor="let media of realEstate.medias"-->
-<!--                 [src]="media.url"-->
-<!--                 alt="Media"-->
-<!--                 class="w-32 h-32 object-cover m-2">-->
-<!--          </div>-->
-<!--        </div>-->
-      </div>
+      @if (pictures.length > 0) {
+        <div class="md:col-span-2">
+          <h4 class="text-lg font-semibold pb-2">{{ 'common.pictures' | translate }}</h4>
+          <div class="flex gap-4">
+            @for (media of pictures; track media.uuid) {
+              <div class="p-4 flex flex-col border justify-center">
+                <ks-real-estates-media-card [showFileSize]="false"
+                                            attachmentType="pictures"
+                                            [media]="media"/>
+              </div>
+            }
+          </div>
+        </div>
+      }
+      @if (videos.length > 0) {
+        <div class="md:col-span-2">
+          <h4 class="text-lg font-semibold pb-2">{{ 'common.videos' | translate }}</h4>
+          <div class="flex gap-4">
+            @for (media of videos; track media.uuid) {
+              <div class="p-4 flex flex-col border justify-center">
+                <ks-real-estates-media-card [showFileSize]="false"
+                                            attachmentType="videos"
+                                            [media]="media"/>
+              </div>
+            }
+          </div>
+        </div>
+      }
+      @if (documents.length > 0) {
+        <div class="md:col-span-2">
+          <h4 class="text-lg font-semibold pb-2">{{ 'common.documents' | translate }}</h4>
+          <div class="flex gap-4">
+            @for (media of documents; track media.uuid) {
+              <div class="p-4 flex flex-col border justify-center">
+                <ks-real-estates-media-card [showFileSize]="false"
+                                            attachmentType="documents"
+                                            [media]="media"/>
+              </div>
+            }
+          </div>
+        </div>
+      }
     </div>
   </ng-template>
   <ng-template pTemplate="footer">

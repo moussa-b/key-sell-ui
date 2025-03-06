@@ -40,7 +40,7 @@ type UploadedFile = { name: string, size: number, type: string; objectURL: any; 
   styleUrl: './real-estates-attachments.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit {
   @ViewChild('fileUpload') fileUpload?: FileUpload;
   @Input({required: true}) realEstateId!: number;
   @Input({required: true}) medias: Media[] = [];
@@ -124,10 +124,6 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit, O
         }
       });
     }
-  }
-
-  ngOnDestroy(): void {
-    this.uploadedFiles?.forEach((u: UploadedFile) => URL.revokeObjectURL(u.objectURL));
   }
 
   onSelectFiles(event: FileSelectEvent) {
