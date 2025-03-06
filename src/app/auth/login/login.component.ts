@@ -10,6 +10,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { Message } from 'primeng/message';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AccessToken } from '../../core/models/access-token.model';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'ks-login',
@@ -31,7 +32,7 @@ export class LoginComponent {
   username?: string;
   message?: {severity: string; message: string};
 
-  constructor(private authService: AuthService, private router: Router, private translateService: TranslateService,) {
+  constructor(private authService: AuthService, private router: Router, public translateService: TranslateService,) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.info) {
       this.message = (navigation.extras.info as any)['message'];
@@ -55,5 +56,11 @@ export class LoginComponent {
 
   onCloseMessage() {
     this.message = undefined;
+  }
+
+  changeLanguage(language: string) {
+    if (this.translateService.currentLang !== language) {
+      this.translateService.use(language);
+    }
   }
 }

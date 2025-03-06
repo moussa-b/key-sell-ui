@@ -56,12 +56,30 @@
         </a>
       </div>
 
-      <div class="flex justify-center">
+      <div class="flex justify-center mb-4">
         <p-button class="w-full"
                   [label]="'auth.connect' | translate"
                   styleClass="w-full"
                   type="submit"/>
       </div>
+
+      <div class="flex justify-end gap-1">
+        <button (click)="changeLanguage('fr')"
+                [class]="translateService.currentLang === 'fr' ? 'border border-blue-500 rounded-md px-2 py-1' : 'px-2 py-1'"
+                type="button">
+          <img src="/flags/fr.svg"
+               alt="French Flag"
+               width="24">
+        </button>
+        <button (click)="changeLanguage('en')"
+                [class]="translateService.currentLang === 'en' ? 'border border-blue-500 rounded-md px-2 py-1' : 'px-2 py-1'"
+                type="button">
+          <img src="/flags/sh.svg"
+               alt="British Flag"
+               width="24">
+        </button>
+      </div>
     </form>
   </div>
 </div>
+

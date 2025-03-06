@@ -197,7 +197,9 @@
     "type_required": "The type of real estate is required",
     "upload_completed": "Upload completed",
     "upload_pending": "Upload pending",
-    "villa": "Villa"
+    "villa": "Villa",
+    "see_description_sheet": "See the description sheet",
+    "description_sheet": "Description sheet"
   },
   "prime_ng": {
     "startsWith": "Starts with",

@@ -9,6 +9,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { MyAccountComponent } from '../../../users/my-account/my-account.component';
 import { PermissionService } from '../../services/permission.service';
 import { UserAccess } from '../../models/user-access.model';
+import { Ripple } from 'primeng/ripple';
 
 @Component({
   selector: 'ks-header',
@@ -17,7 +18,8 @@ import { UserAccess } from '../../models/user-access.model';
     RouterLink,
     Avatar,
     Menu,
-    RouterLinkActive
+    RouterLinkActive,
+    Ripple
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -47,12 +49,12 @@ export class HeaderComponent implements OnInit {
         items: [
           {
             label: this.translateService.instant('common.french'),
-            icon: 'pi pi-flag',
+            flag: '/flags/fr.svg',
             command: () => this.changeLanguage('fr')
           },
           {
             label: this.translateService.instant('common.english'),
-            icon: 'pi pi-flag',
+            flag: '/flags/sh.svg',
             command: () => this.changeLanguage('en')
           }
         ]

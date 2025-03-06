@@ -197,7 +197,9 @@
     "upload_completed": "Téléchargement terminé",
     "upload_pending": "Téléchargement en attente",
     "video_max_file_size": "Taille maximale autorisée : 20 Mo",
-    "villa": "Villa"
+    "villa": "Villa",
+    "see_description_sheet": "Voir la fiche descriptive",
+    "description_sheet": "Fiche descriptive"
   },
   "prime_ng": {
     "startsWith": "Commence par",
