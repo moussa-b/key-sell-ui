@@ -1,0 +1,68 @@
+<p-card>
+  <ng-template pTemplate="content">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-[40rem]">
+      <div><strong>{{ 'real_estates.type' | translate }} :</strong> {{ realEstate.type | realEstatesType }}</div>
+      <div><strong>{{ 'common.address' | translate }} :</strong> {{ realEstate.address | formatAddress }}</div>
+      <div><strong>{{ 'real_estates.price' | translate }} :</strong> {{ realEstate.price }} {{ realEstate.priceCurrency }}</div>
+      <div><strong>{{ 'real_estates.surface' | translate }} :</strong> {{ realEstate.surface }} m²</div>
+      @if (realEstate.ownersDetails && realEstate.ownersDetails.length > 0) {
+        <div [class]="realEstate.location ? undefined : 'md:col-span-2'">
+          <strong>{{ 'real_estates.owner_or_owners' | translate }} :</strong>
+          @for (owner of realEstate.ownersDetails; track owner.value; let last = $last) {
+            {{owner.label}}@if (!last) {, }
+          }
+        </div>
+      }
+      @if (realEstate.location) {
+        <div><strong>{{ 'real_estates.location' | translate }} :</strong> {{ realEstate.location }}</div>
+      }
+      <div><strong>{{ 'real_estates.room_count' | translate }} :</strong> {{ realEstate.roomCount }}</div>
+      @if (realEstate.showerCount) {
+        <div><strong>{{ 'real_estates.shower_count' | translate }} :</strong> {{ realEstate.showerCount }}</div>
+      }
+      @if (realEstate.facadeCount) {
+        <div><strong>{{ 'real_estates.facade_count' | translate }} :</strong> {{ realEstate.facadeCount }}</div>
+      }
+      @if (realEstate.terraceCount) {
+        <div><strong>{{ 'real_estates.terrace_count' | translate }} :</strong> {{ realEstate.terraceCount }}</div>
+      }
+      <div>
+        <strong>{{ 'real_estates.terraced' | translate }} :</strong> {{ realEstate.terraced ? ('common.yes' | translate) : ('common.no' | translate) }}
+      </div>
+      <div>
+        <strong>{{ 'real_estates.has_garden' | translate }} :</strong> {{ realEstate.hasGarden ? ('common.yes' | translate) : ('common.no' | translate) }} @if (realEstate.gardenSurface) {({{ realEstate.gardenSurface }} m²)}
+      </div>
+
+      @if (realEstate.isSecured) {
+        <div><strong>{{ 'real_estates.is_secured' | translate }} :</strong> {{ realEstate.isSecured ? ('common.yes' | translate) : ('common.no' | translate) }} @if (realEstate.isSecured && realEstate.securityDetail) {({{ realEstate.securityDetail }})}</div>
+      }
+
+      @if (realEstate.remark) {
+        <div><strong>{{ 'common.remarks' | translate }} :</strong> {{ realEstate.remark }}</div>
+      }
+
+      <div>
+
+<!--        <div *ngIf="realEstate.medias && realEstate.medias.length > 0">-->
+<!--          <strong>Médias:</strong>-->
+<!--          <div class="flex flex-wrap">-->
+<!--            <img *ngFor="let media of realEstate.medias"-->
+<!--                 [src]="media.url"-->
+<!--                 alt="Media"-->
+<!--                 class="w-32 h-32 object-cover m-2">-->
+<!--          </div>-->
+<!--        </div>-->
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div class="text-right italic text-gray-500 text-sm">
+      @if (realEstate.updatedAt) {
+        <div>{{ 'common.updated_on' | translate }} : {{ realEstate.updatedAt | date:'dd/MM/yyyy HH:mm' }}</div>
+      }
+      @else {
+        <div>{{ 'common.created_on' | translate }} : {{ realEstate.createdAt | date:'dd/MM/yyyy HH:mm' }}</div>
+      }
+    </div>
+  </ng-template>
+</p-card>

@@ -32,6 +32,8 @@ import { RealEstateType } from '../model/real-estate-type.enum';
 import { PrimeNG } from 'primeng/config';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { DialogService } from 'primeng/dynamicdialog';
+import { RealEstatesRecordComponent } from '../real-estates-record/real-estates-record.component';
 
 type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOwners?: string;};
 
@@ -54,7 +56,7 @@ type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOw
   ],
   templateUrl: './real-estate-list.component.html',
   styleUrl: './real-estate-list.component.scss',
-  providers: [ConfirmationService],
+  providers: [ConfirmationService, DialogService],
   encapsulation: ViewEncapsulation.None
 })
 export class RealEstateListComponent implements OnInit, OnDestroy {
@@ -76,7 +78,8 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
               private toasterService: ToasterService,
               private filterService: FilterService,
               private router: Router,
-              private config: PrimeNG) {
+              private config: PrimeNG,
+              private dialogService: DialogService,) {
   }
 
   ngOnInit(): void {
@@ -86,6 +89,11 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
     });
     this.userAccess = this.permissionService.getUserAccess();
     this.items = [
+      {
+        label: this.translateService.instant('real_estates.see_description_sheet'),
+        icon: PrimeIcons.EYE,
+        command: () => this.openRealEstateRecord(),
+      },
       {
         label: this.translateService.instant('common.edit'),
         icon: PrimeIcons.PEN_TO_SQUARE,
@@ -159,6 +167,18 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
 
   editRealEstate() {
     this.router.navigateByUrl(`/real-estates/${this.selectedRealEstate!.id}/edit`);
+  }
+
+  openRealEstateRecord() {
+    this.dialogService.open(RealEstatesRecordComponent, {
+      header: this.translateService.instant('real_estates.real_estate_detail'),
+      data: {realEstate: this.selectedRealEstate},
+      closable: true,
+      closeOnEscape: true,
+      modal: true,
+    }).onClose.subscribe(() => {
+      this.selectedRealEstate = undefined;
+    });
   }
 
   deleteRealEstate(event: Event) {

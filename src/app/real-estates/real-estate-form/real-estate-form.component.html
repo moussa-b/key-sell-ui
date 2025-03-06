@@ -32,20 +32,6 @@
             </div>
 
             <div>
-              <label for="type"
-                     class="block">{{ 'real_estates.owner_or_owners' | translate }} *</label>
-              <p-multiselect formControlName="owners"
-                             [options]="owners"
-                             class="mt-1"
-                             display="chip"
-                             placeholder="{{ 'common.select' | translate }}"
-                             styleClass="w-full"/>
-              @if (realEstateForm.get('owners')?.invalid && realEstateForm.get('owners')?.touched) {
-                <div class="text-red-500 text-sm">{{ 'real_estates.owner_or_owners_required' | translate }}</div>
-              }
-            </div>
-
-            <div>
               <label for="price"
                      class="block">{{ 'real_estates.price' | translate }} *</label>
               <div class="flex">
@@ -77,6 +63,20 @@
                              mode="decimal"/>
               @if (realEstateForm.get('surface')?.invalid && realEstateForm.get('surface')?.touched) {
                 <div class="text-red-500 text-sm">{{ 'real_estates.surface_required' | translate }}</div>
+              }
+            </div>
+
+            <div>
+              <label for="type"
+                     class="block">{{ 'real_estates.owner_or_owners' | translate }} *</label>
+              <p-multiselect formControlName="owners"
+                             [options]="owners"
+                             class="mt-1"
+                             display="chip"
+                             placeholder="{{ 'common.select' | translate }}"
+                             styleClass="w-full"/>
+              @if (realEstateForm.get('owners')?.invalid && realEstateForm.get('owners')?.touched) {
+                <div class="text-red-500 text-sm">{{ 'real_estates.owner_or_owners_required' | translate }}</div>
               }
             </div>
 

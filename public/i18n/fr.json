@@ -128,7 +128,9 @@
     "validate": "Valider",
     "videos": "Vidéo",
     "woman": "Femme",
-    "yes": "Oui"
+    "yes": "Oui",
+    "created_on": "Crée le",
+    "updated_on": "Mis à jour le"
   },
   "calendar": {
     "add_calendar_event": "Ajouter un événement",
@@ -199,7 +201,7 @@
     "video_max_file_size": "Taille maximale autorisée : 20 Mo",
     "villa": "Villa",
     "see_description_sheet": "Voir la fiche descriptive",
-    "description_sheet": "Fiche descriptive"
+    "real_estate_detail": "Détails du bien immobilier"
   },
   "prime_ng": {
     "startsWith": "Commence par",
