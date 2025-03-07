@@ -1,17 +1,27 @@
 @switch (attachmentType) {
   @case ('pictures') {
     @if (file) {
-      <p-image [src]="file.objectURL" alt="Image" width="150" [preview]="true" />
+      <p-image [src]="file.objectURL"
+               width="150"
+               alt="Image"
+               [preview]="true"/>
     }
   }
   @case ('documents') {
-    <i [class]="PrimeIcons.FILE_PDF"
-       class="attachment-type text-blue-600"></i>
+    @if (file) {
+      <object class="real-estates-media-document"
+              [title]="file.name"
+              [data]="file.safeURL ? file.safeURL : file.objectURL"
+              type="application/pdf">
+        <i [class]="PrimeIcons.FILE_PDF"
+           class="attachment-type text-blue-600"></i>
+      </object>
+    }
   }
   @case ('videos') {
     @if (file) {
       <video controls
-             style="max-width: 200px">
+             class="real-estates-media-video">
         <source [src]="file.objectURL"
                 type="video/mp4"/>
         <i [class]="PrimeIcons.VIDEO"

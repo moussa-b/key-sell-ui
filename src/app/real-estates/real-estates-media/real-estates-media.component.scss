@@ -6,4 +6,13 @@ ks-real-estates-media {
   .p-image-rotate-left-button, .p-image-rotate-right-button, {
     display: none;
   }
+
+  .real-estates-media-document {
+    width: 100%;
+    height: 160px;
+  }
+
+  .real-estates-media-video {
+    max-width: 200px;
+  }
 }

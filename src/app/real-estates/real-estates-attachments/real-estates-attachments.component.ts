@@ -23,6 +23,7 @@ import { MediasService } from '../../core/services/medias.service';
 import { ResponseStatus } from '../../core/models/response-status.model';
 import { forkJoin } from 'rxjs';
 import { RealEstatesMediaCardComponent } from '../real-estates-media-card/real-estates-media-card.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 type UploadedFile = { name: string, size: number, type: string; objectURL: any; uuid: string; mimeType: string; };
 
@@ -71,7 +72,8 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit {
   constructor(private realEstateService: RealEstateService,
               private toasterService: ToasterService,
               private translateService: TranslateService,
-              private mediasService: MediasService
+              private mediasService: MediasService,
+              private sanitizer: DomSanitizer
   ) {
   }
 
@@ -109,6 +111,9 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit {
           responses.forEach((response: { media: Media, blob: Blob }) => {
             let file = new File([response.blob], response.media.fileName, {type: response.media.mimeType});
             (file as any).objectURL = URL.createObjectURL(response.blob);
+            if (this.attachmentType === 'documents') {
+              (file as any).safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(response.blob));
+            }
             files.push(file);
           });
           if (files.length > 0 && this.fileUpload) {
@@ -130,6 +135,9 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit {
     event.currentFiles.forEach((file: File) => {
       if (file.type.startsWith('video/')) {
         (file as any).objectURL = URL.createObjectURL(file);
+      }
+      if (file.type.includes('pdf')) {
+        (file as any).safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
       }
     });
     this.pendingFiles = event.currentFiles;

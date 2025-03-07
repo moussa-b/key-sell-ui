@@ -3,6 +3,7 @@ import { PrimeIcons } from 'primeng/api';
 import { Media } from '../../core/models/media.model';
 import { MediasService } from '../../core/services/medias.service';
 import { Image } from 'primeng/image';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'ks-real-estates-media',
@@ -14,12 +15,12 @@ import { Image } from 'primeng/image';
   encapsulation: ViewEncapsulation.None
 })
 export class RealEstatesMediaComponent implements OnInit, OnDestroy {
-  @Input() file?: { name: string; objectURL?: string; size: number; };
+  @Input() file?: { safeURL?: any ; name: string; objectURL?: string; size: number; };
   @Input() media?: Media;
   @Input({required: true}) attachmentType!: 'pictures' | 'documents' | 'videos';
   readonly PrimeIcons = PrimeIcons;
 
-  constructor(private mediasService: MediasService) {
+  constructor(private mediasService: MediasService, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
@@ -30,7 +31,10 @@ export class RealEstatesMediaComponent implements OnInit, OnDestroy {
       }) => {
         this.file = new File([response.blob], response.media.fileName, {type: response.media.mimeType});
         (this.file as any).objectURL = URL.createObjectURL(response.blob);
-      })
+        if (this.attachmentType === 'documents') {
+          this.file.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(response.blob));
+        }
+      });
     }
   }
 
