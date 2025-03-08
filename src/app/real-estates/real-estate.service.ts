@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RealEstate } from './model/real-estate';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { LabelValue } from '../core/models/label-value.model';
 import { SaveRealEstateDto } from './dto/save-real-estate.dto';
@@ -42,6 +42,33 @@ export class RealEstateService {
 
   removePictures(realEstateId: number, pictureUuid: string): Observable<ResponseStatus> {
     return this.http.delete<ResponseStatus>(`${environment.API_URL}/api/real-estates/${realEstateId}/pictures/${pictureUuid}`);
+  }
+
+  export(realEstateId: number): void {
+    this.http.get(`${environment.API_URL}/api/real-estates/${realEstateId}/export`, {observe: 'response', responseType: 'arraybuffer'}).subscribe(
+      {
+        next: (response: HttpResponse<ArrayBuffer>) => {
+          const contentDisposition = response.headers.get('Content-Disposition');
+          let filename = `export_real_estate_${realEstateId}.pdf`;
+          if (contentDisposition) {
+            const match = contentDisposition.match(/filename="(.+?)"/);
+            if (match && match.length > 1) {
+              filename = match[1];
+            }
+          }
+          const blob = new Blob([response.body!], {type: 'application/pdf'});
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        },
+        error: (error) => console.error('Error downloading PDF:', error)
+      }
+    );
   }
 
   getRealEstatesTypes(): LabelValue<RealEstateType>[] {

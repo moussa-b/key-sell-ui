@@ -34,6 +34,7 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { RealEstatesRecordComponent } from '../real-estates-record/real-estates-record.component';
+import { Dialog } from 'primeng/dialog';
 
 type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOwners?: string;};
 
@@ -52,7 +53,9 @@ type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOw
     AddressPipe,
     MultiSelect,
     FormsModule,
-    DropdownModule
+    DropdownModule,
+    Dialog,
+    RealEstatesRecordComponent
   ],
   templateUrl: './real-estate-list.component.html',
   styleUrl: './real-estate-list.component.scss',
@@ -69,6 +72,8 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
   FilterMatchMode: typeof FilterMatchMode = FilterMatchMode;
   FilterOperator: typeof FilterOperator = FilterOperator;
   private langChangeSubscription!: Subscription;
+  showDialog = false;
+  readonly PrimeIcons = PrimeIcons;
 
   constructor(private confirmationService: ConfirmationService,
               private realEstateService: RealEstateService,
@@ -170,15 +175,7 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
   }
 
   openRealEstateRecord() {
-    this.dialogService.open(RealEstatesRecordComponent, {
-      header: this.translateService.instant('real_estates.real_estate_detail'),
-      data: {realEstate: this.selectedRealEstate},
-      closable: true,
-      closeOnEscape: true,
-      modal: true,
-    }).onClose.subscribe(() => {
-      this.selectedRealEstate = undefined;
-    });
+    this.showDialog = true;
   }
 
   deleteRealEstate(event: Event) {
@@ -212,4 +209,9 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  downloadRealEstateDetail(realEstateId: number) {
+    this.realEstateService.export(realEstateId);
+  }
+
 }

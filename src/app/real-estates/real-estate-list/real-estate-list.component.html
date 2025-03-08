@@ -145,3 +145,21 @@
 </p-card>
 
 <p-confirmpopup></p-confirmpopup>
+
+<p-dialog [(visible)]="showDialog"
+          [modal]="true"
+          (onHide)="selectedRealEstate = undefined">
+  <ng-template pTemplate="header">
+    <div class="flex items-center justify-between w-full">
+      <span class="p-dialog-title">{{'real_estates.real_estate_detail' |translate}}</span>
+      <p-button (onClick)="downloadRealEstateDetail(selectedRealEstate!.id)"
+                [label]="'common.download' | translate"
+                variant="outlined"
+                class="mr-2 responsive-button"
+                [icon]="PrimeIcons.DOWNLOAD"/>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <ks-real-estates-record [realEstate]="selectedRealEstate!"/>
+  </ng-template>
+</p-dialog>

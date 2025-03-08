@@ -112,7 +112,7 @@
     "phoneNumber": "Phone number",
     "pictures": "Pictures",
     "preferred_language": "Preferred communication language",
-    "remarks": "Remarques",
+    "remarks": "Remarks",
     "return": "Return",
     "save": "Save",
     "search": "Search",
@@ -132,7 +132,8 @@
     "woman": "Woman",
     "yes": "Yes",
     "created_on": "Created on",
-    "updated_on": "Updated on"
+    "updated_on": "Updated on",
+    "download": "Download"
   },
   "calendar": {
     "add_calendar_event": "Add calendar event",
@@ -200,7 +201,7 @@
     "upload_completed": "Upload completed",
     "upload_pending": "Upload pending",
     "villa": "Villa",
-    "see_description_sheet": "See the description sheet",
+    "see_description_sheet": "See real estate details",
     "real_estate_detail": "Real estate details"
   },
   "prime_ng": {

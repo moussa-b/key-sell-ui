@@ -130,7 +130,8 @@
     "woman": "Femme",
     "yes": "Oui",
     "created_on": "Crée le",
-    "updated_on": "Mis à jour le"
+    "updated_on": "Mis à jour le",
+    "download": "Télécharger"
   },
   "calendar": {
     "add_calendar_event": "Ajouter un événement",
@@ -200,7 +201,7 @@
     "upload_pending": "Téléchargement en attente",
     "video_max_file_size": "Taille maximale autorisée : 20 Mo",
     "villa": "Villa",
-    "see_description_sheet": "Voir la fiche descriptive",
+    "see_description_sheet": "Voir les détails du bien immobilier",
     "real_estate_detail": "Détails du bien immobilier"
   },
   "prime_ng": {

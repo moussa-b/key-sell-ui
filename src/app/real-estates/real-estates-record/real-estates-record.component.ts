@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Optional } from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { RealEstate } from '../model/real-estate';
 import { Card } from 'primeng/card';
@@ -25,16 +25,18 @@ import { RealEstatesMediaCardComponent } from '../real-estates-media-card/real-e
   styleUrl: './real-estates-record.component.scss'
 })
 export class RealEstatesRecordComponent implements OnInit {
-  realEstate!: RealEstate;
+  @Input() realEstate!: RealEstate;
   pictures: Media[] = [];
   videos: Media[] = [];
   documents: Media[] = [];
 
-  constructor(private dialogConfig: DynamicDialogConfig,) {
+  constructor(@Optional() private dialogConfig: DynamicDialogConfig,) {
   }
 
   ngOnInit(): void {
-    this.realEstate = this.dialogConfig.data.realEstate;
+    if (!this.realEstate && this.dialogConfig?.data?.realEstate) {
+      this.realEstate = this.dialogConfig.data.realEstate;
+    }
     if (this.realEstate.medias && this.realEstate.medias.length > 0) {
       this.realEstate.medias.forEach((m: Media) => {
         switch (m.mediaType) {
