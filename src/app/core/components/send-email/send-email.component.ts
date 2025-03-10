@@ -17,10 +17,11 @@ import coreTranslations from 'ckeditor5/translations/fr.js';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Button } from 'primeng/button';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
   selector: 'ks-send-email',
-  imports: [ReactiveFormsModule, CKEditorModule, TranslatePipe, Button,],
+  imports: [ReactiveFormsModule, CKEditorModule, TranslatePipe, Button, InputText,],
   templateUrl: './send-email.component.html',
   styleUrl: './send-email.component.scss',
   encapsulation: ViewEncapsulation.None,

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
@@ -10,7 +10,7 @@ import { UsersService } from '../users.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { UserFormComponent } from '../user-form/user-form.component';
 import { Card } from 'primeng/card';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { InputText } from 'primeng/inputtext';
 import { ToasterService } from '../../core/services/toaster.service';
@@ -21,6 +21,7 @@ import { UpperCasePipe } from '@angular/common';
 import { SendEmailComponent } from '../../core/components/send-email/send-email.component';
 import { SendEmailModel } from '../../core/models/send-email.model';
 import { ResponseStatus } from '../../core/models/response-status.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ks-user-list',
@@ -42,11 +43,12 @@ import { ResponseStatus } from '../../core/models/response-status.model';
   providers: [ConfirmationService, UsersService, DialogService],
   encapsulation: ViewEncapsulation.None
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, OnDestroy {
   users: User[] = [];
   userAccess!: UserAccess;
   items!: MenuItem[];
   selectedUser?: User;
+  private langChangeSubscription!: Subscription;
 
   constructor(private dialogService: DialogService,
               private confirmationService: ConfirmationService,
@@ -59,6 +61,14 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.userAccess = this.permissionService.getUserAccess();
+    this.initializeMenu();
+    this.findAllUsers();
+    this.langChangeSubscription = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.initializeMenu();
+    });
+  }
+
+  private initializeMenu() {
     this.items = [
       {
         label: this.translateService.instant('common.edit'),
@@ -79,7 +89,12 @@ export class UserListComponent implements OnInit {
         visible: this.userAccess.canSendEmail
       }
     ].filter((m: MenuItem) => m.visible !== false);
-    this.findAllUsers();
+  }
+
+  ngOnDestroy(): void {
+    if (this.langChangeSubscription) {
+      this.langChangeSubscription.unsubscribe();
+    }
   }
 
   private findAllUsers(): void {

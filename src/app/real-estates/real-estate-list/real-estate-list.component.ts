@@ -32,7 +32,6 @@ import { RealEstateType } from '../model/real-estate-type.enum';
 import { PrimeNG } from 'primeng/config';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { DialogService } from 'primeng/dynamicdialog';
 import { RealEstatesRecordComponent } from '../real-estates-record/real-estates-record.component';
 import { Dialog } from 'primeng/dialog';
 
@@ -59,7 +58,7 @@ type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOw
   ],
   templateUrl: './real-estate-list.component.html',
   styleUrl: './real-estate-list.component.scss',
-  providers: [ConfirmationService, DialogService],
+  providers: [ConfirmationService],
   encapsulation: ViewEncapsulation.None
 })
 export class RealEstateListComponent implements OnInit, OnDestroy {
@@ -83,34 +82,17 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
               private toasterService: ToasterService,
               private filterService: FilterService,
               private router: Router,
-              private config: PrimeNG,
-              private dialogService: DialogService,) {
+              private config: PrimeNG) {
   }
 
   ngOnInit(): void {
     this.translateService.get('prime_ng').subscribe(res => this.config.setTranslation(res));
     this.langChangeSubscription = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
       this.translateService.get('prime_ng').subscribe(res => this.config.setTranslation(res));
+      this.initializeMenu();
     });
     this.userAccess = this.permissionService.getUserAccess();
-    this.items = [
-      {
-        label: this.translateService.instant('real_estates.see_description_sheet'),
-        icon: PrimeIcons.EYE,
-        command: () => this.openRealEstateRecord(),
-      },
-      {
-        label: this.translateService.instant('common.edit'),
-        icon: PrimeIcons.PEN_TO_SQUARE,
-        command: () => this.editRealEstate(),
-        visible: this.userAccess.canEditRealEstate
-      },
-      {
-        label: this.translateService.instant('common.delete'),
-        icon: PrimeIcons.TRASH,
-        command: (menuEvent: MenuItemCommandEvent) => this.deleteRealEstate(menuEvent.originalEvent!)
-      },
-    ].filter((m: MenuItem) => m.visible !== false);
+    this.initializeMenu();
     this.realEstateTypes = this.realEstateService.getRealEstatesTypes();
     this.findAllRealEstates();
     this.filterService.register('owners', (owners: LabelValue<number>[], filter: number[]): boolean => {
@@ -130,6 +112,27 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
       }
       return filter.includes(type);
     });
+  }
+
+  private initializeMenu() {
+    this.items = [
+      {
+        label: this.translateService.instant('real_estates.see_description_sheet'),
+        icon: PrimeIcons.EYE,
+        command: () => this.openRealEstateRecord(),
+      },
+      {
+        label: this.translateService.instant('common.edit'),
+        icon: PrimeIcons.PEN_TO_SQUARE,
+        command: () => this.editRealEstate(),
+        visible: this.userAccess.canEditRealEstate
+      },
+      {
+        label: this.translateService.instant('common.delete'),
+        icon: PrimeIcons.TRASH,
+        command: (menuEvent: MenuItemCommandEvent) => this.deleteRealEstate(menuEvent.originalEvent!)
+      },
+    ].filter((m: MenuItem) => m.visible !== false);
   }
 
   ngOnDestroy(): void {

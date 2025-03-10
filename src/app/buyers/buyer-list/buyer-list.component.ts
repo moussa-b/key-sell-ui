@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { Button } from 'primeng/button';
 import { Card } from 'primeng/card';
 import { IconField } from 'primeng/iconfield';
@@ -6,7 +6,7 @@ import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
 import { ConfirmationService, MenuItem, MenuItemCommandEvent, PrimeIcons, PrimeTemplate } from 'primeng/api';
 import { TableModule } from 'primeng/table';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { BuyersService } from '../buyers.service';
 import { BuyerFormComponent } from '../buyer-form/buyer-form.component';
@@ -21,6 +21,7 @@ import { SendEmailComponent } from '../../core/components/send-email/send-email.
 import { SendEmailModel } from '../../core/models/send-email.model';
 import { ResponseStatus } from '../../core/models/response-status.model';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ks-buyer-list',
@@ -41,12 +42,13 @@ import { Clipboard } from '@angular/cdk/clipboard';
   styleUrl: './buyer-list.component.scss',
   providers: [DialogService, ConfirmationService]
 })
-export class BuyerListComponent implements OnInit {
+export class BuyerListComponent implements OnInit, OnDestroy {
   buyers: Buyer[] = [];
   isManagerOrAdmin = false;
   userAccess!: UserAccess;
   items!: MenuItem[];
   selectedBuyer?: Buyer;
+  private langChangeSubscription!: Subscription;
 
   constructor(private dialogService: DialogService,
               private confirmationService: ConfirmationService,
@@ -62,6 +64,19 @@ export class BuyerListComponent implements OnInit {
     this.userAccess = this.permissionService.getUserAccess();
     this.findAllBuyers();
     this.isManagerOrAdmin = this.permissionService.isManager || this.permissionService.isAdmin;
+    this.initializeMenu();
+    this.langChangeSubscription = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.initializeMenu();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.langChangeSubscription) {
+      this.langChangeSubscription.unsubscribe();
+    }
+  }
+
+  private initializeMenu() {
     this.items = [
       {
         label: this.translateService.instant('common.edit'),
