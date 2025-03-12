@@ -6,6 +6,8 @@ import { environment } from '../../environments/environment';
 import { SaveUserDto } from './dto/save-user.dto';
 import { SendEmailModel } from '../core/models/send-email.model';
 import { ResponseStatus } from '../core/models/response-status.model';
+import { UserAccess } from '../core/models/user-access.model';
+import { UserAccessConfiguration } from './dto/user-access.configuration';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +34,13 @@ export class UsersService {
 
   sendEmail(userId: number, sendEmail: SendEmailModel): Observable<ResponseStatus> {
     return this.http.post<ResponseStatus>(`${environment.API_URL}/api/users/${userId}/email/sent`, sendEmail);
+  }
+
+  getUserAccessConfiguration(userId: number): Observable<UserAccessConfiguration> {
+    return this.http.get<UserAccessConfiguration>(`${environment.API_URL}/api/users/access?userId=${userId}`);
+  }
+
+  updateUserAccess(userId: number, userAccess: UserAccess): Observable<UserAccess> {
+    return this.http.post<UserAccess>(`${environment.API_URL}/api/users/access?userId=${userId}`, userAccess);
   }
 }

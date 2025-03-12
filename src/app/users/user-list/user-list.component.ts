@@ -22,6 +22,8 @@ import { SendEmailComponent } from '../../core/components/send-email/send-email.
 import { SendEmailModel } from '../../core/models/send-email.model';
 import { ResponseStatus } from '../../core/models/response-status.model';
 import { Subscription } from 'rxjs';
+import { UserAccessFormComponent } from '../user-access-form/user-access-form.component';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'ks-user-list',
@@ -47,8 +49,21 @@ export class UserListComponent implements OnInit, OnDestroy {
   users: User[] = [];
   userAccess!: UserAccess;
   items!: MenuItem[];
-  selectedUser?: User;
+  _selectedUser?: User;
+  set selectedUser(user: User | undefined) {
+    if (user) {
+      let userAccessItem = this.items.find((item: MenuItem) => item.id === 'user-access');
+      if (userAccessItem) {
+        userAccessItem.visible = user.isActive;
+      }
+    }
+    this._selectedUser = user;
+  }
+  get selectedUser(): User | undefined {
+    return this._selectedUser;
+  }
   private langChangeSubscription!: Subscription;
+  currentUserId!: number;
 
   constructor(private dialogService: DialogService,
               private confirmationService: ConfirmationService,
@@ -56,11 +71,13 @@ export class UserListComponent implements OnInit, OnDestroy {
               private translateService: TranslateService,
               private elementRef: ElementRef,
               private permissionService: PermissionService,
-              private toasterService: ToasterService,) {
+              private toasterService: ToasterService,
+              private clipboard: Clipboard) {
   }
 
   ngOnInit(): void {
     this.userAccess = this.permissionService.getUserAccess();
+    this.currentUserId = this.permissionService.userId;
     this.initializeMenu();
     this.findAllUsers();
     this.langChangeSubscription = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -87,6 +104,13 @@ export class UserListComponent implements OnInit, OnDestroy {
         icon: PrimeIcons.ENVELOPE,
         command: () => this.sendEmailToUser(),
         visible: this.userAccess.canSendEmail
+      },
+      {
+        label: this.translateService.instant('users.access_rights_management'),
+        icon: PrimeIcons.LOCK,
+        command: () => this.editUserAccess(),
+        visible: this.userAccess.canEditUsersAccess,
+        id: 'user-access'
       }
     ].filter((m: MenuItem) => m.visible !== false);
   }
@@ -132,6 +156,25 @@ export class UserListComponent implements OnInit, OnDestroy {
       this.selectedUser = undefined;
       if (user) {
         this.findAllUsers();
+        this.toasterService.emitValue({
+          severity: 'success',
+          summary: this.translateService.instant('common.success'),
+          detail: this.translateService.instant('common.success_message')
+        });
+      }
+    });
+  }
+
+  editUserAccess() {
+    this.dialogService.open(UserAccessFormComponent, {
+      data: {userId: this.selectedUser!.id},
+      header: this.translateService.instant('users.access_rights_management'),
+      closeOnEscape: false,
+      closable: true,
+      modal: true,
+    }).onClose.subscribe((updated?: boolean) => {
+      this.selectedUser = undefined;
+      if (updated) {
         this.toasterService.emitValue({
           severity: 'success',
           summary: this.translateService.instant('common.success'),
@@ -192,6 +235,15 @@ export class UserListComponent implements OnInit, OnDestroy {
         });
       }
       this.selectedUser = undefined;
+    });
+  }
+
+  copyToClipboard(text: string): void {
+    this.clipboard.copy(text);
+    this.toasterService.emitValue({
+      severity: 'success',
+      summary: this.translateService.instant('common.success'),
+      detail: this.translateService.instant('common.success_message')
     });
   }
 }

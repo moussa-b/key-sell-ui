@@ -33,7 +33,17 @@ export class PermissionService {
 
   get userId(): number {
     const decodedToken = this.authService.getDecodedToken();
-    return decodedToken?.sub || 0;
+    return decodedToken?.id || 0;
+  }
+
+  get userRole(): UserRole | undefined {
+    const decodedToken = this.authService.getDecodedToken();
+    return decodedToken ? decodedToken.role : undefined;
+  }
+
+  get userIdentity(): string | undefined {
+    const decodedToken = this.authService.getDecodedToken();
+    return decodedToken ? `${decodedToken.firstName} ${decodedToken.lastName.toUpperCase()}` : undefined;
   }
 
   getUserAccess(): UserAccess {

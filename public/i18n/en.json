@@ -65,7 +65,8 @@
     "standard_user": "Standard user",
     "status": "Status",
     "user_list": "List of users",
-    "users": "Users"
+    "users": "Users",
+    "access_rights_management": "Access rights management"
   },
   "common": {
     "actions": "Actions",

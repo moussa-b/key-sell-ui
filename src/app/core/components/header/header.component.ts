@@ -10,6 +10,7 @@ import { MyAccountComponent } from '../../../users/my-account/my-account.compone
 import { PermissionService } from '../../services/permission.service';
 import { UserAccess } from '../../models/user-access.model';
 import { Ripple } from 'primeng/ripple';
+import { UserRole } from '../../../users/entities/user.entity';
 
 @Component({
   selector: 'ks-header',
@@ -29,6 +30,8 @@ export class HeaderComponent implements OnInit {
   isMenuOpen = false;
   menuItems: MenuItem[] = [];
   userAccess: UserAccess;
+  userIdentity?: string;
+  userRole: UserRole | undefined;
 
   constructor(private authService: AuthService,
               private dialogService: DialogService,
@@ -36,6 +39,8 @@ export class HeaderComponent implements OnInit {
               private router: Router,
               private permissionService: PermissionService,) {
     this.userAccess = this.permissionService.getUserAccess();
+    this.userIdentity = this.permissionService.userIdentity;
+    this.userRole = this.permissionService.userRole;
   }
 
   ngOnInit() {

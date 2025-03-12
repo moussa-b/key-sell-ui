@@ -10,7 +10,6 @@ import { AuthService } from '../../core/services/auth.service';
 import { Message } from 'primeng/message';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AccessToken } from '../../core/models/access-token.model';
-import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'ks-login',
@@ -41,7 +40,7 @@ export class LoginComponent {
 
   onSubmit(form: any) {
     if (form.valid) {
-      this.authService.login(this.username!, this.password!, this.rememberMe).subscribe({
+      this.authService.login(this.username!.trim(), this.password!, this.rememberMe).subscribe({
         next: (response: AccessToken) => {
           if (response?.accessToken && response.accessToken?.length > 0) {
             this.router.navigateByUrl('/real-estates');

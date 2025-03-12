@@ -1,6 +1,6 @@
 <p-card>
   <ng-template pTemplate="content">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-[40rem]">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-[45rem]">
       <div><strong>{{ 'real_estates.type' | translate }} :</strong> {{ realEstate.type | realEstatesType }}</div>
       <div><strong>{{ 'common.address' | translate }} :</strong> {{ realEstate.address | formatAddress }}</div>
       <div><strong>{{ 'real_estates.price' | translate }} :</strong> {{ realEstate.price }} {{ realEstate.priceCurrency }}</div>
@@ -43,7 +43,7 @@
       @if (pictures.length > 0) {
         <div class="md:col-span-2">
           <h4 class="text-lg font-semibold pb-2">{{ 'common.pictures' | translate }}</h4>
-          <div class="flex gap-4">
+          <div class="flex gap-4 flex-wrap">
             @for (media of pictures; track media.uuid) {
               <div class="p-4 flex flex-col border justify-center">
                 <ks-real-estates-media-card [showFileSize]="false"
@@ -57,7 +57,7 @@
       @if (videos.length > 0) {
         <div class="md:col-span-2">
           <h4 class="text-lg font-semibold pb-2">{{ 'common.videos' | translate }}</h4>
-          <div class="flex gap-4">
+          <div class="flex gap-4 flex-wrap">
             @for (media of videos; track media.uuid) {
               <div class="p-4 flex flex-col border justify-center">
                 <ks-real-estates-media-card [showFileSize]="false"
@@ -71,7 +71,7 @@
       @if (documents.length > 0) {
         <div class="md:col-span-2">
           <h4 class="text-lg font-semibold pb-2">{{ 'common.documents' | translate }}</h4>
-          <div class="flex gap-4">
+          <div class="flex gap-4 flex-wrap">
             @for (media of documents; track media.uuid) {
               <div class="p-4 flex flex-col border justify-center">
                 <ks-real-estates-media-card [showFileSize]="false"

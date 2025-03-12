@@ -1,0 +1,25 @@
+<form class="md:w-[40rem]" [formGroup]="userAccessForm" (ngSubmit)="onSubmit()">
+  @if (userAccessConfiguration && userAccessConfiguration.groups && userAccessConfiguration.groups.length > 0) {
+    <p-accordion [value]="0" [multiple]="true">
+      @for (group of userAccessConfiguration.groups; track group.label; let index = $index) {
+        <p-accordion-panel [value]="index">
+          <p-accordion-header>{{group.label}}</p-accordion-header>
+          <p-accordion-content>
+            @for (field of group.fields; track field.label;) {
+              <div class="flex items-center justify-between">
+                <label>{{field.label}}</label>
+                <p-toggleswitch [formControlName]="field.value"/>
+              </div>
+            }
+          </p-accordion-content>
+        </p-accordion-panel>
+      }
+    </p-accordion>
+  }
+  <div class="flex mt-4">
+    <p-button class="ml-auto"
+              type="submit">
+      {{ 'common.validate' | translate }}
+    </p-button>
+  </div>
+</form>

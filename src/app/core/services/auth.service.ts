@@ -12,10 +12,12 @@ import { UserAccess } from '../models/user-access.model';
 import { ResponseStatus } from '../models/response-status.model';
 
 export interface DecodedToken {
-  sub: number;
+  id: number;
   role: UserRole;
   iat: number;
   exp: number;
+  lastName: string,
+  firstName: string,
   userAccess: UserAccess
 }
 
@@ -104,7 +106,7 @@ export class AuthService {
       if (!this.decodedToken) {
         try {
           this.decodedToken = jwtDecode<DecodedToken>(this.jwtToken);
-          console.log('--> this.decodedToken.userAccess = ', this.decodedToken.userAccess);
+          console.log('--> this.decodedToken = ', this.decodedToken);
           return {...this.decodedToken};
         } catch (error) {
           console.error('Error decoding token:', error);

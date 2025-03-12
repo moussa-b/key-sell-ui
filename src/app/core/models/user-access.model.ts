@@ -1,15 +1,15 @@
 export class UserAccess {
-  canShowCalendarEvents = false;
+  canEditBuyers = false;
   canEditCalendarEvents = false;
-  canShowUsers= false;
-  canEditUsers= false;
-  canShowUsersAccess= false;
-  canEditUsersAccess= false;
-  canShowBuyers= false;
-  canEditBuyers= false;
-  canShowSellers= false;
-  canEditSellers= false;
-  canSendEmail= false;
-  canShowRealEstate= false;
-  canEditRealEstate= false;
+  canEditRealEstate = false;
+  canEditSellers = false;
+  canEditUsers = false;
+  canEditUsersAccess = false;
+  canSendEmail = false;
+  canShowBuyers = false;
+  canShowCalendarEvents = false;
+  canShowRealEstate = false;
+  canShowSellers = false;
+  canShowUsers = false;
+  canShowUsersAccess = false;
 }

@@ -36,27 +36,38 @@
            routerLinkActive="bg-white text-blue-600 shadow-md px-4 py-2 rounded-lg"
            [routerLinkActiveOptions]="{ exact: true }">{{ 'calendar.calendar' | translate }}</a>
       }
-      <p-avatar (click)="menu.toggle($event)"
-                icon="pi pi-user"
-                shape="circle"
-                styleClass="cursor-pointer"></p-avatar>
-      <p-menu #menu
-              [popup]="true"
-              [model]="menuItems">
-        <ng-template #item let-item>
-          <a pRipple class="flex items-center p-menu-item-link">
-            @if (item.icon) {
-              <span class="p-menu-item-icon" [class]="item.icon"></span>
+      <div (click)="menu.toggle($event)" class="cursor-pointer flex items-center">
+        @if (userIdentity || userRole) {
+          <div class="flex flex-col mr-1">
+            @if (userIdentity && userIdentity.length > 0) {
+              <span>{{userIdentity}}</span>
             }
-            @if (item.flag) {
-              <img [src]="item.flag"
-                   alt="Flag"
-                   width="16">
+            @if (userRole) {
+              <span class="text-sm font-bold text-end">{{userRole}}</span>
             }
-            <span class="ml-1 p-menu-item-label">{{ item.label }}</span>
-          </a>
-        </ng-template>
-      </p-menu>
+          </div>
+        }
+        <p-avatar icon="pi pi-user"
+                  shape="circle">
+        </p-avatar>
+        <p-menu #menu
+                [popup]="true"
+                [model]="menuItems">
+          <ng-template #item let-item>
+            <a pRipple class="flex items-center p-menu-item-link">
+              @if (item.icon) {
+                <span class="p-menu-item-icon" [class]="item.icon"></span>
+              }
+              @if (item.flag) {
+                <img [src]="item.flag"
+                     alt="Flag"
+                     width="16">
+              }
+              <span class="ml-1 p-menu-item-label">{{ item.label }}</span>
+            </a>
+          </ng-template>
+        </p-menu>
+      </div>
     </nav>
 
     <button class="md:hidden text-2xl focus:outline-none"

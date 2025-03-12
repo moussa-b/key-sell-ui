@@ -145,7 +145,6 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit {
   }
 
   onFileUploaded(event: FileUploadEvent) {
-    console.log('--> event : ', event);
     if (event.files.length > 0) {
       let medias = (event.originalEvent as HttpResponse<Media[]>).body;
       if (medias) {

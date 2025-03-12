@@ -44,7 +44,7 @@
       <tr [attr.data-user-id]="user.id">
         <td>{{ user.id }}</td>
         <td>
-          @if (items.length > 0 && user.id > 1) {
+          @if (items.length > 0 && (user.id > 1 && currentUserId !== user.id)) {
             <button (click)="selectedUser = user; menu.toggle($event)" class="text-blue-500 hover:text-blue-700 underline">
               {{user.lastName | uppercase}}
             </button>
@@ -58,7 +58,7 @@
         </td>
         <td>{{ user.firstName }}</td>
         <td>{{ user.sex === 'M' ? ('common.man' | translate) : (user.sex === 'F' ? ('common.woman' | translate) : '')}}</td>
-        <td>{{ user.email }}</td>
+        <td>{{ user.email }} <i class="text-blue-500 hover:text-blue-700 cursor-pointer p-2 pi pi-copy" (click)="copyToClipboard(user.email)"></i></td>
         <td>{{ user.role }}</td>
         <td>
           <p-tag [value]="user.isActive ? ('users.activated' | translate) : ('users.not_activated' | translate)" [severity]="user.isActive ? 'success' : 'danger'" />
