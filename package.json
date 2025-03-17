@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve --port 4300",
     "start:backend-online": "ng serve --port 4300 -c backend-online",
-    "build": "ng build",
+    "update-env": "node update-env.js",
+    "build": "npm run update-env && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
