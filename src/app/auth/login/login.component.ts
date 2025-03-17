@@ -10,6 +10,9 @@ import { AuthService } from '../../core/services/auth.service';
 import { Message } from 'primeng/message';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AccessToken } from '../../core/models/access-token.model';
+import { environment } from '../../../environments/environment';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { ToasterService } from '../../core/services/toaster.service';
 
 @Component({
   selector: 'ks-login',
@@ -30,8 +33,12 @@ export class LoginComponent {
   password?: string;
   username?: string;
   message?: {severity: string; message: string};
+  version = environment.version;
 
-  constructor(private authService: AuthService, private router: Router, public translateService: TranslateService,) {
+  constructor(private authService: AuthService, private router: Router,
+              public translateService: TranslateService,
+              private clipboard: Clipboard,
+              private toasterService: ToasterService,) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.info) {
       this.message = (navigation.extras.info as any)['message'];
@@ -61,5 +68,14 @@ export class LoginComponent {
     if (this.translateService.currentLang !== language) {
       this.translateService.use(language);
     }
+  }
+
+  copyVersion() {
+    this.clipboard.copy(this.version);
+    this.toasterService.emitValue({
+      severity: 'info',
+      summary: this.translateService.instant('common.information'),
+      detail: this.translateService.instant('common.success_copy')
+    });
   }
 }

@@ -63,21 +63,31 @@
                   type="submit"/>
       </div>
 
-      <div class="flex justify-end gap-1">
-        <button (click)="changeLanguage('fr')"
-                [class]="translateService.currentLang === 'fr' ? 'border border-blue-500 rounded-md px-2 py-1' : 'px-2 py-1'"
-                type="button">
-          <img src="/flags/fr.svg"
-               alt="French Flag"
-               width="24">
-        </button>
-        <button (click)="changeLanguage('en')"
-                [class]="translateService.currentLang === 'en' ? 'border border-blue-500 rounded-md px-2 py-1' : 'px-2 py-1'"
-                type="button">
-          <img src="/flags/sh.svg"
-               alt="British Flag"
-               width="24">
-        </button>
+      <div class="flex content-between w-full">
+        <p-button (click)="copyVersion()"
+                  [label]="version"
+                  class="grow"
+                  icon="pi pi-copy"
+                  severity="secondary"
+                  size="small"
+                  type="button"
+                  variant="text"/>
+        <div class="flex gap-1">
+          <button (click)="changeLanguage('fr')"
+                  [class]="translateService.currentLang === 'fr' ? 'border border-blue-500 rounded-md px-2 py-1' : 'px-2 py-1'"
+                  type="button">
+            <img src="/flags/fr.svg"
+                 alt="French Flag"
+                 width="24">
+          </button>
+          <button (click)="changeLanguage('en')"
+                  [class]="translateService.currentLang === 'en' ? 'border border-blue-500 rounded-md px-2 py-1' : 'px-2 py-1'"
+                  type="button">
+            <img src="/flags/sh.svg"
+                 alt="British Flag"
+                 width="24">
+          </button>
+        </div>
       </div>
     </form>
   </div>

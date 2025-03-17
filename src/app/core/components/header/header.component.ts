@@ -11,6 +11,9 @@ import { PermissionService } from '../../services/permission.service';
 import { UserAccess } from '../../models/user-access.model';
 import { Ripple } from 'primeng/ripple';
 import { UserRole } from '../../../users/entities/user.entity';
+import { environment } from '../../../../environments/environment';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { ToasterService } from '../../services/toaster.service';
 
 @Component({
   selector: 'ks-header',
@@ -37,7 +40,9 @@ export class HeaderComponent implements OnInit {
               private dialogService: DialogService,
               private translateService: TranslateService,
               private router: Router,
-              private permissionService: PermissionService,) {
+              private permissionService: PermissionService,
+              private toasterService: ToasterService,
+              private clipboard: Clipboard) {
     this.userAccess = this.permissionService.getUserAccess();
     this.userIdentity = this.permissionService.userIdentity;
     this.userRole = this.permissionService.userRole;
@@ -73,6 +78,23 @@ export class HeaderComponent implements OnInit {
             command: () => this.editProfile()
           },
           {label: this.translateService.instant('header.logout'), icon: 'pi pi-sign-out', command: () => this.logout()}
+        ]
+      },
+      {
+        label: this.translateService.instant('common.version'),
+        items: [
+          {
+            label: environment.version,
+            icon: 'pi pi-copy',
+            command: () => {
+              this.clipboard.copy(environment.version);
+              this.toasterService.emitValue({
+                severity: 'info',
+                summary: this.translateService.instant('common.information'),
+                detail: this.translateService.instant('common.success_copy')
+              });
+            }
+          },
         ]
       }
     ];

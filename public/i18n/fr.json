@@ -132,7 +132,10 @@
     "yes": "Oui",
     "created_on": "Crée le",
     "updated_on": "Mis à jour le",
-    "download": "Télécharger"
+    "download": "Télécharger",
+    "version": "Version",
+    "information": "Information",
+    "success_copy": "Copie effectuée avec succès"
   },
   "calendar": {
     "add_calendar_event": "Ajouter un événement",

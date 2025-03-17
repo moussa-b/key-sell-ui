@@ -134,7 +134,10 @@
     "yes": "Yes",
     "created_on": "Created on",
     "updated_on": "Updated on",
-    "download": "Download"
+    "download": "Download",
+    "version": "Version",
+    "information": "Information",
+    "success_copy": "Successful copy"
   },
   "calendar": {
     "add_calendar_event": "Add calendar event",

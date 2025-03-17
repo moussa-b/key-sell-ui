@@ -200,9 +200,9 @@ export class SellerListComponent implements OnInit, OnDestroy {
   copyToClipboard(text: string): void {
     this.clipboard.copy(text);
     this.toasterService.emitValue({
-      severity: 'success',
-      summary: this.translateService.instant('common.success'),
-      detail: this.translateService.instant('common.success_message')
+      severity: 'info',
+      summary: this.translateService.instant('common.information'),
+      detail: this.translateService.instant('common.success_copy')
     });
   }
 }
