@@ -9,13 +9,16 @@
   }
   @case ('documents') {
     @if (file) {
-      <object class="real-estates-media-document"
-              [title]="file.name"
-              [data]="file.safeURL ? file.safeURL : file.objectURL"
-              type="application/pdf">
-        <i [class]="PrimeIcons.FILE_PDF"
-           class="attachment-type text-blue-600"></i>
-      </object>
+      <div (click)="openPdfInDialog(file)"
+           class="relative cursor-pointer pdf-container">
+        <object class="real-estates-media-document"
+                [title]="file.name"
+                [data]="file.safeURL ? file.safeURL : file.objectURL"
+                type="application/pdf">
+          <i [class]="PrimeIcons.FILE_PDF"
+             class="attachment-type text-blue-600"></i>
+        </object>
+      </div>
     }
   }
   @case ('videos') {
@@ -30,3 +33,23 @@
     }
   }
 }
+
+<p-dialog [(visible)]="showPdfInDialog"
+          [maximizable]="true"
+          [modal]="true"
+          [style]="{ width: '80vw', height: '80vh' }"
+          (onHide)="selectedFile = undefined"
+          appendTo="body"
+          [header]="selectedFile ? selectedFile.name : ''">
+  <ng-template #content>
+    @if (selectedFile) {
+      <object [title]="selectedFile.name"
+              [data]="selectedFile.safeURL ? selectedFile.safeURL : selectedFile.objectURL"
+              type="application/pdf"
+              class="w-full h-full">
+        <i [class]="PrimeIcons.FILE_PDF"
+           class="attachment-type text-blue-600"></i>
+      </object>
+    }
+  </ng-template>
+</p-dialog>

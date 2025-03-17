@@ -4,12 +4,14 @@ import { Media } from '../../core/models/media.model';
 import { MediasService } from '../../core/services/medias.service';
 import { Image } from 'primeng/image';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Dialog } from 'primeng/dialog';
 
 @Component({
   selector: 'ks-real-estates-media',
   templateUrl: './real-estates-media.component.html',
   imports: [
-    Image
+    Image,
+    Dialog
   ],
   styleUrl: './real-estates-media.component.scss',
   encapsulation: ViewEncapsulation.None
@@ -19,6 +21,8 @@ export class RealEstatesMediaComponent implements OnInit, OnDestroy {
   @Input() media?: Media;
   @Input({required: true}) attachmentType!: 'pictures' | 'documents' | 'videos';
   readonly PrimeIcons = PrimeIcons;
+  selectedFile?: { safeURL?: any; name: string; objectURL?: string; size: number };
+  showPdfInDialog = false;
 
   constructor(private mediasService: MediasService, private sanitizer: DomSanitizer) {
   }
@@ -42,5 +46,10 @@ export class RealEstatesMediaComponent implements OnInit, OnDestroy {
     if (this.file && this.file.objectURL) {
       URL.revokeObjectURL(this.file.objectURL)
     }
+  }
+
+  openPdfInDialog(file: { safeURL?: any; name: string; objectURL?: string; size: number }) {
+    this.selectedFile = file;
+    this.showPdfInDialog = true;
   }
 }
