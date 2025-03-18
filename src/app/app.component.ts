@@ -7,10 +7,11 @@ import { ToasterService } from './core/services/toaster.service';
 import { Subscription } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { ToasterMessage } from './core/models/toaster-message.model';
+import { LoadingIndicatorComponent } from './core/components/loading-indicator/loading-indicator.component';
 
 @Component({
   selector: 'ks-root',
-  imports: [RouterOutlet, FormsModule, Toast],
+  imports: [RouterOutlet, FormsModule, Toast, LoadingIndicatorComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   providers: [MessageService]

@@ -12,6 +12,7 @@ import { definePreset } from '@primeng/themes';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { acceptLanguageInterceptor } from './core/interceptors/accept-language.interceptor';
+import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 
 const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './i18n/', '.json');
@@ -45,7 +46,7 @@ export const appConfig: ApplicationConfig = {
         preset: customThemePreset
       }
     }),
-    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor, acceptLanguageInterceptor])),
+    provideHttpClient(withInterceptors([loadingInterceptor, authInterceptor, errorInterceptor, acceptLanguageInterceptor])),
     importProvidersFrom([TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
