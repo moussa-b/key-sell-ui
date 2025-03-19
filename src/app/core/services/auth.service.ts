@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { StorageService } from './storage.service';
 import { jwtDecode } from 'jwt-decode';
 import { User, UserRole } from '../../users/entities/user.entity';
@@ -106,7 +106,9 @@ export class AuthService {
       if (!this.decodedToken) {
         try {
           this.decodedToken = jwtDecode<DecodedToken>(this.jwtToken);
-          console.log('--> this.decodedToken = ', this.decodedToken);
+          if (isDevMode()) {
+            console.log('--> this.decodedToken = ', this.decodedToken);
+          }
           return {...this.decodedToken};
         } catch (error) {
           console.error('Error decoding token:', error);

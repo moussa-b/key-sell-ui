@@ -19,4 +19,8 @@ export class CommonService {
   getSupportedCurrencies(): Observable<LabelValue<string>[]> {
     return this.http.get<LabelValue<string>[]>(`${environment.API_URL}/api/common/currencies`);
   }
+
+  getVersion(): Observable<{version: string}> {
+    return this.http.get<{version: string}>(`${environment.API_URL}/api/version`);
+  }
 }

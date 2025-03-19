@@ -14,6 +14,7 @@ import { UserRole } from '../../../users/entities/user.entity';
 import { environment } from '../../../../environments/environment';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ToasterService } from '../../services/toaster.service';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'ks-header',
@@ -35,6 +36,7 @@ export class HeaderComponent implements OnInit {
   userAccess: UserAccess;
   userIdentity?: string;
   userRole: UserRole | undefined;
+  private serverVersion?: string;
 
   constructor(private authService: AuthService,
               private dialogService: DialogService,
@@ -42,7 +44,8 @@ export class HeaderComponent implements OnInit {
               private router: Router,
               private permissionService: PermissionService,
               private toasterService: ToasterService,
-              private clipboard: Clipboard) {
+              private clipboard: Clipboard,
+              private commonService: CommonService) {
     this.userAccess = this.permissionService.getUserAccess();
     this.userIdentity = this.permissionService.userIdentity;
     this.userRole = this.permissionService.userRole;
@@ -50,6 +53,23 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.buildMenuItems();
+    this.commonService.getVersion().subscribe((res: {version: string}) => {
+      if (res.version) {
+        this.serverVersion = res.version;
+        for (const m of this.menuItems) {
+          if (m.id === 'version') {
+            for (const item of m.items!) {
+              if (item.id === 'server-version') {
+                item.label = `${res.version} (${this.translateService.instant('common.server')})`;
+                item.visible = true;
+                break;
+              }
+            }
+            break;
+          }
+        }
+      }
+    });
   }
 
   private buildMenuItems() {
@@ -82,6 +102,7 @@ export class HeaderComponent implements OnInit {
       },
       {
         label: this.translateService.instant('common.version'),
+        id: 'version',
         items: [
           {
             label: environment.version,
@@ -95,6 +116,22 @@ export class HeaderComponent implements OnInit {
               });
             }
           },
+          ...(UserRole.ADMIN === this.userRole ? [
+            {
+              label: '',
+              icon: 'pi pi-copy',
+              id: 'server-version',
+              visible: false,
+              command: () => {
+                this.clipboard.copy(this.serverVersion!);
+                this.toasterService.emitValue({
+                  severity: 'info',
+                  summary: this.translateService.instant('common.information'),
+                  detail: this.translateService.instant('common.success_copy')
+                });
+              }
+            }
+          ] : [])
         ]
       }
     ];

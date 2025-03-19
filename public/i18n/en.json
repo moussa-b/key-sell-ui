@@ -137,7 +137,8 @@
     "download": "Download",
     "version": "Version",
     "information": "Information",
-    "success_copy": "Successful copy"
+    "success_copy": "Successful copy",
+    "server": "Server"
   },
   "calendar": {
     "add_calendar_event": "Add calendar event",

@@ -135,7 +135,8 @@
     "download": "Télécharger",
     "version": "Version",
     "information": "Information",
-    "success_copy": "Copie effectuée avec succès"
+    "success_copy": "Copie effectuée avec succès",
+    "server": "Serveur"
   },
   "calendar": {
     "add_calendar_event": "Ajouter un événement",
