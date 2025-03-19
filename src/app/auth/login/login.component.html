@@ -1,95 +1,99 @@
 <div class="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-  <div class="w-full max-w-sm bg-white shadow-lg rounded-lg p-6">
-    <div class="text-center mb-6">
-      <h2 class="text-2xl font-bold">{{'common.connection' | translate}}</h2>
+  <div class="w-full max-w-sm bg-white shadow-lg rounded-lg">
+    <div class="text-center flex items-center gap-2 justify-center py-6 border-b border-gray-200">
+      <img alt="Key sell logo"
+           class="max-h-[30px]"
+           src="logo_ks.png">
+      <h1 class="text-2xl font-bold">Key Sell</h1>
     </div>
+    <div class="p-6">
+      @if (!!message) {
+        <p-message (onClose)="onCloseMessage()"
+                   [closable]="true"
+                   [life]="3000"
+                   variant="outlined"
+                   class="mb-4 block"
+                   [severity]="message.severity">{{message.message}}</p-message>
+      }
+      <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+        <h2 class="text-xl font-bold mb-4">{{'common.connection' | translate}}</h2>
+        <div class="mb-4">
+          <label for="email" class="block mb-1">{{'common.email' | translate}}</label>
+          <input [placeholder]="'auth.enter_email' | translate"
+                 class="w-full"
+                 id="email"
+                 name="email"
+                 [(ngModel)]="username"
+                 pInputText
+                 required
+                 type="email"/>
+        </div>
 
-    @if (!!message) {
-      <p-message (onClose)="onCloseMessage()"
-                 [closable]="true"
-                 [life]="3000"
-                 variant="outlined"
-                 class="mb-4 block"
-                 [severity]="message.severity">{{message.message}}</p-message>
-    }
+        <div class="mb-4">
+          <label for="password" class="block mb-1">{{'common.password' | translate}}</label>
+          <p-password [(ngModel)]="password"
+                      [feedback]="false"
+                      [placeholder]="'auth.enter_password' | translate"
+                      [toggleMask]="true"
+                      id="password"
+                      inputStyleClass="w-full"
+                      name="password"
+                      required
+                      styleClass="w-full"
+          ></p-password>
+        </div>
 
-    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-      <div class="mb-4">
-        <label for="email" class="block mb-1">{{'common.email' | translate}}</label>
-        <input [placeholder]="'auth.enter_email' | translate"
-               class="w-full"
-               id="email"
-               name="email"
-               [(ngModel)]="username"
-               pInputText
-               required
-               type="email"/>
-      </div>
+        <div class="mb-4 flex items-center justify-between">
+          <div class="flex items-center">
+            <p-checkbox [(ngModel)]="rememberMe"
+                        binary="true"
+                        class="mr-2 flex"
+                        id="rememberMe"
+                        name="rememberMe"
+            ></p-checkbox>
+            <label for="rememberMe">{{'auth.stay_connected' | translate}}</label>
+          </div>
+          <a class="text-blue-500 hover:underline text-sm"
+             routerLink="../password-lost">
+            {{'auth.forgot_password' | translate}}
+          </a>
+        </div>
 
-      <div class="mb-4">
-        <label for="password" class="block mb-1">{{'common.password' | translate}}</label>
-        <p-password [(ngModel)]="password"
-                    [feedback]="false"
-                    [placeholder]="'auth.enter_password' | translate"
-                    [toggleMask]="true"
-                    id="password"
-                    inputStyleClass="w-full"
-                    name="password"
-                    required
+        <div class="flex justify-center mb-4">
+          <p-button class="w-full"
+                    [label]="'auth.connect' | translate"
                     styleClass="w-full"
-        ></p-password>
-      </div>
-
-      <div class="mb-4 flex items-center justify-between">
-        <div class="flex items-center">
-          <p-checkbox [(ngModel)]="rememberMe"
-                      binary="true"
-                      class="mr-2 flex"
-                      id="rememberMe"
-                      name="rememberMe"
-          ></p-checkbox>
-          <label for="rememberMe">{{'auth.stay_connected' | translate}}</label>
+                    type="submit"/>
         </div>
-        <a class="text-blue-500 hover:underline text-sm"
-           routerLink="../password-lost">
-          {{'auth.forgot_password' | translate}}
-        </a>
-      </div>
 
-      <div class="flex justify-center mb-4">
-        <p-button class="w-full"
-                  [label]="'auth.connect' | translate"
-                  styleClass="w-full"
-                  type="submit"/>
-      </div>
-
-      <div class="flex content-between w-full">
-        <p-button (click)="copyVersion()"
-                  [label]="version"
-                  class="grow"
-                  icon="pi pi-copy"
-                  severity="secondary"
-                  size="small"
-                  type="button"
-                  variant="text"/>
-        <div class="flex gap-1">
-          <button (click)="changeLanguage('fr')"
-                  [class]="translateService.currentLang === 'fr' ? 'border border-blue-500 rounded-md px-2 py-1' : 'px-2 py-1'"
-                  type="button">
-            <img src="/flags/fr.svg"
-                 alt="French Flag"
-                 width="24">
-          </button>
-          <button (click)="changeLanguage('en')"
-                  [class]="translateService.currentLang === 'en' ? 'border border-blue-500 rounded-md px-2 py-1' : 'px-2 py-1'"
-                  type="button">
-            <img src="/flags/sh.svg"
-                 alt="British Flag"
-                 width="24">
-          </button>
+        <div class="flex content-between w-full">
+          <p-button (click)="copyVersion()"
+                    [label]="version"
+                    class="grow"
+                    icon="pi pi-copy"
+                    severity="secondary"
+                    size="small"
+                    type="button"
+                    variant="text"/>
+          <div class="flex gap-1">
+            <button (click)="changeLanguage('fr')"
+                    [class]="translateService.currentLang === 'fr' ? 'border border-blue-500 rounded-md px-2 py-1' : 'px-2 py-1'"
+                    type="button">
+              <img src="/flags/fr.svg"
+                   alt="French Flag"
+                   width="24">
+            </button>
+            <button (click)="changeLanguage('en')"
+                    [class]="translateService.currentLang === 'en' ? 'border border-blue-500 rounded-md px-2 py-1' : 'px-2 py-1'"
+                    type="button">
+              <img src="/flags/sh.svg"
+                   alt="British Flag"
+                   width="24">
+            </button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </div>
 
