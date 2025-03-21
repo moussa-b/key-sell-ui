@@ -130,7 +130,8 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
       {
         label: this.translateService.instant('common.delete'),
         icon: PrimeIcons.TRASH,
-        command: (menuEvent: MenuItemCommandEvent) => this.deleteRealEstate(menuEvent.originalEvent!)
+        command: (menuEvent: MenuItemCommandEvent) => this.deleteRealEstate(menuEvent.originalEvent!),
+        visible: this.userAccess.canEditRealEstate
       },
     ].filter((m: MenuItem) => m.visible !== false);
   }
