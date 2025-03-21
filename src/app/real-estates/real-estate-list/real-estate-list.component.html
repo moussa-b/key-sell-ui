@@ -114,7 +114,7 @@
         <td>{{ realEstate.id }}</td>
         <td>
           @if (items.length) {
-            <button (click)="selectedRealEstate = realEstate; menu.toggle($event)"
+            <button (click)="selectedRealEstate = realEstate; items.length === 1 ? openRealEstateRecord() : menu.toggle($event)"
                     class="text-blue-500 hover:text-blue-700 underline text-left">
               {{ realEstate.address | formatAddress:('common.not_specified_female' | translate) }}
             </button>
