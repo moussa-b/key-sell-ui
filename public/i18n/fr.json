@@ -63,7 +63,6 @@
     "not_activated": "Non activé",
     "role": "Rôle",
     "standard_user": "Utilisteur standard",
-    "status": "Statut",
     "user_list": "Liste des utilisateurs",
     "users": "Utilisateurs",
     "access_rights_management": "Gestion des droits d'accès"
@@ -136,7 +135,9 @@
     "version": "Version",
     "information": "Information",
     "success_copy": "Copie effectuée avec succès",
-    "server": "Serveur"
+    "server": "Serveur",
+    "status": "Statut",
+    "change_status": "Modifier le statut"
   },
   "calendar": {
     "add_calendar_event": "Ajouter un événement",
@@ -207,7 +208,10 @@
     "video_max_file_size": "Taille maximale autorisée : 20 Mo",
     "villa": "Villa",
     "see_description_sheet": "Voir les détails du bien immobilier",
-    "real_estate_detail": "Détails du bien immobilier"
+    "real_estate_detail": "Détails du bien immobilier",
+    "for_sale": "En vente",
+    "sale_in_progress": "Vente en cours",
+    "sold": "Vendu"
   },
   "prime_ng": {
     "startsWith": "Commence par",

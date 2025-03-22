@@ -2,6 +2,7 @@ import { RealEstateType } from './real-estate-type.enum';
 import { Address } from '../../core/models/address.model';
 import { LabelValue } from '../../core/models/label-value.model';
 import { Media } from '../../core/models/media.model';
+import { RealEstateStatus } from './real-estate-status.enum';
 
 export interface RealEstate {
   id: number;
@@ -24,6 +25,8 @@ export interface RealEstate {
   owners: number[];
   ownersDetails?: LabelValue<number>[];
   medias: Media[];
+  status: RealEstateStatus;
+  statusRemark: string;
   createdBy?: number;
   createdAt: Date;
   updatedBy?: number;

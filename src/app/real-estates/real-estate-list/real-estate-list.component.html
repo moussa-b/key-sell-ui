@@ -17,7 +17,7 @@
     </div>
   </ng-template>
   <p-table #dt
-           [globalFilterFields]="['concatenedAddress', 'concatenedOwners', 'formatedType']"
+           [globalFilterFields]="['concatenedAddress', 'concatenedOwners', 'formatedType', 'formatedStatus']"
            [paginator]="true"
            [rowHover]="true"
            [rows]="10"
@@ -91,6 +91,22 @@
                           field="price"
                           type="numeric"/>
         </th>
+        <th class="whitespace-nowrap">{{'common.status' | translate}}
+          <p-columnFilter [showAddButton]="false"
+                          [showMatchModes]="false"
+                          [showOperator]="false"
+                          display="menu"
+                          field="status"
+                          matchMode="realEstateStatus">
+            <ng-template #filter let-value let-filter="filterCallback">
+              <p-multiSelect (onChange)="filter($event.value)"
+                             [ngModel]="value"
+                             [options]="realEstateStatusOptions"
+                             [placeholder]="'common.select' | translate">
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter>
+        </th>
         <th class="whitespace-nowrap">{{'real_estates.owner_or_owners' | translate}}
           <p-columnFilter [showAddButton]="false"
                           [showMatchModes]="false"
@@ -130,6 +146,7 @@
         <td>{{ realEstate.surface }}@if(realEstate.surface > 0) { m²}</td>
         <td>{{ realEstate.roomCount }}</td>
         <td>{{ realEstate.price }} {{ realEstate.priceCurrency }}</td>
+        <td><ks-status-tag [status]="realEstate.status" [statusRemark]="realEstate.statusRemark"/></td>
         <td>
           @if (realEstate.ownersDetails?.length > 0) {
             @for (owner of realEstate.ownersDetails; track owner.value; let last = $last) {
@@ -163,3 +180,14 @@
     <ks-real-estates-record [realEstate]="selectedRealEstate!"/>
   </ng-template>
 </p-dialog>
+
+<p-popover #op (onHide)="selectedRealEstate = undefined">
+  <ng-template #content>
+    @if (selectedRealEstate) {
+      <ks-status-form (statusChange)="onStatusChange($event); op.hide()"
+                      [statusRemark]="selectedRealEstate!.statusRemark"
+                      [realEstateId]="selectedRealEstate!.id"
+                      [status]="selectedRealEstate!.status"/>
+    }
+  </ng-template>
+</p-popover>

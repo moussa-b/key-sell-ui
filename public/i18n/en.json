@@ -63,7 +63,6 @@
     "not_activated": "Not activated",
     "role": "Role",
     "standard_user": "Standard user",
-    "status": "Status",
     "user_list": "List of users",
     "users": "Users",
     "access_rights_management": "Access rights management"
@@ -138,7 +137,9 @@
     "version": "Version",
     "information": "Information",
     "success_copy": "Successful copy",
-    "server": "Server"
+    "server": "Server",
+    "status": "Status",
+    "change_status": "Edit status"
   },
   "calendar": {
     "add_calendar_event": "Add calendar event",
@@ -207,7 +208,10 @@
     "upload_pending": "Upload pending",
     "villa": "Villa",
     "see_description_sheet": "See real estate details",
-    "real_estate_detail": "Real estate details"
+    "real_estate_detail": "Real estate details",
+    "for_sale": "For sale",
+    "sale_in_progress": "Sale in progress",
+    "sold": "Sold"
   },
   "prime_ng": {
     "startsWith": "Starts with",

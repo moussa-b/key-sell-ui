@@ -8,6 +8,7 @@ import { SaveRealEstateDto } from './dto/save-real-estate.dto';
 import { RealEstateType } from './model/real-estate-type.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { ResponseStatus } from '../core/models/response-status.model';
+import { RealEstateStatus } from './model/real-estate-status.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,10 @@ export class RealEstateService {
 
   update(realEstateId: number, saveRealEstateDto: SaveRealEstateDto): Observable<RealEstate> {
     return this.http.patch<RealEstate>(`${environment.API_URL}/api/real-estates/${realEstateId}`, saveRealEstateDto);
+  }
+
+  updateStatus(realEstateId: number, statusDto: {status: RealEstateStatus; statusRemark: string}): Observable<boolean> {
+    return this.http.patch<boolean>(`${environment.API_URL}/api/real-estates/${realEstateId}/status`, statusDto);
   }
 
   findAllOwners(): Observable<LabelValue<number>[]> {
@@ -80,6 +85,15 @@ export class RealEstateService {
     ]
   }
 
+  getRealEstatesStatusOptions(includeOther = false): LabelValue<RealEstateStatus>[] {
+    return [
+      {label: this.translateService.instant('real_estates.for_sale'), value: RealEstateStatus.FOR_SALE},
+      {label: this.translateService.instant('real_estates.sale_in_progress'), value: RealEstateStatus.SALE_IN_PROGRESS},
+      {label: this.translateService.instant('real_estates.sold'), value: RealEstateStatus.SOLD},
+      ...(includeOther ? [{label: this.translateService.instant('common.other'), value: RealEstateStatus.NONE}] : [])
+    ]
+  }
+
   getRealEstateFormatedType(type: RealEstateType): string {
     switch (type) {
       case RealEstateType.APARTMENT:
@@ -88,6 +102,18 @@ export class RealEstateService {
         return this.translateService.instant('real_estates.villa');
       case RealEstateType.HOUSE:
         return this.translateService.instant('real_estates.house');
+    }
+    return this.translateService.instant('common.other');
+  }
+
+  getRealEstateFormatedStatus(status: RealEstateStatus) {
+    switch (status) {
+      case RealEstateStatus.FOR_SALE:
+        return this.translateService.instant('real_estates.for_sale');
+      case RealEstateStatus.SALE_IN_PROGRESS:
+        return this.translateService.instant('real_estates.sale_in_progress');
+      case RealEstateStatus.SOLD:
+        return this.translateService.instant('real_estates.sold');
     }
     return this.translateService.instant('common.other');
   }

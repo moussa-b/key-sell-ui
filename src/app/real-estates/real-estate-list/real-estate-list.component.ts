@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
@@ -34,8 +34,12 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { RealEstatesRecordComponent } from '../real-estates-record/real-estates-record.component';
 import { Dialog } from 'primeng/dialog';
+import { RealEstateStatus } from '../model/real-estate-status.enum';
+import { StatusTagComponent } from '../status-tag/status-tag.component';
+import { Popover } from 'primeng/popover';
+import { StatusFormComponent } from '../status-form/status-form.component';
 
-type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOwners?: string;};
+type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOwners?: string; formatedStatus?: string;};
 
 @Component({
   selector: 'ks-real-estate-list',
@@ -54,7 +58,10 @@ type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOw
     FormsModule,
     DropdownModule,
     Dialog,
-    RealEstatesRecordComponent
+    RealEstatesRecordComponent,
+    StatusTagComponent,
+    Popover,
+    StatusFormComponent
   ],
   templateUrl: './real-estate-list.component.html',
   styleUrl: './real-estate-list.component.scss',
@@ -62,11 +69,13 @@ type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOw
   encapsulation: ViewEncapsulation.None
 })
 export class RealEstateListComponent implements OnInit, OnDestroy {
+  @ViewChild('op') popover?: Popover;
   realEstates: (RealEstate & uiFields)[] = [];
   userAccess!: UserAccess;
   items!: MenuItem[];
   selectedRealEstate?: RealEstate;
   owners: LabelValue<number>[] = [];
+  realEstateStatusOptions: LabelValue<RealEstateStatus>[] = [];
   realEstateTypes!: LabelValue<RealEstateType>[];
   FilterMatchMode: typeof FilterMatchMode = FilterMatchMode;
   FilterOperator: typeof FilterOperator = FilterOperator;
@@ -94,6 +103,7 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
     this.userAccess = this.permissionService.getUserAccess();
     this.initializeMenu();
     this.realEstateTypes = this.realEstateService.getRealEstatesTypes();
+    this.realEstateStatusOptions = this.realEstateService.getRealEstatesStatusOptions();
     this.findAllRealEstates();
     this.filterService.register('owners', (owners: LabelValue<number>[], filter: number[]): boolean => {
       if (!filter || filter.length === 0) {
@@ -112,6 +122,12 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
       }
       return filter.includes(type);
     });
+    this.filterService.register('realEstateStatus', (type: RealEstateStatus, filter: RealEstateStatus[]): boolean => {
+      if (!filter || filter.length === 0) {
+        return true;
+      }
+      return filter.includes(type);
+    });
   }
 
   private initializeMenu() {
@@ -125,6 +141,12 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
         label: this.translateService.instant('common.edit'),
         icon: PrimeIcons.PEN_TO_SQUARE,
         command: () => this.editRealEstate(),
+        visible: this.userAccess.canEditRealEstate
+      },
+      {
+        label: this.translateService.instant('common.change_status'),
+        icon: PrimeIcons.CHECK_SQUARE,
+        command: (event: MenuItemCommandEvent) => this.changeRealEstateStatus(event.originalEvent),
         visible: this.userAccess.canEditRealEstate
       },
       {
@@ -161,7 +183,8 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
           ...realEstate,
           concatenedAddress: AddressService.format(realEstate.address),
           concatenedOwners: concatenedOwners,
-          formatedType: this.realEstateService.getRealEstateFormatedType(realEstate.type)
+          formatedType: this.realEstateService.getRealEstateFormatedType(realEstate.type),
+          formatedStatus: this.realEstateService.getRealEstateFormatedStatus(realEstate.status),
         }
       });
       if (this.owners.length > 0) {
@@ -176,6 +199,11 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
 
   editRealEstate() {
     this.router.navigateByUrl(`/real-estates/${this.selectedRealEstate!.id}/edit`);
+  }
+
+  changeRealEstateStatus(event: Event | undefined) {
+    const target = this.elementRef.nativeElement.querySelector(`tr[data-real-estate-id='${this.selectedRealEstate!.id}'] button`);
+    this.popover?.toggle(event, target);
   }
 
   openRealEstateRecord() {
@@ -218,4 +246,18 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
     this.realEstateService.export(realEstateId);
   }
 
+  onStatusChange(newStatus: { status: RealEstateStatus; statusRemark: string; realEstateId: number }) {
+    this.realEstates = this.realEstates.map((realEstate: (RealEstate & uiFields)) => {
+      if (realEstate.id === newStatus.realEstateId) {
+        return {
+          ...realEstate,
+          status: newStatus.status,
+          statusRemark: newStatus.statusRemark,
+          formatedStatus: this.realEstateService.getRealEstateFormatedStatus(newStatus.status),
+        }
+      } else {
+        return {...realEstate}
+      }
+    });
+  }
 }

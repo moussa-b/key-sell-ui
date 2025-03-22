@@ -1,0 +1,23 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+  <div>
+    <label class="block">{{'common.status' | translate}}</label>
+    <p-selectButton [options]="realEstateStatusOptions"
+                    formControlName="status"/>
+  </div>
+
+  <div>
+    <label class="block">{{'common.remark' | translate}}</label>
+    <textarea class="w-full"
+              formControlName="statusRemark"
+              rows="3"
+              pTextarea>
+    </textarea>
+  </div>
+
+  <div class="flex">
+    <p-button class="ml-auto"
+              type="submit">
+      {{ 'common.validate' | translate }}
+    </p-button>
+  </div>
+</form>

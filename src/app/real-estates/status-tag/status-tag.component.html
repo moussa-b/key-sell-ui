@@ -1,0 +1,10 @@
+<p-tag (click)="statusRemark && statusRemark!.length > 0 ? op.toggle($event) : null"
+       [ngClass]="{'cursor-pointer': statusRemark && statusRemark!.length > 0}"
+       [severity]="severity"
+       [value]="value"
+       styleClass="whitespace-nowrap"/>
+<p-popover #op>
+  <ng-template #content>
+    {{statusRemark}}
+  </ng-template>
+</p-popover>
