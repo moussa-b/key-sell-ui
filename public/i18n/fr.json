@@ -211,7 +211,11 @@
     "real_estate_detail": "Détails du bien immobilier",
     "for_sale": "En vente",
     "sale_in_progress": "Vente en cours",
-    "sold": "Vendu"
+    "sold": "Vendu",
+    "final_selling_price": "Prix final de vente",
+    "sale_date": "Date de vente",
+    "buyer_or_buyers": "Acheteur(s)",
+    "sale_date_required": "La date de vente est obligatoire"
   },
   "prime_ng": {
     "startsWith": "Commence par",

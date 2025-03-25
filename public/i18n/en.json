@@ -211,7 +211,11 @@
     "real_estate_detail": "Real estate details",
     "for_sale": "For sale",
     "sale_in_progress": "Sale in progress",
-    "sold": "Sold"
+    "sold": "Sold",
+    "final_selling_price": "Final selling price",
+    "sale_date": "Sale date",
+    "buyer_or_buyers": "Buyer(s)",
+    "sale_date_required": "Sale date is required"
   },
   "prime_ng": {
     "startsWith": "Starts with",

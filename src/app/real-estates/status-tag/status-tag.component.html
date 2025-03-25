@@ -1,10 +1,37 @@
-<p-tag (click)="statusRemark && statusRemark!.length > 0 ? op.toggle($event) : null"
-       [ngClass]="{'cursor-pointer': statusRemark && statusRemark!.length > 0}"
-       [severity]="severity"
-       [value]="value"
+<p-tag (click)="showPopover ? op.toggle($event) : null"
+       [ngClass]="{'cursor-pointer': showPopover}"
+       [severity]="tagSeverity"
+       [value]="tagValue"
        styleClass="whitespace-nowrap"/>
 <p-popover #op>
   <ng-template #content>
-    {{statusRemark}}
+    <div class="flex flex-col gap-2">
+      @if (realEstate && realEstate.status === RealEstateStatus.SOLD) {
+        @if (realEstate.finalSellingPrice) {
+          <div>
+            <label class="block"><strong>{{ 'real_estates.final_selling_price' | translate }}</strong></label>
+            {{realEstate.finalSellingPrice}} {{realEstate.priceCurrency}}
+          </div>
+        }
+        @if (realEstate.saleDate) {
+          <div>
+            <label class="block"><strong>{{ 'real_estates.sale_date' | translate }}</strong></label>
+            {{realEstate.saleDate | date:'dd.MM.yyyy'}}
+          </div>
+        }
+        @if (buyersDetails && buyersDetails.length > 0) {
+          <div>
+            <label class="block"><strong>{{ 'real_estates.buyer_or_buyers' | translate }}</strong></label>
+            {{buyersDetails}}
+          </div>
+        }
+      }
+      @if (realEstate && realEstate.statusRemark && realEstate.statusRemark.trim().length > 0) {
+        <div>
+          <label class="block"><strong>{{ 'common.remarks' | translate }}</strong></label>
+          {{realEstate.statusRemark}}
+        </div>
+      }
+    </div>
   </ng-template>
 </p-popover>

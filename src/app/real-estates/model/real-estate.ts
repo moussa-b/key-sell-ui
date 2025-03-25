@@ -24,9 +24,13 @@ export interface RealEstate {
   address: Address;
   owners: number[];
   ownersDetails?: LabelValue<number>[];
+  buyers?: number[];
+  buyersDetails?: LabelValue<string>[];
   medias: Media[];
   status: RealEstateStatus;
   statusRemark: string;
+  saleDate?: string;
+  finalSellingPrice: number;
   createdBy?: number;
   createdAt: Date;
   updatedBy?: number;

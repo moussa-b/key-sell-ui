@@ -87,10 +87,10 @@
   <ng-template pTemplate="footer">
     <div class="text-right italic text-gray-500 text-sm">
       @if (realEstate.updatedAt) {
-        <div>{{ 'common.updated_on' | translate }} : {{ realEstate.updatedAt | date:'dd/MM/yyyy HH:mm' }}</div>
+        <div>{{ 'common.updated_on' | translate }} : {{ realEstate.updatedAt | date:'dd.MM.yyyy HH:mm' }}</div>
       }
       @else {
-        <div>{{ 'common.created_on' | translate }} : {{ realEstate.createdAt | date:'dd/MM/yyyy HH:mm' }}</div>
+        <div>{{ 'common.created_on' | translate }} : {{ realEstate.createdAt | date:'dd.MM.yyyy HH:mm' }}</div>
       }
     </div>
   </ng-template>

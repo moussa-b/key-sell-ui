@@ -9,6 +9,7 @@ import { RealEstateType } from './model/real-estate-type.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { ResponseStatus } from '../core/models/response-status.model';
 import { RealEstateStatus } from './model/real-estate-status.enum';
+import { UpdateStatusDto } from './dto/update-status.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -33,12 +34,17 @@ export class RealEstateService {
     return this.http.patch<RealEstate>(`${environment.API_URL}/api/real-estates/${realEstateId}`, saveRealEstateDto);
   }
 
-  updateStatus(realEstateId: number, statusDto: {status: RealEstateStatus; statusRemark: string}): Observable<boolean> {
-    return this.http.patch<boolean>(`${environment.API_URL}/api/real-estates/${realEstateId}/status`, statusDto);
+  updateStatus(realEstateId: number, statusDto: UpdateStatusDto): Observable<RealEstate> {
+    return this.http.patch<RealEstate>(`${environment.API_URL}/api/real-estates/${realEstateId}/status`, statusDto);
   }
 
   findAllOwners(): Observable<LabelValue<number>[]> {
     return this.http.get<LabelValue<number>[]>(`${environment.API_URL}/api/real-estates/owners`);
+  }
+
+
+  findAllBuyers(): Observable<LabelValue<number>[]> {
+    return this.http.get<LabelValue<number>[]>(`${environment.API_URL}/api/real-estates/buyers`);
   }
 
   remove(realEstateId: number): Observable<boolean> {

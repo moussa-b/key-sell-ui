@@ -1,0 +1,69 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 md:w-[30rem]">
+  <div>
+    <label class="block">{{'common.status' | translate}}</label>
+    <p-selectButton [options]="realEstateStatusOptions"
+                    formControlName="status"/>
+  </div>
+
+  <div>
+    <label class="block">{{'common.remarks' | translate}}</label>
+    <textarea class="w-full"
+              formControlName="statusRemark"
+              rows="3"
+              pTextarea>
+    </textarea>
+  </div>
+
+  @if (form.get('status')!.value === RealEstateStatus.SOLD) {
+    <div>
+      <label class="block">{{'real_estates.sale_date' | translate}} *</label>
+      <p-datepicker class="w-full"
+                    dataType="string"
+                    dateFormat="dd.mm.yy"
+                    formControlName="saleDate"
+                    [showButtonBar]="true"
+                    [iconDisplay]="'input'"
+                    [showIcon]="true"/>
+    </div>
+    @if (form.get('saleDate')?.invalid && form.get('saleDate')?.touched) {
+      <div class="text-red-500 text-sm">
+        {{'real_estates.sale_date_required' | translate}}
+      </div>
+    }
+
+    <div>
+      <label for="finalSellingPrice" class="block">{{ 'real_estates.final_selling_price' | translate }}</label>
+      <div class="flex">
+        <div>
+          <p-inputnumber [useGrouping]="false"
+                         class="mt-1 mr-3"
+                         formControlName="finalSellingPrice"
+                         inputId="finalSellingPrice"/>
+        </div>
+        <p-select [options]="supportedCurrencies"
+                  formControlName="priceCurrency"
+                  [placeholder]="'common.select' | translate"
+                  class="mt-1 self-start"
+                  id="priceCurrency"/>
+      </div>
+    </div>
+
+    <div>
+      <label class="block">{{ 'real_estates.buyer_or_buyers' | translate }}</label>
+      <p-multiselect formControlName="buyers"
+                     [options]="buyers"
+                     class="mt-1"
+                     display="chip"
+                     placeholder="{{ 'common.select' | translate }}"
+                     styleClass="w-full"/>
+    </div>
+  }
+
+  <div class="flex">
+    <p-button [disabled]="form.invalid"
+              class="ml-auto"
+              type="submit">
+      {{ 'common.validate' | translate }}
+    </p-button>
+  </div>
+</form>
