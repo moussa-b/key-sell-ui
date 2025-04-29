@@ -2,9 +2,16 @@
   <ng-template pTemplate="content">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-[45rem]">
       <div><strong>{{ 'real_estates.type' | translate }} :</strong> {{ realEstate.type | realEstatesType }}</div>
+      @if (realEstate.type === RealEstateType.LAND && realEstate.assignment) {
+        <div><strong>{{ 'real_estates.assignment' | translate }} :</strong> {{ realEstate.assignment | realEstatesAssignment }}</div>
+      }
       <div><strong>{{ 'common.address' | translate }} :</strong> {{ realEstate.address | formatAddress }}</div>
       <div><strong>{{ 'real_estates.price' | translate }} :</strong> {{ realEstate.price }} {{ realEstate.priceCurrency }}</div>
+      <div><strong>{{ 'real_estates.year_of_construction' | translate }} :</strong> {{ realEstate.yearOfConstruction }}</div>
       <div><strong>{{ 'real_estates.surface' | translate }} :</strong> {{ realEstate.surface }} m²</div>
+      @if (realEstate.totalSurface && realEstate.totalSurface > 0) {
+        <div><strong>{{ 'real_estates.total_surface' | translate }} :</strong> {{ realEstate.totalSurface }} m²</div>
+      }
       @if (realEstate.ownersDetails && realEstate.ownersDetails.length > 0) {
         <div [class]="realEstate.location ? undefined : 'md:col-span-2'">
           <strong>{{ 'real_estates.owner_or_owners' | translate }} :</strong>
@@ -12,9 +19,6 @@
             {{owner.label}}@if (!last) {, }
           }
         </div>
-      }
-      @if (realEstate.location) {
-        <div><strong>{{ 'real_estates.location' | translate }} :</strong> {{ realEstate.location }}</div>
       }
       <div><strong>{{ 'real_estates.room_count' | translate }} :</strong> {{ realEstate.roomCount }}</div>
       @if (realEstate.showerCount) {
@@ -32,7 +36,12 @@
       <div>
         <strong>{{ 'real_estates.has_garden' | translate }} :</strong> {{ realEstate.hasGarden ? ('common.yes' | translate) : ('common.no' | translate) }} @if (realEstate.gardenSurface) {({{ realEstate.gardenSurface }} m²)}
       </div>
-
+      @if (realEstate.location) {
+        <div><strong>{{ 'real_estates.location' | translate }} :</strong> {{ realEstate.location }}</div>
+      }
+      @if (realEstate.orientation) {
+        <div><strong>{{ 'real_estates.orientation' | translate }} :</strong> {{ realEstate.orientation  | realEstatesOrientation }}</div>
+      }
       @if (realEstate.isSecured) {
         <div><strong>{{ 'real_estates.is_secured' | translate }} :</strong> {{ realEstate.isSecured ? ('common.yes' | translate) : ('common.no' | translate) }} @if (realEstate.isSecured && realEstate.securityDetail) {({{ realEstate.securityDetail }})}</div>
       }

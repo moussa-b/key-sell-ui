@@ -3,12 +3,16 @@ import { Address } from '../../core/models/address.model';
 import { LabelValue } from '../../core/models/label-value.model';
 import { Media } from '../../core/models/media.model';
 import { RealEstateStatus } from './real-estate-status.enum';
+import { RealEstateOrientation } from './real-estate-orientation.enum';
+import { RealEstateAssignment } from './real-estate-assignment.enum';
 
 export interface RealEstate {
   id: number;
   type: RealEstateType;
+  yearOfConstruction: number;
   terraced: boolean;
   surface: number;
+  totalSurface?: number;
   roomCount: number;
   showerCount?: number;
   terraceCount?: number;
@@ -18,6 +22,8 @@ export interface RealEstate {
   securityDetail?: string;
   facadeCount?: number;
   location?: string;
+  orientation: RealEstateOrientation;
+  assignment: RealEstateAssignment;
   price: number;
   priceCurrency: string;
   remark?: string;

@@ -10,6 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ResponseStatus } from '../core/models/response-status.model';
 import { RealEstateStatus } from './model/real-estate-status.enum';
 import { UpdateStatusDto } from './dto/update-status.dto';
+import { RealEstateOrientation } from './model/real-estate-orientation.enum';
+import { RealEstateAssignment } from './model/real-estate-assignment.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -87,7 +89,33 @@ export class RealEstateService {
       {label: this.translateService.instant('real_estates.house'), value: RealEstateType.HOUSE},
       {label: this.translateService.instant('real_estates.villa'), value: RealEstateType.VILLA},
       {label: this.translateService.instant('real_estates.apartment'), value: RealEstateType.APARTMENT},
+      {label: this.translateService.instant('real_estates.land'), value: RealEstateType.LAND},
       {label: this.translateService.instant('common.other'), value: RealEstateType.NONE}
+    ]
+  }
+
+  getRealEstateOrientations(): LabelValue<RealEstateOrientation>[] {
+    return [
+      {label: this.translateService.instant('real_estates.north'), value: RealEstateOrientation.NORTH},
+      {label: this.translateService.instant('real_estates.northeast'), value: RealEstateOrientation.NORTH_EAST},
+      {label: this.translateService.instant('real_estates.east'), value: RealEstateOrientation.EAST},
+      {label: this.translateService.instant('real_estates.southeast'), value: RealEstateOrientation.SOUTH_EAST},
+      {label: this.translateService.instant('real_estates.south'), value: RealEstateOrientation.SOUTH},
+      {label: this.translateService.instant('real_estates.southwest'), value: RealEstateOrientation.SOUTH_WEST},
+      {label: this.translateService.instant('real_estates.west'), value: RealEstateOrientation.WEST},
+      {label: this.translateService.instant('real_estates.northwest'), value: RealEstateOrientation.NORTH_WEST},
+    ]
+  }
+
+  getRealEstateAssignments(): LabelValue<RealEstateAssignment>[] {
+    return [
+      {label: this.translateService.instant('real_estates.house'), value: RealEstateAssignment.HOUSE},
+      {label: this.translateService.instant('real_estates.villa'), value: RealEstateAssignment.VILLA},
+      {label: this.translateService.instant('real_estates.apartment'), value: RealEstateAssignment.APARTMENT},
+      {label: this.translateService.instant('real_estates.commercial_space'), value: RealEstateAssignment.COMMERCIAL_SPACE},
+      {label: this.translateService.instant('real_estates.offices'), value: RealEstateAssignment.OFFICE},
+      {label: this.translateService.instant('real_estates.agriculture'), value: RealEstateAssignment.AGRICULTURE},
+      {label: this.translateService.instant('common.other'), value: RealEstateAssignment.NONE},
     ]
   }
 
@@ -108,6 +136,48 @@ export class RealEstateService {
         return this.translateService.instant('real_estates.villa');
       case RealEstateType.HOUSE:
         return this.translateService.instant('real_estates.house');
+      case RealEstateType.LAND:
+        return this.translateService.instant('real_estates.land');
+    }
+    return this.translateService.instant('common.other');
+  }
+
+  getRealEstateFormatedAssignment(type: RealEstateAssignment): string {
+    switch (type) {
+      case RealEstateAssignment.HOUSE:
+        return this.translateService.instant('real_estates.house');
+      case RealEstateAssignment.VILLA:
+        return this.translateService.instant('real_estates.villa');
+      case RealEstateAssignment.APARTMENT:
+        return this.translateService.instant('real_estates.apartment');
+      case RealEstateAssignment.COMMERCIAL_SPACE:
+        return this.translateService.instant('real_estates.commercial_space');
+      case RealEstateAssignment.OFFICE:
+        return this.translateService.instant('real_estates.offices');
+      case RealEstateAssignment.AGRICULTURE:
+        return this.translateService.instant('real_estates.agriculture');
+    }
+    return this.translateService.instant('common.other');
+  }
+
+  getRealEstateFormatedOrientation(type: RealEstateOrientation): string {
+    switch (type) {
+      case RealEstateOrientation.NORTH:
+        return this.translateService.instant('real_estates.north');
+      case RealEstateOrientation.NORTH_EAST:
+        return this.translateService.instant('real_estates.northeast');
+      case RealEstateOrientation.EAST:
+        return this.translateService.instant('real_estates.east');
+      case RealEstateOrientation.SOUTH_EAST:
+        return this.translateService.instant('real_estates.southeast');
+      case RealEstateOrientation.SOUTH:
+        return this.translateService.instant('real_estates.south');
+      case RealEstateOrientation.SOUTH_WEST:
+        return this.translateService.instant('real_estates.southwest');
+      case RealEstateOrientation.WEST:
+        return this.translateService.instant('real_estates.west');
+      case RealEstateOrientation.NORTH_WEST:
+        return this.translateService.instant('real_estates.northwest');
     }
     return this.translateService.instant('common.other');
   }

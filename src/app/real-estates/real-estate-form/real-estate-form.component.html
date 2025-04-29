@@ -18,16 +18,30 @@
                 (ngSubmit)="onSubmit();activateCallback(2)"
                 class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:min-w-[40rem]">
 
-            <div>
-              <label for="type"
-                     class="block">{{ 'real_estates.type' | translate }} *</label>
-              <p-select [options]="realEstateTypes"
-                        formControlName="type"
-                        placeholder="{{ 'common.select' | translate }}"
-                        class="mt-1 w-full"
-                        id="type"/>
-              @if (realEstateForm.get('type')?.invalid && realEstateForm.get('type')?.touched) {
-                <div class="text-red-500 text-sm">{{ 'real_estates.type_required' | translate }}</div>
+            <div [ngClass]="{'flex flex-col gap-4 lg:flex-row lg:gap-2': realEstateForm.get('type') && realEstateForm.get('type')!.value === RealEstateType.LAND}">
+              <div [ngClass]="{'lg:w-1/2': realEstateForm.get('type') && realEstateForm.get('type')!.value === RealEstateType.LAND}">
+                <label for="type"
+                       class="block">{{ 'real_estates.type' | translate }} *</label>
+                <p-select [options]="realEstateTypes"
+                          formControlName="type"
+                          placeholder="{{ 'common.select' | translate }}"
+                          class="mt-1 w-full"
+                          id="type"/>
+                @if (realEstateForm.get('type')?.invalid && realEstateForm.get('type')?.touched) {
+                  <div class="text-red-500 text-sm">{{ 'real_estates.type_required' | translate }}</div>
+                }
+              </div>
+
+              @if (realEstateForm.get('type') && realEstateForm.get('type')!.value === RealEstateType.LAND) {
+                <div class="flex-grow">
+                  <label for="assignment"
+                         class="block">{{ 'real_estates.assignment' | translate }}</label>
+                  <p-select [options]="realEstateAssignments"
+                            formControlName="assignment"
+                            placeholder="{{ 'common.select' | translate }}"
+                            class="mt-1 w-full"
+                            id="assignment"/>
+                </div>
               }
             </div>
 
@@ -53,6 +67,34 @@
             </div>
 
             <div>
+              <label for="yearOfConstruction"
+                     class="block">{{ 'real_estates.year_of_construction' | translate }} *</label>
+              <p-inputnumber [useGrouping]="false"
+                             class="mt-1 w-full"
+                             formControlName="yearOfConstruction"
+                             inputId="yearOfConstruction"/>
+              @if (realEstateForm.get('yearOfConstruction')?.errors?.['required'] && realEstateForm.get('yearOfConstruction')?.touched) {
+                <div class="text-red-500 text-sm">{{ 'real_estates.year_of_construction_required' | translate }}</div>
+              }
+              @if (realEstateForm.get('yearOfConstruction')?.errors?.['min'] && realEstateForm.get('yearOfConstruction')?.touched) {
+                <div class="text-red-500 text-sm">{{ 'real_estates.year_of_construction_not_valid' | translate }}</div>
+              }
+            </div>
+
+            <div>
+              <label class="block">{{ 'real_estates.owner_or_owners' | translate }} *</label>
+              <p-multiselect formControlName="owners"
+                             [options]="owners"
+                             class="mt-1"
+                             display="chip"
+                             placeholder="{{ 'common.select' | translate }}"
+                             styleClass="w-full"/>
+              @if (realEstateForm.get('owners')?.invalid && realEstateForm.get('owners')?.touched) {
+                <div class="text-red-500 text-sm">{{ 'real_estates.owner_or_owners_required' | translate }}</div>
+              }
+            </div>
+
+            <div>
               <label for="surface"
                      class="block">{{ 'real_estates.surface' | translate }} *</label>
               <p-inputnumber [useGrouping]="false"
@@ -67,17 +109,14 @@
             </div>
 
             <div>
-              <label for="type"
-                     class="block">{{ 'real_estates.owner_or_owners' | translate }} *</label>
-              <p-multiselect formControlName="owners"
-                             [options]="owners"
-                             class="mt-1"
-                             display="chip"
-                             placeholder="{{ 'common.select' | translate }}"
-                             styleClass="w-full"/>
-              @if (realEstateForm.get('owners')?.invalid && realEstateForm.get('owners')?.touched) {
-                <div class="text-red-500 text-sm">{{ 'real_estates.owner_or_owners_required' | translate }}</div>
-              }
+              <label for="totalSurface"
+                     class="block">{{ 'real_estates.total_surface' | translate }}</label>
+              <p-inputnumber [useGrouping]="false"
+                             class="mt-1 w-full"
+                             formControlName="totalSurface"
+                             inputId="totalSurface"
+                             suffix=" m²"
+                             mode="decimal"/>
             </div>
 
             <div>
@@ -195,11 +234,21 @@
             </div>
 
             <div>
+              <label for="orientation"
+                     class="block">{{ 'real_estates.orientation' | translate }}</label>
+              <p-select [options]="realEstateOrientations"
+                        formControlName="orientation"
+                        placeholder="{{ 'common.select' | translate }}"
+                        class="mt-1 w-full"
+                        id="orientation"/>
+            </div>
+
+            <div>
               <label class="block">{{ 'real_estates.is_secured' | translate }}</label>
               <p-selectbutton [options]="booleanOptions"
                               formControlName="isSecured"
                               id="isSecured"/>
-              @if (realEstateForm.get('isSecured')?.value === true) {
+              @if (realEstateForm.get('isSecured') && realEstateForm.get('isSecured')!.value === true) {
                 <textarea class="mt-1 w-full"
                           formControlName="securityDetail"
                           [placeholder]="'real_estates.security_detail' | translate"
@@ -217,7 +266,7 @@
                         pTextarea></textarea>
             </div>
 
-            <div class="flex justify-end items-end">
+            <div class="flex justify-end items-end md:col-span-2">
               <p-button [disabled]="realEstateForm.invalid"
                         [label]="'common.continue' | translate"
                         class="ml-auto"

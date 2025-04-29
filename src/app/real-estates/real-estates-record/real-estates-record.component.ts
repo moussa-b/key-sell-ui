@@ -9,6 +9,9 @@ import { DatePipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Media, MediaType } from '../../core/models/media.model';
 import { RealEstatesMediaCardComponent } from '../real-estates-media-card/real-estates-media-card.component';
+import { RealEstateType } from '../model/real-estate-type.enum';
+import { RealEstatesAssignmentPipe } from '../pipes/real-estates-assignment.pipe';
+import { RealEstatesOrientationPipe } from '../pipes/real-estates-orientation.pipe';
 
 @Component({
   selector: 'ks-real-estates-record',
@@ -19,7 +22,9 @@ import { RealEstatesMediaCardComponent } from '../real-estates-media-card/real-e
     AddressPipe,
     DatePipe,
     TranslatePipe,
-    RealEstatesMediaCardComponent
+    RealEstatesMediaCardComponent,
+    RealEstatesAssignmentPipe,
+    RealEstatesOrientationPipe
   ],
   templateUrl: './real-estates-record.component.html',
   styleUrl: './real-estates-record.component.scss'
@@ -29,6 +34,7 @@ export class RealEstatesRecordComponent implements OnInit {
   pictures: Media[] = [];
   videos: Media[] = [];
   documents: Media[] = [];
+  RealEstateType = RealEstateType;
 
   constructor(@Optional() private dialogConfig: DynamicDialogConfig,) {
   }

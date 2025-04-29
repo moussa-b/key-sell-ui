@@ -27,6 +27,9 @@ import { CanComponentDeactivate, CanDeactivateType } from '../../core/guards/lea
 import { Subject } from 'rxjs';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Media, MediaType } from '../../core/models/media.model';
+import { RealEstateOrientation } from '../model/real-estate-orientation.enum';
+import { RealEstateAssignment } from '../model/real-estate-assignment.enum';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'ks-real-estate-form',
@@ -51,7 +54,8 @@ import { Media, MediaType } from '../../core/models/media.model';
     Card,
     PrimeTemplate,
     TableModule,
-    RealEstatesAttachmentsComponent
+    RealEstatesAttachmentsComponent,
+    NgClass
   ],
   providers: [ConfirmationService],
   templateUrl: './real-estate-form.component.html',
@@ -61,6 +65,8 @@ import { Media, MediaType } from '../../core/models/media.model';
 export class RealEstateFormComponent implements OnInit, CanComponentDeactivate {
   realEstateForm!: FormGroup;
   realEstateTypes!: LabelValue<RealEstateType>[];
+  realEstateOrientations!: LabelValue<RealEstateOrientation>[];
+  realEstateAssignments!: LabelValue<RealEstateAssignment>[];
   booleanOptions!: LabelValue<boolean>[];
   supportedCurrencies: LabelValue<string>[] = [];
   owners: LabelValue<number>[] = [];
@@ -72,6 +78,7 @@ export class RealEstateFormComponent implements OnInit, CanComponentDeactivate {
   pictures: Media[] = [];
   videos: Media[] = [];
   documents: Media[] = [];
+  RealEstateType = RealEstateType;
 
   constructor(private fb: FormBuilder,
               private commonService: CommonService,
@@ -136,6 +143,8 @@ export class RealEstateFormComponent implements OnInit, CanComponentDeactivate {
       this.documents = this.realEstate.medias.filter((m: Media) => m.mediaType === MediaType.DOCUMENT);
     }
     this.realEstateTypes = this.realEstateService.getRealEstatesTypes();
+    this.realEstateOrientations = this.realEstateService.getRealEstateOrientations();
+    this.realEstateAssignments = this.realEstateService.getRealEstateAssignments();
     this.booleanOptions = [
       {label: this.translateService.instant('common.yes'), value: true},
       {label: this.translateService.instant('common.no'), value: false}
@@ -143,8 +152,10 @@ export class RealEstateFormComponent implements OnInit, CanComponentDeactivate {
     this.realEstateForm = this.fb.group({
       id: [this.realEstate?.id],
       type: [this.realEstate?.type, Validators.required],
+      yearOfConstruction: [this.realEstate && this.realEstate!.yearOfConstruction > 0 ? this.realEstate.yearOfConstruction : null, [Validators.required, Validators.min(1900)]],
       terraced: [this.realEstate?.terraced || false],
       surface: [this.realEstate?.surface, Validators.required],
+      totalSurface: [this.realEstate?.totalSurface],
       roomCount: [this.realEstate?.roomCount, Validators.required],
       showerCount: [this.realEstate?.showerCount],
       terraceCount: [this.realEstate?.terraceCount],
@@ -153,6 +164,8 @@ export class RealEstateFormComponent implements OnInit, CanComponentDeactivate {
       isSecured: [this.realEstate?.isSecured || false],
       securityDetail: [{value: this.realEstate?.securityDetail, disabled: !(this.realEstate?.securityDetail)}],
       facadeCount: [this.realEstate?.facadeCount],
+      orientation: [this.realEstate?.orientation],
+      assignment: [this.realEstate?.assignment],
       location: [this.realEstate?.location],
       price: [this.realEstate?.price, Validators.required],
       priceCurrency: [this.realEstate?.priceCurrency, Validators.required],
