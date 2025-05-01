@@ -6,7 +6,8 @@
     "start": "ng serve --port 4300",
     "start:backend-online": "ng serve --port 4300 -c backend-online",
     "update-env": "node update-env.js",
-    "build": "npm run update-env && ng build",
+    "create-redirect": "node create-redirect.js",
+    "build": "npm run update-env && ng build && npm run create-redirect",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
