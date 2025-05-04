@@ -3,7 +3,7 @@
     <div class="flex flex-col items-center justify-between sm:flex-row">
       <h5 class="m-0">{{'real_estates.real_estate_list' | translate}}</h5>
       <div class="flex items-center">
-        @if (userAccess.canEditRealEstate) {
+        @if (userAccess.canEditRealEstates) {
           <p-button (onClick)="openNew()"
                     [label]="'real_estates.add_real_estate' | translate"
                     class="mr-2 responsive-button"
@@ -17,7 +17,7 @@
     </div>
   </ng-template>
   <p-table #dt
-           [globalFilterFields]="['concatenedAddress', 'concatenedOwners', 'formatedType', 'formatedStatus']"
+           [globalFilterFields]="['concatenedAddress', 'concatenedOwners', 'formattedType', 'formattedStatus']"
            [paginator]="true"
            [rowHover]="true"
            [rows]="10"
@@ -43,13 +43,13 @@
                           field="concatenedAddress"
                           type="text"/>
         </th>
-        <th class="whitespace-nowrap" pSortableColumn="formatedType">
-          <p-sortIcon field="formatedType" /> {{'real_estates.type' | translate}}
+        <th class="whitespace-nowrap" pSortableColumn="formattedType">
+          <p-sortIcon field="formattedType" /> {{'real_estates.type' | translate}}
           <p-columnFilter [showAddButton]="false"
                           [showMatchModes]="false"
                           [showOperator]="false"
                           field="type"
-                          matchMode="realEstateTypes"
+                          matchMode="multiSelectMatchMode"
                           display="menu">
             <ng-template #filter
                          let-value
@@ -97,7 +97,7 @@
                           [showOperator]="false"
                           display="menu"
                           field="status"
-                          matchMode="realEstateStatus">
+                          matchMode="multiSelectMatchMode">
             <ng-template #filter let-value let-filter="filterCallback">
               <p-multiSelect (onChange)="filter($event.value)"
                              [ngModel]="value"
@@ -113,7 +113,7 @@
                           [showOperator]="false"
                           display="menu"
                           field="ownersDetails"
-                          matchMode="owners">
+                          matchMode="multiSelectLabelValueMatchMode">
             <ng-template #filter let-value let-filter="filterCallback">
               <p-multiSelect (onChange)="filter($event.value)"
                              [ngModel]="value"
@@ -142,11 +142,11 @@
             {{ realEstate.address | formatAddress:('common.not_specified_female' | translate) }}
           }
         </td>
-        <td>{{ realEstate.formatedType }}</td>
+        <td>{{ realEstate.formattedType }}</td>
         <td>{{ realEstate.surface }}@if(realEstate.surface > 0) { m²}</td>
         <td>{{ realEstate.roomCount }}</td>
         <td>{{ realEstate.price }} {{ realEstate.priceCurrency }}</td>
-        <td><ks-status-tag [realEstate]="realEstate"/></td>
+        <td><ks-real-estate-status-tag [realEstate]="realEstate"/></td>
         <td>
           @if (realEstate.ownersDetails?.length > 0) {
             @for (owner of realEstate.ownersDetails; track owner.value; let last = $last) {

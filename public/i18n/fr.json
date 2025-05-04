@@ -137,12 +137,19 @@
     "success_copy": "Copie effectuée avec succès",
     "server": "Serveur",
     "status": "Statut",
-    "change_status": "Modifier le statut"
+    "status_required": "Le statut est obligatoire",
+    "change_status": "Modifier le statut",
+    "title": "Titre",
+    "title_required": "Le titre est obligatoire",
+    "date": "Date",
+    "date_required": "La date est obligatoire",
+    "hours_suffix": "Heure(s)",
+    "filter": "Filtrer",
+    "date_picker_placeholder": "jj.mm.aaaa"
   },
   "calendar": {
     "add_calendar_event": "Ajouter un événement",
     "calendar": "Agenda",
-    "date_picker_placeholder": "jj.mm.aaaa",
     "edit_calendar_event": "Modifier cet événement",
     "end_date": "Date de fin",
     "end_date_required": "La date de fin est obligatoire",
@@ -153,9 +160,7 @@
     "start_date_required": "La date de début est obligatoire",
     "start_hour": "Heure de début",
     "start_hour_required": "L'heure de début est obligatoire",
-    "time_picker_placeholder": "hh:mm",
-    "title": "Titre",
-    "title_required": "Le titre est obligatoire"
+    "time_picker_placeholder": "hh:mm"
   },
   "address": {
     "city": "Commune",
@@ -233,7 +238,24 @@
     "assignment": "Affectation",
     "commercial_space": "Local commercial",
     "offices": "Bureaux",
-    "agriculture": "Ferme ou agricole"
+    "agriculture": "Ferme ou agricole",
+    "no_tasks": "Aucune tâche pour ce bien immobilier"
+  },
+  "tasks": {
+    "manage_tasks": "Gérer les tâches",
+    "task_management": "Gestion des tâches",
+    "add_task": "Ajouter une tâche",
+    "task_type": "Type de tâche",
+    "responsible": "Responsable(s)",
+    "responsible_required": "Le ou les responsables sont obligatoires",
+    "duration": "Durée",
+    "to_do": "À faire",
+    "in_progress": "En cours",
+    "done": "Terminé",
+    "delete_task_confirmation_message": "Êtes-vous sûr de vouloir supprimer cette tâche ?",
+    "edit_task": "Modifier cette tâche",
+    "duration_required": "La durée est obligatoire",
+    "duration_required_not_valid": "La durée est non valide"
   },
   "prime_ng": {
     "startsWith": "Commence par",

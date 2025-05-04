@@ -10,7 +10,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { LabelValue } from '../../core/models/label-value.model';
 
 @Component({
-  selector: 'ks-status-tag',
+  selector: 'ks-real-estate-status-tag',
   imports: [
     Tag,
     Popover,
@@ -19,13 +19,13 @@ import { LabelValue } from '../../core/models/label-value.model';
     TranslatePipe,
     DatePipe
   ],
-  templateUrl: './status-tag.component.html'
+  templateUrl: './real-estate-status-tag.component.html'
 })
-export class StatusTagComponent {
+export class RealEstateStatusTagComponent {
   private _realEstate!: RealEstate;
   @Input({required: true}) set realEstate(realEstate: RealEstate) {
     this._realEstate = realEstate;
-    this.tagValue = this.realEstateService.getRealEstateFormatedStatus(realEstate.status);
+    this.tagValue = this.realEstateService.getRealEstateFormattedStatus(realEstate.status);
     switch (realEstate.status) {
       case RealEstateStatus.FOR_SALE:
         this.tagSeverity = 'info';

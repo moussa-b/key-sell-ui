@@ -1,0 +1,191 @@
+<div class="flex items-center justify-end mb-2">
+  @if (userAccess.canEditRealEstates) {
+    <p-button (onClick)="addTask()"
+              [label]="'tasks.add_task' | translate"
+              class="mr-2 responsive-button"
+              icon="pi pi-plus"/>
+  }
+  <p-iconfield>
+    <p-inputicon styleClass="pi pi-search"/>
+    <input pInputText
+           type="text"
+           [disabled]="!tasks || tasks.length === 0"
+           (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+           [placeholder]="('common.search' | translate)"/>
+  </p-iconfield>
+</div>
+@if (tasks && tasks.length > 0) {
+  <p-table #dt
+           [globalFilterFields]="['type', 'title', 'formattedDate', 'formattedStatus', 'formattedType', 'concatenedUsers', 'description']"
+           [paginator]="true"
+           [rowHover]="true"
+           [rows]="10"
+           [showCurrentPageReport]="true"
+           [value]="tasks"
+           [currentPageReportTemplate]="'common.current_page_report_template' | translate"
+           [rowsPerPageOptions]="[10, 25, 50]"
+           sortField="id"
+           class="w-full"
+           dataKey="id"
+           responsiveLayout="stack"
+           stripedRows>
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn="id" class="whitespace-nowrap">
+          <p-sortIcon field="id"/> {{ 'common.identifier' | translate }}
+          <p-columnFilter [matchMode]="FilterMatchMode.CONTAINS"
+                          [showMatchModes]="false"
+                          [showOperator]="false"
+                          [hideOnClear]="true"
+                          [showAddButton]="false"
+                          [placeholder]="'common.filter' | translate"
+                          display="menu"
+                          field="id"
+                          type="text"/>
+        </th>
+        <th pSortableColumn="title" class="whitespace-nowrap">
+          <p-sortIcon field="title"/> {{ 'common.title' | translate }}
+          <p-columnFilter [matchMode]="FilterMatchMode.CONTAINS"
+                          [showMatchModes]="false"
+                          [showOperator]="false"
+                          [hideOnClear]="true"
+                          [showAddButton]="false"
+                          [placeholder]="'common.filter' | translate"
+                          display="menu"
+                          field="title"
+                          type="text"/>
+        </th>
+        <th class="whitespace-nowrap" pSortableColumn="formattedType">
+          <p-sortIcon field="formattedType" /> {{'tasks.task_type' | translate}}
+          <p-columnFilter [showAddButton]="false"
+                          [showMatchModes]="false"
+                          [showOperator]="false"
+                          [hideOnClear]="true"
+                          field="type"
+                          matchMode="multiSelectMatchMode"
+                          display="menu">
+            <ng-template #filter
+                         let-value
+                         let-filter="filterCallback">
+              <p-multiSelect (onChange)="filter($event.value)"
+                             [ngModel]="value"
+                             [options]="taskTypesForFilter"
+                             [placeholder]="'common.select' | translate"
+                             [appendTo]="'body'">
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+        <th class="whitespace-nowrap" pSortableColumn="date">
+          <p-sortIcon field="date"/>
+          {{ 'common.date' | translate }}
+          <p-columnFilter [matchMode]="FilterMatchMode.CONTAINS"
+                          [showMatchModes]="false"
+                          [showOperator]="false"
+                          [hideOnClear]="true"
+                          [showAddButton]="false"
+                          [placeholder]="'common.filter' | translate"
+                          display="menu"
+                          field="formattedDate"
+                          type="text"/>
+        </th>
+        <th class="whitespace-nowrap" pSortableColumn="duration">
+          <p-sortIcon field="duration"/>
+          {{ 'tasks.duration' | translate }}
+          <p-columnFilter [matchMode]="FilterMatchMode.CONTAINS"
+                          [showMatchModes]="false"
+                          [showOperator]="false"
+                          [hideOnClear]="true"
+                          [showAddButton]="false"
+                          [placeholder]="'common.filter' | translate"
+                          display="menu"
+                          field="duration"
+                          type="text"/>
+        </th>
+        <th class="whitespace-nowrap" pSortableColumn="description">
+          <p-sortIcon field="description"/>
+          {{ 'common.description' | translate }}
+          <p-columnFilter [matchMode]="FilterMatchMode.CONTAINS"
+                          [showMatchModes]="false"
+                          [showOperator]="false"
+                          [hideOnClear]="true"
+                          [showAddButton]="false"
+                          [placeholder]="'common.filter' | translate"
+                          display="menu"
+                          field="description"
+                          type="text"/>
+        </th>
+        <th class="whitespace-nowrap" pSortableColumn="formattedStatus">
+          <p-sortIcon field="formattedStatus" /> {{'common.status' | translate}}
+          <p-columnFilter [showAddButton]="false"
+                          [showMatchModes]="false"
+                          [showOperator]="false"
+                          [hideOnClear]="true"
+                          field="status"
+                          matchMode="multiSelectMatchMode"
+                          display="menu">
+            <ng-template #filter
+                         let-value
+                         let-filter="filterCallback">
+              <p-multiSelect (onChange)="filter($event.value)"
+                             [ngModel]="value"
+                             [options]="taskStatusForFilter"
+                             [placeholder]="'common.select' | translate"
+                             [appendTo]="'body'">
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+        <th class="whitespace-nowrap">{{'tasks.responsible' | translate}}
+          <p-columnFilter [showAddButton]="false"
+                          [showMatchModes]="false"
+                          [showOperator]="false"
+                          display="menu"
+                          field="usersDetails"
+                          matchMode="multiSelectLabelValueMatchMode">
+            <ng-template #filter let-value let-filter="filterCallback">
+              <p-multiSelect (onChange)="filter($event.value)"
+                             [ngModel]="value"
+                             [options]="usersForFilter"
+                             [placeholder]="'common.select' | translate">
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-task>
+      <tr [attr.data-task-id]="task.id">
+        <td>{{ task.id }}</td>
+        <td class=>
+          @if (items.length) {
+            <button (click)="selectedTask = task; menu.toggle($event)"
+                    class="text-blue-500 hover:text-blue-700 underline text-left">
+              {{ task.title }}
+            </button>
+            <p-menu #menu
+                    [model]="items"
+                    [popup]="true"
+                    [appendTo]="'body'"/>
+          } @else {
+            {{ task.title }}
+          }
+        </td>
+        <td class=>{{task.formattedType}}</td>
+        <td class=>{{task.date | date:'dd.MM.yyyy':'UTC'}}</td>
+        <td class=>{{task.duration}} {{'common.hours_suffix' | translate}}</td>
+        <td class=>{{task.description}}</td>
+        <td class=>
+          <ks-real-estates-task-status [taskStatus]="task.status"
+                                       [realEstate]="realEstate"
+                                       [taskId]="task.id"/>
+        </td>
+        <td class=>{{ task.concatenedUsers }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+} @else if (tasks && tasks.length === 0) {
+  <div class="w-full">{{ 'real_estates.no_tasks' | translate }}</div>
+}
+
+<p-confirmpopup></p-confirmpopup>

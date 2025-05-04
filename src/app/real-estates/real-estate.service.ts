@@ -12,6 +12,8 @@ import { RealEstateStatus } from './model/real-estate-status.enum';
 import { UpdateStatusDto } from './dto/update-status.dto';
 import { RealEstateOrientation } from './model/real-estate-orientation.enum';
 import { RealEstateAssignment } from './model/real-estate-assignment.enum';
+import { Task, TaskStatus } from './model/task';
+import { SaveTaskDto } from './dto/save-task.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +46,6 @@ export class RealEstateService {
     return this.http.get<LabelValue<number>[]>(`${environment.API_URL}/api/real-estates/owners`);
   }
 
-
   findAllBuyers(): Observable<LabelValue<number>[]> {
     return this.http.get<LabelValue<number>[]>(`${environment.API_URL}/api/real-estates/buyers`);
   }
@@ -55,6 +56,34 @@ export class RealEstateService {
 
   removePictures(realEstateId: number, pictureUuid: string): Observable<ResponseStatus> {
     return this.http.delete<ResponseStatus>(`${environment.API_URL}/api/real-estates/${realEstateId}/pictures/${pictureUuid}`);
+  }
+
+  findAllTasksByRealEstateId(realEstateId: number): Observable<Task[]> {
+    return this.http.get<Task[]>(`${environment.API_URL}/api/real-estates/${realEstateId}/tasks`);
+  }
+
+  createTask(realEstateId: number, saveTaskDto: SaveTaskDto): Observable<Task> {
+    return this.http.post<Task>(`${environment.API_URL}/api/real-estates/${realEstateId}/tasks`, saveTaskDto);
+  }
+
+  updateTask(realEstateId: number, taskId: number, saveTaskDto: SaveTaskDto): Observable<Task> {
+    return this.http.patch<Task>(`${environment.API_URL}/api/real-estates/${realEstateId}/tasks/${taskId}`, saveTaskDto);
+  }
+
+  updateTaskStatus(realEstateId: number, taskId: RealEstate, status: TaskStatus): Observable<ResponseStatus> {
+    return this.http.patch<ResponseStatus>(`${environment.API_URL}/api/real-estates/${realEstateId}/tasks/${taskId}/status`, {status: status});
+  }
+
+  removeTask(realEstateId: number, taskId: number): Observable<ResponseStatus> {
+    return this.http.delete<ResponseStatus>(`${environment.API_URL}/api/real-estates/${realEstateId}/tasks/${taskId}`);
+  }
+
+  findAllUsers(realEstateId: number): Observable<LabelValue<number>[]> {
+    return this.http.get<LabelValue<number>[]>(`${environment.API_URL}/api/real-estates/${realEstateId}/users`);
+  }
+
+  findAllTaskType(realEstateId: number): Observable<LabelValue<number>[]> {
+    return this.http.get<LabelValue<number>[]>(`${environment.API_URL}/api/real-estates/${realEstateId}/tasks/types`);
   }
 
   export(realEstateId: number): void {
@@ -182,7 +211,7 @@ export class RealEstateService {
     return this.translateService.instant('common.other');
   }
 
-  getRealEstateFormatedStatus(status: RealEstateStatus) {
+  getRealEstateFormattedStatus(status: RealEstateStatus) {
     switch (status) {
       case RealEstateStatus.FOR_SALE:
         return this.translateService.instant('real_estates.for_sale');
@@ -192,5 +221,25 @@ export class RealEstateService {
         return this.translateService.instant('real_estates.sold');
     }
     return this.translateService.instant('common.other');
+  }
+
+  getTaskFormattedStatus(status: TaskStatus) {
+    switch (status) {
+      case TaskStatus.TO_DO:
+        return this.translateService.instant('tasks.to_do');
+      case TaskStatus.IN_PROGRESS:
+        return this.translateService.instant('tasks.in_progress');
+      case TaskStatus.DONE:
+        return this.translateService.instant('tasks.done');
+    }
+    return this.translateService.instant('common.other');
+  }
+
+  getTaskStatusOptions(): LabelValue<TaskStatus>[] {
+    return [
+      {label: this.translateService.instant('tasks.to_do'), value: TaskStatus.TO_DO},
+      {label: this.translateService.instant('tasks.in_progress'), value: TaskStatus.IN_PROGRESS},
+      {label: this.translateService.instant('tasks.done'), value: TaskStatus.DONE}
+    ]
   }
 }

@@ -35,11 +35,13 @@ import { Router } from '@angular/router';
 import { RealEstatesRecordComponent } from '../real-estates-record/real-estates-record.component';
 import { Dialog } from 'primeng/dialog';
 import { RealEstateStatus } from '../model/real-estate-status.enum';
-import { StatusTagComponent } from '../status-tag/status-tag.component';
+import { RealEstateStatusTagComponent } from '../real-estate-status-tag/real-estate-status-tag.component';
 import { UpdateStatusFormComponent } from '../update-status-form/update-status-form.component';
 import { DialogService } from 'primeng/dynamicdialog';
+import { RealEstatesTaskListComponent } from '../real-estates-task-list/real-estates-task-list.component';
+import { UtilsService } from '../../core/services/utils.service';
 
-type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOwners?: string; formatedStatus?: string;};
+type uiFields = {concatenedAddress?: string; formattedType?: string; concatenedOwners?: string; formattedStatus?: string;};
 
 @Component({
   selector: 'ks-real-estate-list',
@@ -59,7 +61,7 @@ type uiFields = {concatenedAddress?: string; formatedType?: string; concatenedOw
     DropdownModule,
     Dialog,
     RealEstatesRecordComponent,
-    StatusTagComponent
+    RealEstateStatusTagComponent
   ],
   templateUrl: './real-estate-list.component.html',
   styleUrl: './real-estate-list.component.scss',
@@ -114,18 +116,8 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
       }
       return false;
     });
-    this.filterService.register('realEstateTypes', (type: RealEstateType, filter: RealEstateType[]): boolean => {
-      if (!filter || filter.length === 0) {
-        return true;
-      }
-      return filter.includes(type);
-    });
-    this.filterService.register('realEstateStatus', (type: RealEstateStatus, filter: RealEstateStatus[]): boolean => {
-      if (!filter || filter.length === 0) {
-        return true;
-      }
-      return filter.includes(type);
-    });
+    this.filterService.register('multiSelectMatchMode', UtilsService.matchesFilter);
+    this.filterService.register('multiSelectLabelValueMatchMode', UtilsService.matchesLabelValueFilter);
   }
 
   private initializeMenu() {
@@ -136,22 +128,28 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
         command: () => this.openRealEstateRecord(),
       },
       {
+        label: this.translateService.instant('tasks.manage_tasks'),
+        icon: PrimeIcons.LIST_CHECK,
+        command: () => this.openRealEstateTasks(),
+        visible: this.userAccess.canShowTasks
+      },
+      {
         label: this.translateService.instant('common.edit'),
         icon: PrimeIcons.PEN_TO_SQUARE,
         command: () => this.editRealEstate(),
-        visible: this.userAccess.canEditRealEstate
+        visible: this.userAccess.canEditRealEstates
       },
       {
         label: this.translateService.instant('common.change_status'),
         icon: PrimeIcons.CHECK_SQUARE,
         command: () => this.updateRealEstateStatus(),
-        visible: this.userAccess.canEditRealEstate
+        visible: this.userAccess.canEditRealEstates
       },
       {
         label: this.translateService.instant('common.delete'),
         icon: PrimeIcons.TRASH,
         command: (menuEvent: MenuItemCommandEvent) => this.deleteRealEstate(menuEvent.originalEvent!),
-        visible: this.userAccess.canEditRealEstate
+        visible: this.userAccess.canEditRealEstates
       },
     ].filter((m: MenuItem) => m.visible !== false);
   }
@@ -188,8 +186,8 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
       ...realEstate,
       concatenedAddress: AddressService.format(realEstate.address),
       concatenedOwners: concatenedOwners,
-      formatedType: this.realEstateService.getRealEstateFormatedType(realEstate.type),
-      formatedStatus: this.realEstateService.getRealEstateFormatedStatus(realEstate.status),
+      formattedType: this.realEstateService.getRealEstateFormatedType(realEstate.type),
+      formattedStatus: this.realEstateService.getRealEstateFormattedStatus(realEstate.status),
     }
   }
 
@@ -213,6 +211,18 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
       if (realEstate) {
         this.onStatusChange(realEstate);
       }
+    });
+  }
+
+  openRealEstateTasks() {
+    this.dialogService.open(RealEstatesTaskListComponent, {
+      header: this.translateService.instant('tasks.task_management'),
+      data: {realEstate: this.selectedRealEstate},
+      closeOnEscape: false,
+      closable: true,
+      modal: true,
+      width: '80%',
+      height: '80%',
     });
   }
 

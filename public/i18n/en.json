@@ -139,12 +139,19 @@
     "success_copy": "Successful copy",
     "server": "Server",
     "status": "Status",
-    "change_status": "Edit status"
+    "status_required": "Status is required",
+    "change_status": "Edit status",
+    "title": "Title",
+    "title_required": "Title is required",
+    "date": "Date",
+    "date_required": "Date is required",
+    "hours_suffix": "Hour(s)",
+    "filter": "Filter",
+    "date_picker_placeholder": "dd.mm.yyyy"
   },
   "calendar": {
     "add_calendar_event": "Add calendar event",
     "calendar": "Calendar",
-    "date_picker_placeholder": "dd.mm.yyyy",
     "edit_calendar_event": "Edit calendar event",
     "end_date": "End date",
     "end_date_required": "End date is required",
@@ -155,9 +162,7 @@
     "start_date_required": "Start date is required",
     "start_hour": "Start hour",
     "start_hour_required": "Start hour is required",
-    "time_picker_placeholder": "hh:mm",
-    "title": "Title",
-    "title_required": "Title is required"
+    "time_picker_placeholder": "hh:mm"
   },
   "address": {
     "city": "City",
@@ -233,7 +238,24 @@
     "assignment": "Assignment",
     "commercial_space": "Commercial space",
     "offices": "Offices",
-    "agriculture": "Farm or agricultural"
+    "agriculture": "Farm or agricultural",
+    "no_tasks": "No tasks for this real estate"
+  },
+  "tasks": {
+    "manage_tasks": "Manage tasks",
+    "task_management": "Task management",
+    "add_task": "Add a task",
+    "task_type": "Task type",
+    "responsible": "Person(s) in charge",
+    "responsible_required": "The person(s) in charge are required",
+    "duration": "Duration",
+    "to_do": "To do",
+    "in_progress": "In progress",
+    "done": "Done",
+    "delete_task_confirmation_message": "Are you sure you want to delete this task?",
+    "edit_task": "Edit task",
+    "duration_required": "Duration is required",
+    "duration_required_not_valid": "Duration is not valid"
   },
   "prime_ng": {
     "startsWith": "Starts with",

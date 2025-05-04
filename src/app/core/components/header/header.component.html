@@ -8,7 +8,7 @@
     </div>
 
     <nav class="hidden md:flex space-x-6 items-center">
-      @if (userAccess.canShowRealEstate) {
+      @if (userAccess.canShowRealEstates) {
         <a routerLink="/real-estates"
            class="hover:text-blue-300"
            routerLinkActive="bg-white text-blue-600 shadow-md px-4 py-2 rounded-lg"
@@ -81,7 +81,7 @@
   <!-- Mobile Menu -->
   @if (isMenuOpen) {
     <div class="md:hidden bg-blue-700 text-white flex flex-col space-y-2 p-4">
-      @if (userAccess.canShowRealEstate) {
+      @if (userAccess.canShowRealEstates) {
         <a routerLink="/real-estates" class="hover:text-blue-300">{{'real_estates.real_estates' | translate}}</a>
       }
       @if (userAccess.canShowBuyers) {

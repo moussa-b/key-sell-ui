@@ -57,7 +57,7 @@ export const routes: Routes = [
       },
       {
         path: 'real-estates',
-        data: {userAccessFieldName: 'canShowRealEstate'},
+        data: {userAccessFieldName: 'canShowRealEstates'},
         children: [
           {
             path: 'new',

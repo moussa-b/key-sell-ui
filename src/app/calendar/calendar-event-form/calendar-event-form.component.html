@@ -1,6 +1,6 @@
 <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
   <div class="mb-4">
-    <label for="title" class="block text-lg">{{ 'calendar.title' | translate }}</label>
+    <label for="title" class="block text-lg">{{ 'common.title' | translate }}</label>
     <input
       class="mt-1 w-full border border-gray-300 rounded-md"
       formControlName="title"
@@ -9,7 +9,7 @@
       [placeholder]="'calendar.enter_event_title' | translate">
     @if (eventForm.get('title')?.invalid && eventForm.get('title')?.touched) {
       <div class="text-red-500 text-sm">
-        {{ 'calendar.title_required' | translate }}
+        {{ 'common.title_required' | translate }}
       </div>
     }
   </div>
@@ -27,7 +27,7 @@
   <div class="mb-4">
     <label class="block text-lg">{{ 'calendar.start_date' | translate }}</label>
     <div class="flex items-center gap-2">
-      <p-datepicker [placeholder]="'calendar.date_picker_placeholder' | translate"
+      <p-datepicker [placeholder]="'common.date_picker_placeholder' | translate"
                     dataType="string"
                     dateFormat="dd.mm.yy"
                     formControlName="startDate"
@@ -57,7 +57,7 @@
   <div class="mb-4">
     <label class="block text-lg">{{ 'calendar.end_date' | translate }}</label>
     <div class="flex items-center gap-2">
-      <p-datepicker [placeholder]="'calendar.date_picker_placeholder' | translate"
+      <p-datepicker [placeholder]="'common.date_picker_placeholder' | translate"
                     dataType="string"
                     formControlName="endDate"
                     inputId="endDate"

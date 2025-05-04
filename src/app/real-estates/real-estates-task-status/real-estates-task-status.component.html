@@ -1,0 +1,21 @@
+<p-tag (click)="showPopover ? op.toggle($event) : null"
+       [ngClass]="{'cursor-pointer': showPopover}"
+       [severity]="tagSeverity"
+       [value]="tagValue"
+       styleClass="whitespace-nowrap"/>
+<p-popover #op>
+  <ng-template #content>
+    <div class="mb-1">
+      <label for="type" class="block"><strong>{{'common.change_status' | translate}}</strong></label>
+      <p-selectButton [options]="taskStatusOptions"
+                      [(ngModel)]="taskStatusModel" class="mt-1"/>
+    </div>
+    <div class="flex justify-end">
+      <p-button (onClick)="updateStatus(); op.hide()"
+                type="submit"
+                size="small">
+        {{ 'common.validate' | translate }}
+      </p-button>
+    </div>
+  </ng-template>
+</p-popover>
