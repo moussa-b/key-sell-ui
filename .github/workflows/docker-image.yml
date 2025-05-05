@@ -19,7 +19,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get and update version in environment.ts
+      - name: Get and update version in environment.ts and package.json
         id: version
         run: |
           # Extract version from environment.ts
@@ -41,17 +41,24 @@ jobs:
           # Update environment.ts with new version
           sed -i "s/version: '.*'/version: '$NEW_VERSION'/" src/environments/environment.ts
 
-          # Output new version for later steps
+          # Update package.json
+          jq ".version = \"$NEW_VERSION\"" package.json > tmp.$$.json && mv tmp.$$.json package.json
+
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
           echo "Updated version: $NEW_VERSION"
 
-      - name: Commit updated environment.ts
+      - name: Commit updated files
         env:
           GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
           GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
         run: |
           git config --global user.email "$GIT_USER_EMAIL"
           git config --global user.name "$GIT_USER_NAME"
-          git add src/environments/environment.ts
+          git add src/environments/environment.ts package.json
           git commit -m "Bump version to ${{ env.NEW_VERSION }}"
           git push origin main
+
+      - name: Create and push git tag
+        run: |
+          git tag v${{ env.NEW_VERSION }}
+          git push origin v${{ env.NEW_VERSION }}
