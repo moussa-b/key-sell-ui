@@ -1,6 +1,6 @@
 {
   "name": "key-sell-ui",
-  "version": "0.0.0",
+  "version": "2025.05.05.01",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4300",
