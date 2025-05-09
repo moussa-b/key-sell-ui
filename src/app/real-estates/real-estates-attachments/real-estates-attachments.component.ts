@@ -105,7 +105,7 @@ export class RealEstatesAttachmentsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.medias.length > 0) {
-      forkJoin(this.medias.map((m: Media) => this.mediasService.getMedia(m, this.attachmentType))).subscribe({
+      forkJoin(this.medias.map((m: Media) => this.mediasService.getMedia(m))).subscribe({
         next: (responses: { media: Media, blob: Blob }[]) => {
           const files: File[] = [];
           responses.forEach((response: { media: Media, blob: Blob }) => {

@@ -22,6 +22,7 @@ import { SendEmailModel } from '../../core/models/send-email.model';
 import { ResponseStatus } from '../../core/models/response-status.model';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Subscription } from 'rxjs';
+import { Media } from '../../core/models/media.model';
 
 @Component({
   selector: 'ks-buyer-list',
@@ -125,7 +126,15 @@ export class BuyerListComponent implements OnInit, OnDestroy {
 
   editBuyer() {
     this.dialogService.open(BuyerFormComponent, {
-      data: {buyer: this.selectedBuyer},
+      data: {
+        buyer: this.selectedBuyer,
+        onRemoveMedia: (buyer: Buyer, uuid: string) => {
+          const buyerInArray = this.buyers.find((b: Buyer) => b.id === buyer.id);
+          if (buyerInArray && buyerInArray.medias) {
+            buyerInArray.medias = buyerInArray.medias.filter((m: Media)=> m.uuid !== uuid);
+          }
+        }
+      },
       header: this.translateService.instant('buyers.edit_buyer'),
       closable: true,
       closeOnEscape: false,

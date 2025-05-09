@@ -2,6 +2,7 @@
   <p-tablist>
     <p-tab value="personalInfo"><i class="pi pi-user mr-1"></i>{{ 'common.personal_info' | translate }}</p-tab>
     <p-tab value="address"><i class="pi pi-map-marker mr-1"></i>{{ 'common.address' | translate }}</p-tab>
+    <p-tab value="identityDocument"><i class="pi pi-id-card mr-1"></i>{{ 'common.identity_document' | translate }}</p-tab>
   </p-tablist>
   <p-tabpanels>
     <p-tabpanel value="personalInfo">
@@ -76,6 +77,13 @@
       <div class="md:col-span-2 md:w-[40rem]" [formGroup]="sellerForm">
         <ks-address-form formControlName="address"
                           id="address"/>
+      </div>
+    </p-tabpanel>
+    <p-tabpanel value="identityDocument">
+      <div class="md:col-span-2 md:w-[40rem]">
+        <ks-identity-documents (pendingFilesChange)="onPendingFilesChange($event)"
+                               (removeMedia)="onRemoveMedia($event)"
+                               [medias]="seller?.medias || []"/>
       </div>
     </p-tabpanel>
   </p-tabpanels>

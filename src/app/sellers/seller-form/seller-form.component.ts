@@ -13,6 +13,7 @@ import { Select } from 'primeng/select';
 import { AddressFormComponent } from '../../core/components/address-form/address-form.component';
 import { Address } from '../../core/models/address.model';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
+import { IdentityDocumentsComponent } from '../../core/components/identity-documents/identity-documents.component';
 
 @Component({
   selector: 'ks-seller-form',
@@ -30,7 +31,8 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
     TabList,
     TabPanel,
     TabPanels,
-    Tabs
+    Tabs,
+    IdentityDocumentsComponent
   ],
   templateUrl: './seller-form.component.html',
 })
@@ -38,6 +40,8 @@ export class SellerFormComponent implements OnInit {
   sellerForm!: FormGroup;
   sexOptions!: SelectItem<Sex>[];
   preferredLanguageOptions!: SelectItem<string>[];
+  private identityDocuments: File[] = [];
+  seller?: Seller;
 
   constructor(private fb: FormBuilder,
               private translateService: TranslateService,
@@ -47,16 +51,16 @@ export class SellerFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const seller: Seller | undefined = this.dialogConfig.data?.seller;
+    this.seller = this.dialogConfig.data?.seller;
     this.sellerForm = this.fb.group({
-      id: [seller?.id],
-      lastName: [seller?.lastName, Validators.required],
-      firstName: [seller?.firstName, Validators.required],
-      email: [seller?.email, [Validators.required, Validators.email]],
-      phone: [seller?.phone],
-      sex: [seller?.sex || Sex.MALE],
-      preferredLanguage: [seller ? seller.preferredLanguage : 'fr'],
-      address: [seller?.address || new Address()],
+      id: [this.seller?.id],
+      lastName: [this.seller?.lastName, Validators.required],
+      firstName: [this.seller?.firstName, Validators.required],
+      email: [this.seller?.email, [Validators.required, Validators.email]],
+      phone: [this.seller?.phone],
+      sex: [this.seller?.sex || Sex.MALE],
+      preferredLanguage: [this.seller ? this.seller.preferredLanguage : 'fr'],
+      address: [this.seller?.address || new Address()],
     });
     this.sexOptions = [
       {label: this.translateService.instant('common.man'), value: Sex.MALE},
@@ -71,7 +75,7 @@ export class SellerFormComponent implements OnInit {
   onSubmit(): void {
     if (this.sellerForm.valid) {
       let sellerFormValue = this.sellerForm.getRawValue();
-      const observable = sellerFormValue.id > 0 ? this.sellersService.update(sellerFormValue.id, sellerFormValue) : this.sellersService.create(sellerFormValue);
+      const observable = sellerFormValue.id > 0 ? this.sellersService.update(sellerFormValue.id, sellerFormValue, this.identityDocuments) : this.sellersService.create(sellerFormValue, this.identityDocuments);
       observable.subscribe((seller: Seller) => {
         if (seller && seller.id! > 0) {
           this.dialogRef.close(seller);
@@ -80,4 +84,13 @@ export class SellerFormComponent implements OnInit {
     }
   }
 
+  onPendingFilesChange(identityDocuments: File[]) {
+    this.identityDocuments = identityDocuments;
+  }
+
+  onRemoveMedia(uuid: string) {
+    if (this.dialogConfig.data && typeof this.dialogConfig.data.onRemoveMedia === 'function') {
+      this.dialogConfig.data.onRemoveMedia(this.seller, uuid);
+    }
+  }
 }

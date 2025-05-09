@@ -29,7 +29,7 @@ export class RealEstatesMediaComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (!this.file && this.media) {
-      this.mediasService.getMedia(this.media, this.attachmentType).subscribe((response: {
+      this.mediasService.getMedia(this.media).subscribe((response: {
         media: Media,
         blob: Blob
       }) => {

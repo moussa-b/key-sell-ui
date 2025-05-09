@@ -16,6 +16,7 @@ import { CommonService } from '../../core/services/common.service';
 import { LabelValue } from '../../core/models/label-value.model';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { InputNumber } from 'primeng/inputnumber';
+import { IdentityDocumentsComponent } from '../../core/components/identity-documents/identity-documents.component';
 
 @Component({
   selector: 'ks-buyer-form',
@@ -34,7 +35,8 @@ import { InputNumber } from 'primeng/inputnumber';
     Tab,
     TabPanels,
     TabPanel,
-    InputNumber
+    InputNumber,
+    IdentityDocumentsComponent
   ],
   templateUrl: './buyer-form.component.html',
 })
@@ -43,6 +45,8 @@ export class BuyerFormComponent implements OnInit {
   sexOptions!: SelectItem<Sex>[];
   preferredLanguageOptions!: SelectItem<string>[];
   supportedCurrencies: LabelValue<string>[] = [];
+  private identityDocuments: File[] = [];
+  buyer?: Buyer;
 
   constructor(private fb: FormBuilder,
               private translateService: TranslateService,
@@ -52,18 +56,18 @@ export class BuyerFormComponent implements OnInit {
               private commonService: CommonService) {}
 
   ngOnInit(): void {
-    const buyer: Buyer | undefined = this.dialogConfig.data?.buyer;
+    this.buyer = this.dialogConfig.data?.buyer;
     this.buyerForm = this.fb.group({
-      id: [buyer?.id],
-      lastName: [buyer?.lastName, Validators.required],
-      firstName: [buyer?.firstName, Validators.required],
-      email: [buyer?.email, [Validators.required, Validators.email]],
-      phone: [buyer?.phone],
-      sex: [buyer?.sex || Sex.MALE],
-      preferredLanguage: [buyer ? buyer.preferredLanguage : 'fr'],
-      address: [buyer?.address || new Address()],
-      budget: [buyer?.budget],
-      budgetCurrency: [buyer?.budgetCurrency],
+      id: [this.buyer?.id],
+      lastName: [this.buyer?.lastName, Validators.required],
+      firstName: [this.buyer?.firstName, Validators.required],
+      email: [this.buyer?.email, [Validators.required, Validators.email]],
+      phone: [this.buyer?.phone],
+      sex: [this.buyer?.sex || Sex.MALE],
+      preferredLanguage: [this.buyer ? this.buyer.preferredLanguage : 'fr'],
+      address: [this.buyer?.address || new Address()],
+      budget: [this.buyer?.budget],
+      budgetCurrency: [this.buyer?.budgetCurrency],
     });
     this.sexOptions= [
       { label: this.translateService.instant('common.man'), value: Sex.MALE },
@@ -85,7 +89,7 @@ export class BuyerFormComponent implements OnInit {
   onSubmit(): void {
     if (this.buyerForm.valid) {
       let buyerFormValue = this.buyerForm.getRawValue();
-      const observable = buyerFormValue.id > 0 ? this.buyersService.update(buyerFormValue.id, buyerFormValue) : this.buyersService.create(buyerFormValue);
+      const observable = buyerFormValue.id > 0 ? this.buyersService.update(buyerFormValue.id, buyerFormValue, this.identityDocuments) : this.buyersService.create(buyerFormValue, this.identityDocuments);
       observable.subscribe((buyer: Buyer) => {
         if (buyer && buyer.id! > 0) {
           this.dialogRef.close(buyer);
@@ -94,4 +98,13 @@ export class BuyerFormComponent implements OnInit {
     }
   }
 
+  onPendingFilesChange(identityDocuments: File[]) {
+    this.identityDocuments = identityDocuments;
+  }
+
+  onRemoveMedia(uuid: string) {
+    if (this.dialogConfig.data && typeof this.dialogConfig.data.onRemoveMedia === 'function') {
+      this.dialogConfig.data.onRemoveMedia(this.buyer, uuid);
+    }
+  }
 }

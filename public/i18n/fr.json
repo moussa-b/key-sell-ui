@@ -119,6 +119,7 @@
     "select": "Sélectionner",
     "select_file": "Choisir un fichier",
     "select_files": "Choisir des fichiers",
+    "delete_files": "Supprimer les fichiers",
     "send": "Envoyer",
     "send_email": "Envoyer un email",
     "send_email_to": "Envoyer un email à {{recipient}}",
@@ -145,7 +146,14 @@
     "date_required": "La date est obligatoire",
     "hours_suffix": "Heure(s)",
     "filter": "Filtrer",
-    "date_picker_placeholder": "jj.mm.aaaa"
+    "date_picker_placeholder": "jj.mm.aaaa",
+    "identity_document": "Pièce d'identité",
+    "file_saved": "Fichier sauvegardé",
+    "file_not_saved": "Fichier non sauvegardé",
+    "delete_identity_document_confirmation_message": "Êtes-vous sûr de vouloir supprimer ce document d'identité ?",
+    "delete_image_confirmation_message": "Êtes-vous sûr de vouloir supprimer cette ?",
+    "delete_document_confirmation_message": "Êtes-vous sûr de vouloir supprimer ce document ?",
+    "delete_video_confirmation_message": "Êtes-vous sûr de vouloir supprimer cette vidéo ?"
   },
   "calendar": {
     "add_calendar_event": "Ajouter un événement",

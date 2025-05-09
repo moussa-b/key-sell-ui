@@ -1,4 +1,5 @@
-import { Sex } from '../../core/models/sex.enum';
+import { Sex } from './sex.enum';
+import { Media } from './media.model';
 
 export interface Client {
   id: number;
@@ -12,4 +13,5 @@ export interface Client {
   address?: string;
   createdAt: Date;
   updatedAt: Date;
+  medias: Media[];
 }

@@ -120,6 +120,7 @@
     "select": "Select",
     "select_file": "Select file",
     "select_files": "Select files",
+    "delete_files": "Delete files",
     "send": "Send",
     "send_email": "Send an email",
     "send_email_to": "Send email to {{recipient}}",
@@ -147,7 +148,14 @@
     "date_required": "Date is required",
     "hours_suffix": "Hour(s)",
     "filter": "Filter",
-    "date_picker_placeholder": "dd.mm.yyyy"
+    "date_picker_placeholder": "dd.mm.yyyy",
+    "identity_document": "Identity document",
+    "file_saved": "File saved",
+    "file_not_saved": "File not saved",
+    "delete_identity_document_confirmation_message": "Are you sure you want to delete this identity document?",
+    "delete_image_confirmation_message": "Are you sure you want to delete this image?",
+    "delete_document_confirmation_message": "Are you sure you want to delete this document?",
+    "delete_video_confirmation_message": "Are you sure you want to delete this video?"
   },
   "calendar": {
     "add_calendar_event": "Add calendar event",

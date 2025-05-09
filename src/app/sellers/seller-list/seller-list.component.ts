@@ -22,6 +22,7 @@ import { SendEmailModel } from '../../core/models/send-email.model';
 import { ResponseStatus } from '../../core/models/response-status.model';
 import {Clipboard} from '@angular/cdk/clipboard';
 import { Subscription } from 'rxjs';
+import { Media } from '../../core/models/media.model';
 
 @Component({
   selector: 'ks-seller-list',
@@ -125,7 +126,15 @@ export class SellerListComponent implements OnInit, OnDestroy {
 
   editSeller() {
     this.dialogService.open(SellerFormComponent, {
-      data: {seller: this.selectedSeller},
+      data: {
+        seller: this.selectedSeller,
+        onRemoveMedia: (seller: Seller, uuid: string) => {
+          const sellerInArray = this.sellers.find((s: Seller) => s.id === seller.id);
+          if (sellerInArray && sellerInArray.medias) {
+            sellerInArray.medias = sellerInArray.medias.filter((m: Media) => m.uuid !== uuid);
+          }
+        }
+      },
       header: this.translateService.instant('sellers.edit_seller'),
       closeOnEscape: false,
       closable: true,

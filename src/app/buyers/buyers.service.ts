@@ -18,12 +18,26 @@ export class BuyersService {
     return this.http.get<Buyer[]>(`${environment.API_URL}/api/buyers`);
   }
 
-  create(createBuyerDto: SaveBuyerDto): Observable<Buyer> {
-    return this.http.post<Buyer>(`${environment.API_URL}/api/buyers`, createBuyerDto);
+  create(createBuyerDto: SaveBuyerDto, identityDocuments: File[]): Observable<Buyer> {
+    const formData = new FormData();
+    formData.append('buyer', JSON.stringify(createBuyerDto));
+    if (identityDocuments) {
+      identityDocuments.forEach(file => {
+        formData.append('documents[]', file, file.name);
+      });
+    }
+    return this.http.post<Buyer>(`${environment.API_URL}/api/buyers`, formData);
   }
 
-  update(buyerId: number, updateBuyerDto: SaveBuyerDto): Observable<Buyer> {
-    return this.http.patch<Buyer>(`${environment.API_URL}/api/buyers/${buyerId}`, updateBuyerDto);
+  update(buyerId: number, updateBuyerDto: SaveBuyerDto, identityDocuments: File[]): Observable<Buyer> {
+    const formData = new FormData();
+    formData.append('buyer', JSON.stringify(updateBuyerDto));
+    if (identityDocuments) {
+      identityDocuments.forEach(file => {
+        formData.append('documents[]', file, file.name);
+      });
+    }
+    return this.http.patch<Buyer>(`${environment.API_URL}/api/buyers/${buyerId}`, formData);
   }
 
   remove(buyerId: number): Observable<boolean> {

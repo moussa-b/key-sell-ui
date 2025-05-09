@@ -18,12 +18,26 @@ export class SellersService {
     return this.http.get<Seller[]>(`${environment.API_URL}/api/sellers`);
   }
 
-  create(createSellerDto: SaveSellerDto): Observable<Seller> {
-    return this.http.post<Seller>(`${environment.API_URL}/api/sellers`, createSellerDto);
+  create(createSellerDto: SaveSellerDto, identityDocuments: File[]): Observable<Seller> {
+    const formData = new FormData();
+    formData.append('seller', JSON.stringify(createSellerDto));
+    if (identityDocuments) {
+      identityDocuments.forEach(file => {
+        formData.append('documents[]', file, file.name);
+      });
+    }
+    return this.http.post<Seller>(`${environment.API_URL}/api/sellers`, formData);
   }
 
-  update(sellerId: number, updateSellerDto: SaveSellerDto): Observable<Seller> {
-    return this.http.patch<Seller>(`${environment.API_URL}/api/sellers/${sellerId}`, updateSellerDto);
+  update(sellerId: number, updateSellerDto: SaveSellerDto, identityDocuments: File[]): Observable<Seller> {
+    const formData = new FormData();
+    formData.append('seller', JSON.stringify(updateSellerDto));
+    if (identityDocuments) {
+      identityDocuments.forEach(file => {
+        formData.append('documents[]', file, file.name);
+      });
+    }
+    return this.http.patch<Seller>(`${environment.API_URL}/api/sellers/${sellerId}`, formData);
   }
 
   remove(sellerId: number): Observable<boolean> {
