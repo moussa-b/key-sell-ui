@@ -95,8 +95,11 @@
             </textarea>
   </div>
 
-  <div class="flex justify-end pb-2 col-span-2">
+  <div class="hidden md:block"><!--Required for alignment in display grid--></div>
+
+  <div class="flex">
     <p-button [disabled]="taskForm.invalid"
+              class="ml-auto"
               type="submit">
       {{ 'common.validate' | translate }}
     </p-button>
