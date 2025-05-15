@@ -14,6 +14,12 @@
            routerLinkActive="bg-white text-blue-600 shadow-md px-4 py-2 rounded-lg"
            [routerLinkActiveOptions]="{ exact: true }">{{ 'real_estates.real_estates' | translate }}</a>
       }
+      @if (userAccess.canShowPlanning) {
+        <a routerLink="/planning"
+           class="hover:text-blue-300"
+           routerLinkActive="bg-white text-blue-600 shadow-md px-4 py-2 rounded-lg"
+           [routerLinkActiveOptions]="{ exact: true }">{{ 'planning.planning' | translate }}</a>
+      }
       @if (userAccess.canShowBuyers) {
         <a routerLink="/buyers"
            class="hover:text-blue-300"
@@ -83,6 +89,9 @@
     <div class="md:hidden bg-blue-700 text-white flex flex-col space-y-2 p-4">
       @if (userAccess.canShowRealEstates) {
         <a routerLink="/real-estates" class="hover:text-blue-300">{{'real_estates.real_estates' | translate}}</a>
+      }
+      @if (userAccess.canShowPlanning) {
+        <a routerLink="/planning" class="hover:text-blue-300">{{'planning.planning' | translate}}</a>
       }
       @if (userAccess.canShowBuyers) {
         <a routerLink="/buyers" class="hover:text-blue-300">{{'buyers.buyers' | translate}}</a>

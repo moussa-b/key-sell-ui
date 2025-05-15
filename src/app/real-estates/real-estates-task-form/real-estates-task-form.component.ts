@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SaveTaskDto } from '../dto/save-task.dto';
 import { Observable } from 'rxjs';
-import { Task, TaskStatus } from '../model/task';
+import { Task, TaskStatus } from '../../core/models/task';
 import { RealEstateService } from '../real-estate.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ToasterService } from '../../core/services/toaster.service';
@@ -68,6 +68,7 @@ export class RealEstatesTaskFormComponent implements OnInit {
       status: [task ? task.status : TaskStatus.TO_DO, Validators.required],
       users: [task?.users, Validators.required],
       date: [task?.date ? UtilsService.formatIsoDateToDisplay(task.date) : undefined, Validators.required],
+      hour: [task?.hour, Validators.required],
       description: [task?.description],
       duration: [task?.duration, [Validators.required, Validators.min(1)]],
     });

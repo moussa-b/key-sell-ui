@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { RealEstateService } from '../real-estate.service';
-import { TaskStatus } from '../model/task';
+import { TaskStatus } from '../../core/models/task';
 import { Tag } from 'primeng/tag';
 import { NgClass } from '@angular/common';
 import { Popover } from 'primeng/popover';

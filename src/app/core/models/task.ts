@@ -1,4 +1,4 @@
-import { LabelValue } from '../../core/models/label-value.model';
+import { LabelValue } from './label-value.model';
 
 export interface Task {
   id: number;
@@ -8,6 +8,7 @@ export interface Task {
   title: string;
   description: string;
   date: string;
+  hour: string;
   duration: number;
   users?: number[];
   usersDetails?: LabelValue<number>[];

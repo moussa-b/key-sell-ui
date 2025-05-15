@@ -56,6 +56,12 @@ export const routes: Routes = [
         canActivate: [userAccessGuard]
       },
       {
+        path: 'planning',
+        data: {userAccessFieldName: 'canShowPlanning'},
+        loadComponent: () => import('./planning/planning/planning.component').then(m => m.PlanningComponent),
+        canActivate: [userAccessGuard]
+      },
+      {
         path: 'real-estates',
         data: {userAccessFieldName: 'canShowRealEstates'},
         children: [

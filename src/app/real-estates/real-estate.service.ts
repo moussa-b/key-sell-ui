@@ -12,7 +12,7 @@ import { RealEstateStatus } from './model/real-estate-status.enum';
 import { UpdateStatusDto } from './dto/update-status.dto';
 import { RealEstateOrientation } from './model/real-estate-orientation.enum';
 import { RealEstateAssignment } from './model/real-estate-assignment.enum';
-import { Task, TaskStatus } from './model/task';
+import { Task, TaskStatus } from '../core/models/task';
 import { SaveTaskDto } from './dto/save-task.dto';
 
 @Injectable({

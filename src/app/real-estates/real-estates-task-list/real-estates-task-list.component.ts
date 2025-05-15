@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MultiSelect } from 'primeng/multiselect';
 import { LabelValue } from '../../core/models/label-value.model';
 import { InputText } from 'primeng/inputtext';
-import { Task, TaskStatus } from '../model/task';
+import { Task, TaskStatus } from '../../core/models/task';
 import { UserAccess } from '../../core/models/user-access.model';
 import { PermissionService } from '../../core/services/permission.service';
 import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';

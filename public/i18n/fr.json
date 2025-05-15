@@ -145,6 +145,7 @@
     "date": "Date",
     "date_required": "La date est obligatoire",
     "hours_suffix": "Heure(s)",
+    "minutes_suffix": "Minute(s)",
     "filter": "Filtrer",
     "date_picker_placeholder": "jj.mm.aaaa",
     "identity_document": "Pièce d'identité",
@@ -153,7 +154,10 @@
     "delete_identity_document_confirmation_message": "Êtes-vous sûr de vouloir supprimer ce document d'identité ?",
     "delete_image_confirmation_message": "Êtes-vous sûr de vouloir supprimer cette ?",
     "delete_document_confirmation_message": "Êtes-vous sûr de vouloir supprimer ce document ?",
-    "delete_video_confirmation_message": "Êtes-vous sûr de vouloir supprimer cette vidéo ?"
+    "delete_video_confirmation_message": "Êtes-vous sûr de vouloir supprimer cette vidéo ?",
+    "hour": "Heure",
+    "hour_picker_placeholder": "HH:mm",
+    "hour_required": "L'heure est obligatoire"
   },
   "calendar": {
     "add_calendar_event": "Ajouter un événement",
@@ -182,6 +186,9 @@
     "street_required": "La rue est obligatoire",
     "zip_code": "Code postal",
     "zip_code_required": "Le code postal est obligatoire"
+  },
+  "planning": {
+    "planning": "Planning"
   },
   "real_estates": {
     "add_real_estate": "Ajouter un bien immobilier",

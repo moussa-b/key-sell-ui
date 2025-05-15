@@ -1,6 +1,7 @@
 export class UserAccess {
   canEditBuyers = false;
   canEditCalendarEvents = false;
+  canEditPlanning = false;
   canEditRealEstates = false;
   canEditSellers = false;
   canEditTasks = false;
@@ -9,6 +10,7 @@ export class UserAccess {
   canSendEmail = false;
   canShowBuyers = false;
   canShowCalendarEvents = false;
+  canShowPlanning = false;
   canShowRealEstates = false;
   canShowSellers = false;
   canShowTasks = false;
