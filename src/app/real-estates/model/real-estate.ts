@@ -16,6 +16,7 @@ export interface RealEstate {
   roomCount: number;
   showerCount?: number;
   terraceCount?: number;
+  floorNumber?: number;
   hasGarden?: boolean;
   gardenSurface?: number;
   isSecured?: boolean;

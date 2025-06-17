@@ -199,6 +199,25 @@
             </div>
 
             <div>
+              <label for="floorNumber"
+                     class="block">{{ 'real_estates.floor_number' | translate }}</label>
+              <p-inputnumber [showButtons]="true"
+                             [min]="0"
+                             buttonLayout="horizontal"
+                             formControlName="floorNumber"
+                             class="mt-1"
+                             inputId="floorNumber"
+                             spinnerMode="horizontal">
+                <ng-template #incrementbuttonicon>
+                  <span class="pi pi-plus"></span>
+                </ng-template>
+                <ng-template #decrementbuttonicon>
+                  <span class="pi pi-minus"></span>
+                </ng-template>
+              </p-inputnumber>
+            </div>
+
+            <div>
               <label class="block">{{ 'real_estates.terraced' | translate }}</label>
               <p-selectbutton [options]="booleanOptions"
                               formControlName="terraced"

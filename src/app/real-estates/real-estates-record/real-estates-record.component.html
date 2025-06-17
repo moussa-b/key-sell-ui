@@ -30,6 +30,9 @@
       @if (realEstate.terraceCount) {
         <div><strong>{{ 'real_estates.terrace_count' | translate }} :</strong> {{ realEstate.terraceCount }}</div>
       }
+      @if (realEstate.floorNumber) {
+        <div><strong>{{ 'real_estates.floor_number' | translate }} :</strong> {{ realEstate.floorNumber }}</div>
+      }
       <div>
         <strong>{{ 'real_estates.terraced' | translate }} :</strong> {{ realEstate.terraced ? ('common.yes' | translate) : ('common.no' | translate) }}
       </div>

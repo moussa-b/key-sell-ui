@@ -159,6 +159,7 @@ export class RealEstateFormComponent implements OnInit, CanComponentDeactivate {
       roomCount: [this.realEstate?.roomCount, Validators.required],
       showerCount: [this.realEstate?.showerCount],
       terraceCount: [this.realEstate?.terraceCount],
+      floorNumber: [this.realEstate?.floorNumber],
       hasGarden: [this.realEstate?.hasGarden || false],
       gardenSurface: [{value: this.realEstate?.hasGarden, disabled: !(this.realEstate?.hasGarden)}],
       isSecured: [this.realEstate?.isSecured || false],
