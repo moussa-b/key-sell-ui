@@ -243,6 +243,20 @@
             </div>
 
             <div>
+              <label class="block">{{ 'real_estates.is_secured' | translate }}</label>
+              <p-selectbutton [options]="booleanOptions"
+                              formControlName="isSecured"
+                              id="isSecured"/>
+              @if (realEstateForm.get('isSecured') && realEstateForm.get('isSecured')!.value === true) {
+                <textarea class="mt-1 w-full"
+                          formControlName="securityDetail"
+                          [placeholder]="'real_estates.security_detail' | translate"
+                          id="securityDetail"
+                          pTextarea></textarea>
+              }
+            </div>
+
+            <div>
               <label for="location"
                      class="block">{{ 'real_estates.location' | translate }}</label>
               <input type="text"
@@ -260,20 +274,6 @@
                         placeholder="{{ 'common.select' | translate }}"
                         class="mt-1 w-full"
                         id="orientation"/>
-            </div>
-
-            <div>
-              <label class="block">{{ 'real_estates.is_secured' | translate }}</label>
-              <p-selectbutton [options]="booleanOptions"
-                              formControlName="isSecured"
-                              id="isSecured"/>
-              @if (realEstateForm.get('isSecured') && realEstateForm.get('isSecured')!.value === true) {
-                <textarea class="mt-1 w-full"
-                          formControlName="securityDetail"
-                          [placeholder]="'real_estates.security_detail' | translate"
-                          id="securityDetail"
-                          pTextarea></textarea>
-              }
             </div>
 
             <div>
