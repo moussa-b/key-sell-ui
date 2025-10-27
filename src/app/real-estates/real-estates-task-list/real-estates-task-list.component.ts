@@ -125,7 +125,7 @@ export class RealEstatesTaskListComponent implements OnInit {
       closeOnEscape: false,
       closable: true,
       modal: true,
-    }).onClose.subscribe((task?: Task) => {
+    })?.onClose.subscribe((task?: Task) => {
       if (task) {
         this.findAllTasks();
       }
@@ -187,7 +187,7 @@ export class RealEstatesTaskListComponent implements OnInit {
       closeOnEscape: false,
       closable: true,
       modal: true,
-    }).onClose.subscribe((task: Task) => {
+    })?.onClose.subscribe((task: Task) => {
       this.selectedTask = undefined;
       if (task) {
         this.findAllTasks();

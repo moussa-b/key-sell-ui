@@ -8,7 +8,6 @@ import {
   Validators
 } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
-import { DropdownModule } from 'primeng/dropdown';
 import { InputText } from 'primeng/inputtext';
 import { Address } from '../../models/address.model';
 import { Subscription } from 'rxjs';
@@ -22,7 +21,6 @@ import { CommonService } from '../../services/common.service';
     ReactiveFormsModule,
     InputText,
     TranslatePipe,
-    DropdownModule,
     Select
   ],
   templateUrl: './address-form.component.html',

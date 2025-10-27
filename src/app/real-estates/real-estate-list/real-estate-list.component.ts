@@ -27,7 +27,6 @@ import { LabelValue } from '../../core/models/label-value.model';
 import { AddressService } from '../../core/services/address.service';
 import { MultiSelect } from 'primeng/multiselect';
 import { FormsModule } from '@angular/forms';
-import { DropdownModule } from 'primeng/dropdown';
 import { RealEstateType } from '../model/real-estate-type.enum';
 import { PrimeNG } from 'primeng/config';
 import { Subscription } from 'rxjs';
@@ -58,7 +57,6 @@ type uiFields = {concatenedAddress?: string; formattedType?: string; concatenedO
     AddressPipe,
     MultiSelect,
     FormsModule,
-    DropdownModule,
     Dialog,
     RealEstatesRecordComponent,
     RealEstateStatusTagComponent
@@ -206,7 +204,7 @@ export class RealEstateListComponent implements OnInit, OnDestroy {
       closeOnEscape: false,
       closable: true,
       modal: true,
-    }).onClose.subscribe((realEstate: RealEstate) => {
+    })?.onClose.subscribe((realEstate: RealEstate) => {
       this.selectedRealEstate = undefined;
       if (realEstate) {
         this.onStatusChange(realEstate);

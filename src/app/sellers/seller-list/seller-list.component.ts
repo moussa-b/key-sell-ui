@@ -112,7 +112,7 @@ export class SellerListComponent implements OnInit, OnDestroy {
       closeOnEscape: false,
       closable: true,
       modal: true,
-    }).onClose.subscribe((seller: Seller) => {
+    })?.onClose.subscribe((seller: Seller) => {
       if (seller) {
         this.findAllSellers();
         this.toasterService.emitValue({
@@ -139,7 +139,7 @@ export class SellerListComponent implements OnInit, OnDestroy {
       closeOnEscape: false,
       closable: true,
       modal: true,
-    }).onClose.subscribe((updatedSeller: Seller) => {
+    })?.onClose.subscribe((updatedSeller: Seller) => {
       this.selectedSeller = undefined;
       if (updatedSeller) {
         this.findAllSellers();
@@ -190,7 +190,7 @@ export class SellerListComponent implements OnInit, OnDestroy {
       closeOnEscape: false,
       closable: true,
       modal: true,
-    }).onClose.subscribe((sendEmailModel: SendEmailModel) => {
+    })?.onClose.subscribe((sendEmailModel: SendEmailModel) => {
       if (sendEmailModel) {
         this.sellersService.sendEmail(this.selectedSeller!.id, sendEmailModel).subscribe((res: ResponseStatus) => {
           if (res.status) {

@@ -68,7 +68,7 @@ export class RealEstatesTaskFormComponent implements OnInit {
       status: [task ? task.status : TaskStatus.TO_DO, Validators.required],
       users: [task?.users, Validators.required],
       date: [task?.date ? UtilsService.formatIsoDateToDisplay(task.date) : undefined, Validators.required],
-      hour: [task?.hour, Validators.required],
+      hour: [task?.hour ? this.convertHourStringToDate(task.hour) : undefined, Validators.required],
       description: [task?.description],
       duration: [task?.duration, [Validators.required, Validators.min(1)]],
     });
@@ -78,7 +78,8 @@ export class RealEstatesTaskFormComponent implements OnInit {
     let saveTaskDto: SaveTaskDto = this.taskForm.getRawValue();
     saveTaskDto = {
       ...saveTaskDto,
-      date: this.convertDateToDatabase(saveTaskDto.date)
+      date: this.convertDateToDatabase(saveTaskDto.date),
+      hour: this.convertHourToDatabase(saveTaskDto.hour)
     };
     let taskObservable: Observable<Task>;
     if (saveTaskDto.id && saveTaskDto.id > 0) {
@@ -101,6 +102,20 @@ export class RealEstatesTaskFormComponent implements OnInit {
   private convertDateToDatabase(dateStr: string) {
     const [day, month, year] = dateStr.split('.');
     return `${year}-${month}-${day}`;
+  }
+
+  private convertHourToDatabase(date: Date | string): string {
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    const hours = dateObj.getHours().toString().padStart(2, '0');
+    const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+
+  private convertHourStringToDate(hourStr: string): Date {
+    const [hours, minutes] = hourStr.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    return date;
   }
 
   private findAllUsers() {

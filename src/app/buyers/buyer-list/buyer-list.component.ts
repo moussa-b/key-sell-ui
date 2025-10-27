@@ -112,7 +112,7 @@ export class BuyerListComponent implements OnInit, OnDestroy {
       closable: true,
       closeOnEscape: false,
       modal: true,
-    }).onClose.subscribe((buyer: Buyer) => {
+    })?.onClose.subscribe((buyer: Buyer) => {
       if (buyer) {
         this.findAllBuyers();
         this.toasterService.emitValue({
@@ -139,7 +139,7 @@ export class BuyerListComponent implements OnInit, OnDestroy {
       closable: true,
       closeOnEscape: false,
       modal: true,
-    }).onClose.subscribe((updatedBuyer: Buyer) => {
+    })?.onClose.subscribe((updatedBuyer: Buyer) => {
       this.selectedBuyer = undefined;
       if (updatedBuyer) {
         this.findAllBuyers();
@@ -190,7 +190,7 @@ export class BuyerListComponent implements OnInit, OnDestroy {
       closable: true,
       closeOnEscape: false,
       modal: true,
-    }).onClose.subscribe((sendEmailModel: SendEmailModel) => {
+    })?.onClose.subscribe((sendEmailModel: SendEmailModel) => {
       if (sendEmailModel) {
         this.buyersService.sendEmail(this.selectedBuyer!.id, sendEmailModel).subscribe((res: ResponseStatus) => {
           if (res.status) {

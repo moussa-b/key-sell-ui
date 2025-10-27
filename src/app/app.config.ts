@@ -5,18 +5,14 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { definePreset } from '@primeng/themes';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { acceptLanguageInterceptor } from './core/interceptors/accept-language.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
-
-const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: HttpClient) => {
-  return new TranslateHttpLoader(http, './i18n/', '.json');
-};
 
 const customThemePreset = definePreset(Aura, {
   semantic: {
@@ -47,11 +43,17 @@ export const appConfig: ApplicationConfig = {
       }
     }),
     provideHttpClient(withInterceptors([loadingInterceptor, authInterceptor, errorInterceptor, acceptLanguageInterceptor])),
+    {
+      provide: TRANSLATE_HTTP_LOADER_CONFIG,
+      useValue: {
+        prefix: './i18n/',
+        suffix: '.json'
+      }
+    },
     importProvidersFrom([TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: httpLoaderFactory,
-        deps: [HttpClient],
+        useClass: TranslateHttpLoader,
       },
     })])
   ]

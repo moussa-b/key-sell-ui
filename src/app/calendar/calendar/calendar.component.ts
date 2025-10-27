@@ -87,7 +87,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       closeOnEscape: false,
       closable: true,
       modal: true,
-    }).onClose.subscribe((calendarEvent: CalendarEvent) => {
+    })?.onClose.subscribe((calendarEvent: CalendarEvent) => {
       if (calendarEvent) {
         calendarApi.addEvent(this.convertCalendarEventToEventInput(calendarEvent));
         this.toasterService.emitValue({
@@ -126,7 +126,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       closeOnEscape: false,
       closable: true,
       modal: true,
-    }).onClose.subscribe((calendarEvent: CalendarEvent) => {
+    })?.onClose.subscribe((calendarEvent: CalendarEvent) => {
       if (calendarEvent) {
         this.toasterService.emitValue({
           severity: 'success',

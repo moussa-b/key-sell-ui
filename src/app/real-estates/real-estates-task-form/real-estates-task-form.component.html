@@ -48,7 +48,7 @@
   </div>
 
   <div class="flex gap-4 items-start md:col-span-2 lg:col-span-2 flex-col md:flex-row">
-    <div class="flex flex-col">
+    <div class="flex flex-col flex-1">
       <label for="date">{{'common.date' | translate}} *</label>
       <p-datepicker [placeholder]="'common.date_picker_placeholder' | translate"
                     [appendTo]="'body'"
@@ -63,7 +63,7 @@
       }
     </div>
 
-    <div class="flex flex-col">
+    <div class="flex flex-col flex-1">
       <label for="hour">{{'common.hour' | translate}} *</label>
       <p-datepicker [appendTo]="'body'"
                     [placeholder]="'common.hour_picker_placeholder' | translate"
@@ -79,7 +79,7 @@
       }
     </div>
 
-    <div class="flex flex-col">
+    <div class="flex flex-col flex-1">
       <label for="duration">{{'tasks.duration' | translate}}</label>
       <div class="flex items-center gap-1">
         <p-inputnumber [placeholder]="'tasks.duration' | translate"
@@ -88,7 +88,7 @@
                        formControlName="duration"
                        id="duration"
                        inputStyleClass="w-28"
-                       min="1"/>
+                       [min]="1"/>
         {{'common.hours_suffix' | translate}}
       </div>
       @if (taskForm.get('duration')?.errors?.['required'] && taskForm.get('duration')?.touched) {

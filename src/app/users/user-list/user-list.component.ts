@@ -133,7 +133,7 @@ export class UserListComponent implements OnInit, OnDestroy {
       closeOnEscape: false,
       closable: true,
       modal: true,
-    }).onClose.subscribe((user: User) => {
+    })?.onClose.subscribe((user: User) => {
       if (user) {
         this.findAllUsers();
         this.toasterService.emitValue({
@@ -152,7 +152,7 @@ export class UserListComponent implements OnInit, OnDestroy {
       closeOnEscape: false,
       closable: true,
       modal: true,
-    }).onClose.subscribe((user: User) => {
+    })?.onClose.subscribe((user: User) => {
       this.selectedUser = undefined;
       if (user) {
         this.findAllUsers();
@@ -172,7 +172,7 @@ export class UserListComponent implements OnInit, OnDestroy {
       closeOnEscape: false,
       closable: true,
       modal: true,
-    }).onClose.subscribe((updated?: boolean) => {
+    })?.onClose.subscribe((updated?: boolean) => {
       this.selectedUser = undefined;
       if (updated) {
         this.toasterService.emitValue({
@@ -222,7 +222,7 @@ export class UserListComponent implements OnInit, OnDestroy {
       closable: true,
       closeOnEscape: false,
       modal: true,
-    }).onClose.subscribe((sendEmailModel: SendEmailModel) => {
+    })?.onClose.subscribe((sendEmailModel: SendEmailModel) => {
       if (sendEmailModel) {
         this.usersService.sendEmail(this.selectedUser!.id!, sendEmailModel).subscribe((res: ResponseStatus) => {
           if (res.status) {

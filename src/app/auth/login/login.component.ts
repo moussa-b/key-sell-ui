@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Password } from 'primeng/password';
@@ -28,20 +28,27 @@ import { ToasterService } from '../../core/services/toaster.service';
   ],
   templateUrl: './login.component.html',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   rememberMe = false;
   password?: string;
   username?: string;
-  message?: {severity: string; message: string};
+  message?: {
+    severity: 'success' | 'info' | 'warn' | 'error' | 'secondary' | 'contrast' | null | undefined;
+    message: string
+  };
   version = environment.version;
 
   constructor(private authService: AuthService, private router: Router,
               public translateService: TranslateService,
               private clipboard: Clipboard,
               private toasterService: ToasterService,) {
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras.info) {
-      this.message = (navigation.extras.info as any)['message'];
+  }
+
+  ngOnInit() {
+    const state = history.state;
+    if (state?.['message']) {
+      this.message = state['message'];
+      history.replaceState({}, '');
     }
   }
 
