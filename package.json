@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4300",
-    "start:backend-online": "ng serve --port 4300 -c backend-online",
+    "start:backend-java": "ng serve --port 4400 -c backend-java",
     "update-env": "node update-env.js",
     "create-redirect": "node create-redirect.js",
     "build": "npm run update-env && ng build",

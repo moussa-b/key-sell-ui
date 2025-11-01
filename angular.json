@@ -77,9 +77,9 @@
               "buildTarget": "key-sell-ui:build:development",
               "proxyConfig": "proxy.js"
             },
-            "backend-online": {
+            "backend-java": {
               "buildTarget": "key-sell-ui:build:development",
-              "proxyConfig": "proxy-backend-online.js"
+              "proxyConfig": "proxy-backend-java.js"
             }
           },
           "defaultConfiguration": "development"

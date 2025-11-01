@@ -1,7 +1,7 @@
 const PROXY_CONFIG = [
   {
     context: ['/api'],
-    target: 'https://mbo.helioho.st',
+    target: 'http://localhost:8080',
     secure: false,
     changeOrigin: true,
     ws: true,
