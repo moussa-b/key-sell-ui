@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const envFilePath = path.join(__dirname, "src/environments/environment.ts");
-const apiUrl = process.env.API_URL || "https://api.key-sell.com";
+const apiUrl = process.env.API_URL || "https://api.keysell.bdzapps.com";
 
 if (!fs.existsSync(envFilePath)) {
   console.error(`Error: File not found -> ${envFilePath}`);
