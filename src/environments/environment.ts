@@ -1,5 +1,5 @@
 export const environment = {
-  API_URL: 'https://api.key-sell.com',
+  API_URL: 'https://api.keysell.bdzapps.com',
   production: true,
   version: '2025.11.01.01'
 };
